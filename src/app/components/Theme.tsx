@@ -3,20 +3,20 @@ import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import "./Theme.css";
 
-export const Theme = () => {
-  const { theme, setTheme } = useTheme();
-  const [checked, setChecked] = useState(false);
+export const Theme = ({ isDark }: { isDark: boolean }) => {
+  const { resolvedTheme, setTheme } = useTheme();
+  const [checked, setChecked] = useState(isDark);
 
   useEffect(() => {
-    setChecked(theme === "dark");
-  }, [theme]);
+    setChecked(resolvedTheme === "dark");
+  }, [resolvedTheme]);
 
   return (
     <button
       className={`btn ${checked ? "btn-checked" : ""}`}
       id="btn"
       onClick={() => {
-        setTheme(theme === "dark" ? "light" : "dark");
+        setTheme(resolvedTheme === "dark" ? "light" : "dark");
       }}
     >
       <div className="ripple ripple-dark"></div>

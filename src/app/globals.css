@@ -8,9 +8,6 @@
   margin: 0;
   padding: 0;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  vertical-align: baseline;
   /* Your default theme */
   --background: white;
   --foreground: black;

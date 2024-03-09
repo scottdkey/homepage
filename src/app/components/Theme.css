@@ -1,30 +1,13 @@
-*,
-*:before,
-*:after {
-  position: relative;
-  box-sizing: border-box;
-}
-
 button {
   background-color: transparent;
   border: none;
   margin: 0;
   padding: 0;
 }
-button:focus, button:active {
+button:focus,
+button:active {
   outline: none;
   border: none;
-}
-
-html,
-body {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .btn {
@@ -34,6 +17,7 @@ body {
   border-radius: calc(126px / 2);
   box-shadow: rgba(51, 51, 51, 0.1) 0px 32px 64px 0px;
   overflow: hidden;
+  transform: scale(0.2);
 }
 .btn .ripple.ripple-dark {
   z-index: 1;
@@ -48,7 +32,7 @@ body {
 .btn.btn-checked {
   background-color: #333333;
   -webkit-animation: changeColor 0.6s ease forwards;
-          animation: changeColor 0.6s ease forwards;
+  animation: changeColor 0.6s ease forwards;
 }
 @-webkit-keyframes changeColor {
   80% {
