@@ -1,3 +1,4 @@
+import { About } from "./components/About";
 import styles from "./page.module.css";
 
 export default function Home() {
@@ -6,7 +7,7 @@ export default function Home() {
       <h1>Scott Key</h1>
       <div>demos</div>
       <div>resume</div>
-      <div>about</div>
+      <About />
       <div>contact</div>
     </main>
   );
