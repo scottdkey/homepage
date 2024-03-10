@@ -6,10 +6,16 @@ import "./Theme.css";
 export const Theme = ({ isDark }: { isDark: boolean }) => {
   const { resolvedTheme, setTheme } = useTheme();
   const [checked, setChecked] = useState(isDark);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
+    setLoaded(true);
     setChecked(resolvedTheme === "dark");
   }, [resolvedTheme]);
+
+  if (loaded === false) {
+    return null;
+  }
 
   return (
     <button

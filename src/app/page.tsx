@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { Accordion, AccordionItem } from "./components/Accordion";
+import { Accordion, AccordionItem } from "./components/Accordion/Accordion";
 import styles from "./page.module.css";
 import { About } from "./components/About";
 import { Projects } from "./components/Projects";

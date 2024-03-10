@@ -17,7 +17,14 @@ export const AccordionItem = ({
 }>) => {
   return (
     <article key={label} onClick={handleClick}>
-      <input id={label} type="radio" name="accordion-item" checked={active} />
+      <input
+        id={label}
+        type="radio"
+        name="accordion-item"
+        //here to prevent error
+        onChange={() => {}}
+        checked={active}
+      />
       <label htmlFor={label}>
         <h2>{label}</h2>
       </label>

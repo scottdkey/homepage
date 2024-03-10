@@ -10,21 +10,23 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  /* align-items: center; */
-
-  /* Your default theme */
-  --background: white;
-  --foreground: black;
-  --outline: var(--coal);
 
   --bg: #9a9a9a;
   --coal: #333;
   --white: #fff;
   --focus: #002a2a;
+
+  /* Your default theme */
+  --background: var(--bg);
+  --foreground: var(--coal);
+  --outline: var(--coal);
+}
+body {
+  min-width: 400px;
 }
 
 [data-theme="dark"] {
-  --background: black;
-  --foreground: white;
+  --background: var(--coal);
+  --foreground: var(--bg);
   --outline: var(--white);
 }

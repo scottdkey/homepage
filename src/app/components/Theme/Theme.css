@@ -1,3 +1,5 @@
+@import url("../../globals.css");
+
 button {
   background-color: transparent;
   border: none;
@@ -11,13 +13,15 @@ button:active {
 }
 
 .btn {
-  width: 252px;
-  height: 126px;
-  background-color: #ffffff;
-  border-radius: calc(126px / 2);
-  box-shadow: rgba(51, 51, 51, 0.1) 0px 32px 64px 0px;
+  width: 64px;
+  height: 32px;
+  background-color: var(--white);
+  border-radius: calc(32px / 2);
+  box-shadow: var(--coal) 0px 32px 64px 0px;
   overflow: hidden;
-  transform: scale(0.2);
+  position: absolute;
+  right: 10px;
+  top: 20px;
 }
 .btn .ripple.ripple-dark {
   z-index: 1;
@@ -30,30 +34,30 @@ button:active {
   transition: z-index 0s 0.6s ease, transform 0s ease;
 }
 .btn.btn-checked {
-  background-color: #333333;
+  background-color: var(--coal);
   -webkit-animation: changeColor 0.6s ease forwards;
   animation: changeColor 0.6s ease forwards;
 }
 @-webkit-keyframes changeColor {
   80% {
-    background-color: #333333;
+    background-color: var(--coal);
   }
   80.01% {
-    background-color: #ffffff;
+    background-color: var(--white);
   }
   100% {
-    background-color: #ffffff;
+    background-color: var(--white);
   }
 }
 @keyframes changeColor {
   80% {
-    background-color: #333333;
+    background-color: var(--coal);
   }
   80.01% {
-    background-color: #ffffff;
+    background-color: var(--white);
   }
   100% {
-    background-color: #ffffff;
+    background-color: var(--white);
   }
 }
 .btn.btn-checked .ripple.ripple-dark {
@@ -68,34 +72,34 @@ button:active {
 }
 
 .toggle {
-  width: 80px;
-  height: 80px;
+  width: 20.5px;
+  height: 20.5px;
   position: absolute;
-  top: 23px;
+  top: 6.65px;
   border-radius: 50%;
   z-index: 5;
 }
 .toggle.toggle-dark {
-  background-color: #333333;
-  left: 23px;
+  background-color: var(--coal);
+  left: 6.65px;
 }
 .toggle.toggle-light {
-  background-color: white;
-  right: 23px;
+  background-color: var(--white);
+  right: 6.65px;
 }
 
 .ripple {
-  width: 80px;
-  height: 80px;
+  width: 20.5px;
+  height: 20.5px;
   position: absolute;
-  top: 23px;
+  top: 6.65px;
   border-radius: 50%;
 }
 .ripple.ripple-dark {
-  background-color: #333333;
-  left: 23px;
+  background-color: var(--coal);
+  left: 6.65px;
 }
 .ripple.ripple-light {
-  background-color: white;
-  right: 23px;
+  background-color: var(--white);
+  right: 6.65px;
 }
