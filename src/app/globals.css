@@ -15,6 +15,7 @@
   /* Your default theme */
   --background: white;
   --foreground: black;
+  --outline: var(--coal);
 
   --bg: #9a9a9a;
   --coal: #333;
@@ -25,4 +26,5 @@
 [data-theme="dark"] {
   --background: black;
   --foreground: white;
+  --outline: var(--white);
 }
