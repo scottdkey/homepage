@@ -11,6 +11,7 @@ export default function Home() {
   return (
     <main className={styles.main}>
       <h1>Scott Key</h1>
+      <h3>this page is currently under construction</h3>
       <Accordion>
         <AccordionItem
           label="about"
