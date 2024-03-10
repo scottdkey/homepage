@@ -20,7 +20,7 @@ export default function Home() {
           <About />
         </AccordionItem>
         <AccordionItem
-          label="resume"
+          label="projects"
           handleClick={() => setActive(2)}
           active={active === 2}
         >
