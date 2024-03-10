@@ -2,11 +2,11 @@ export const About = () => {
   return (
     <>
       <p>
-        Over the last few years I've been the guy that you could always go to in
-        order to get things done. I've prided myself on being able to approach
-        problems from a unique perspective. My varied background allows me to
-        approach building complex applications, or microservices within a large
-        ecosystem.
+        Over the last few years I&apos;ve been the guy that you could always go
+        to in order to get things done. I&apos;ve prided myself on being able to
+        approach problems from a unique perspective. My varied background allows
+        me to approach building complex applications, or microservices within a
+        large ecosystem.
       </p>
 
       <p>
