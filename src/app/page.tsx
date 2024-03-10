@@ -7,7 +7,7 @@ import { Projects } from "./components/Projects";
 import { Contact } from "./components/Contact";
 
 export default function Home() {
-  const [active, setActive] = useState<number>(1);
+  const [active, setActive] = useState<number>(0);
   return (
     <main className={styles.main}>
       <h1>Scott Key</h1>
