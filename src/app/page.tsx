@@ -1,14 +1,39 @@
-import { About } from "./components/About";
+"use client";
+import { useState } from "react";
+import { Accordion, AccordionItem } from "./components/Accordion";
 import styles from "./page.module.css";
+import { About } from "./components/About";
+import { Projects } from "./components/Projects";
+import { Contact } from "./components/Contact";
 
 export default function Home() {
+  const [active, setActive] = useState<number>(1);
   return (
     <main className={styles.main}>
       <h1>Scott Key</h1>
-      <div>demos</div>
-      <div>resume</div>
-      <About />
-      <div>contact</div>
+      <Accordion>
+        <AccordionItem
+          label="about"
+          handleClick={() => setActive(1)}
+          active={active === 1}
+        >
+          <About />
+        </AccordionItem>
+        <AccordionItem
+          label="resume"
+          handleClick={() => setActive(2)}
+          active={active === 2}
+        >
+          <Projects />
+        </AccordionItem>
+        <AccordionItem
+          label="contact"
+          handleClick={() => setActive(3)}
+          active={active === 3}
+        >
+          <Contact />
+        </AccordionItem>
+      </Accordion>
     </main>
   );
 }

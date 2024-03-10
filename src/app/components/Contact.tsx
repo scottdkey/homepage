@@ -1,6 +1,4 @@
-
-
-export const About = () => {
+export const Contact = () => {
   return (
     <>
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod

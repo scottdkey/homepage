@@ -1,6 +1,6 @@
 
 
-export const About = () => {
+export const Projects = () => {
   return (
     <>
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod

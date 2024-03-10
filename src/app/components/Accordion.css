@@ -1,0 +1,30 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans&display=swap");
+
+.accordion {
+  max-width: 420px;
+  text-align: left;
+}
+
+article {
+  border: 1px solid #fff;
+  padding: 1em;
+  margin: 1em auto;
+}
+
+input[type="radio"] {
+  appearance: none;
+  position: fixed;
+  top: -100vh;
+  left: -100vh;
+
+  & ~ div {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+  }
+
+  &:checked ~ div {
+    max-height: 200px;
+    transition: max-height 0.4s ease-in;
+  }
+}
