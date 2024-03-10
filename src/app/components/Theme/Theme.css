@@ -17,7 +17,7 @@ button:active {
   height: 32px;
   background-color: var(--white);
   border-radius: calc(32px / 2);
-  box-shadow: var(--coal) 0px 32px 64px 0px;
+  box-shadow: var(--coal) 0px 2px 2px 0px;
   overflow: hidden;
   position: absolute;
   right: 10px;
