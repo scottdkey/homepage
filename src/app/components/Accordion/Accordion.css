@@ -2,14 +2,21 @@
 @import url("../../globals.css");
 
 .accordion {
-  max-width: 420px;
+  max-width: 850px;
   text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 article {
   border: 1px solid var(--outline);
   padding: 1em;
   margin: 1em auto;
+  width: 80%;
 }
 
 input[type="radio"] {
@@ -25,7 +32,7 @@ input[type="radio"] {
   }
 
   &:checked ~ div {
-    max-height: 500px;
+    max-height: 1200px;
     transition: max-height 0.4s ease-in;
   }
 }

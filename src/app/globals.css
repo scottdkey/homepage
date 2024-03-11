@@ -11,22 +11,29 @@
   flex-direction: column;
   justify-content: center;
 
-  --bg: #9a9a9a;
+  --bg: #cfcfcf;
   --coal: #333;
   --white: #fff;
   --focus: #002a2a;
 
-  /* Your default theme */
-  --background: var(--bg);
+  --background: rgb(200, 238, 255);
+  --font-color: rgb(23, 36, 39);
   --foreground: var(--coal);
   --outline: var(--coal);
+
+  background-color: var(--background);
+  color: var(--font-color);
+  font-weight: 500;
 }
 body {
-  min-width: 400px;
+  min-width: 350px;
 }
 
 [data-theme="dark"] {
   --background: var(--coal);
   --foreground: var(--bg);
   --outline: var(--white);
+  --font-color: rgb(152, 236, 255);
+
+  background-color: var(--background);
 }
