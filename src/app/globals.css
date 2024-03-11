@@ -20,6 +20,7 @@
   --font-color: rgb(23, 36, 39);
   --foreground: var(--coal);
   --outline: var(--coal);
+  --linkedin-color: #216587;
 
   background-color: var(--background);
   color: var(--font-color);
@@ -34,6 +35,6 @@ body {
   --foreground: var(--bg);
   --outline: var(--white);
   --font-color: rgb(152, 236, 255);
-
+  --linkedin-color: #55a7d0;
   background-color: var(--background);
 }

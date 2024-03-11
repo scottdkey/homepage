@@ -1,0 +1,38 @@
+.container {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+}
+
+.linkedin-button {
+  display: flex;
+  flex-direction: row;
+  background-color: var(--linkedin-color);
+  border-radius: 10px;
+  margin: 0;
+  vertical-align: center;
+  text-align: center;
+  justify-content: center;
+  text-decoration: none;
+  width: 8em;
+}
+
+.logo-image {
+  margin-right: auto;
+}
+.linkedin-button:hover {
+  background-color: #5293b4;
+}
+.linkedin-button:active {
+  background-color: #7694a3;
+}
+
+.btn-text {
+  height: fit-content;
+  width: fit-content;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-right: 0.8em;
+  color: white;
+  font-weight: 700;
+}
