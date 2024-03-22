@@ -19,7 +19,7 @@ article {
   width: 80%;
 }
 
-input[type="radio"] {
+input[type="checkbox"] {
   appearance: none;
   position: fixed;
   top: -100vh;
@@ -28,15 +28,22 @@ input[type="radio"] {
   & ~ div {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.3s ease-out;
+    transition: max-height 0.3s ease-in-out;
   }
 
   &:checked ~ div {
     max-height: 1200px;
-    transition: max-height 0.4s ease-in;
+    transition: max-height 0.4s ease-in-out;
   }
 }
+.label-wrapper {
+  display: flex;
+  vertical-align: center;
+}
 
+.accordion-label {
+  margin-right: auto;
+}
 .glyphicon-chevron-down-custom span,
 .glyphicon-chevron-up-custom span {
   width: 10px;

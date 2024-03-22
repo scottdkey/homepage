@@ -1,4 +1,4 @@
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, useState } from "react";
 import "./Accordion.css";
 
 export const Accordion = ({ children }: PropsWithChildren) => {
@@ -8,28 +8,37 @@ export const Accordion = ({ children }: PropsWithChildren) => {
 export const AccordionItem = ({
   label,
   children,
-  active,
-  handleClick,
 }: PropsWithChildren<{
   label: string;
-  handleClick: () => void;
-  active: boolean;
 }>) => {
+  const [open, setOpen] = useState(false);
   return (
-    <article key={label} onClick={handleClick}>
+    <article key={label}>
       <input
         id={label}
-        type="radio"
+        type="checkbox"
         name="accordion-item"
+        className="accordion-input"
         //here to prevent error
         onChange={() => {}}
-        checked={active}
+        
       />
-      <label htmlFor={label}>
-        <h2>{label}</h2>
-        <i className="indicator glyphicon glyphicon-chevron-down-custom  pull-right"></i>
+      <label
+        htmlFor={label}
+        className="label-wrapper"
+        onClick={() => setOpen(!open)}
+      >
+        <h2 className="accordion-label">{label}</h2>
+        <i
+          className={`indicator glyphicon glyphicon-chevron-${
+            open ? "down" : "up"
+          }-custom  pull-right`}
+        >
+          <span className="sp-1"></span>
+          <span className="sp-2"></span>
+        </i>
       </label>
-      <div>{children}</div>
+      <div className={`drawer-${open ? "open" : "closed"}`}>{children}</div>
     </article>
   );
 };

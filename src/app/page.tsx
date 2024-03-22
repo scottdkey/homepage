@@ -7,30 +7,27 @@ import { Projects } from "./components/Projects";
 import { Contact } from "./components/Contact";
 
 export default function Home() {
-  const [active, setActive] = useState<number>(0);
   return (
     <main className={styles.main}>
-      <h1>Scott Key</h1>
-      <h3>this page is currently under construction</h3>
+      <h1 id={styles.title}>Scott Key</h1>
+      <h3 id={styles.blerb}>
+        Fullstack developer who loves to build large complex services. I've
+        worked in large tech distributed microservice architecture for the last
+        couple of years.
+      </h3>
       <Accordion>
         <AccordionItem
           label="about"
-          handleClick={() => setActive(1)}
-          active={active === 1}
         >
           <About />
         </AccordionItem>
         <AccordionItem
           label="projects"
-          handleClick={() => setActive(2)}
-          active={active === 2}
         >
           <Projects />
         </AccordionItem>
         <AccordionItem
           label="contact"
-          handleClick={() => setActive(3)}
-          active={active === 3}
         >
           <Contact />
         </AccordionItem>
