@@ -10,14 +10,18 @@ export const About = () => {
       </p>
       <p>
         These days I spend the majority of my time enjoying hikes around where I
-        live.
+        live, and traveling as much as I can.
       </p>
       <p>
-        I love photography and I love seeking out the lesser parts of cities
-        I've never been before. I'd rather find a hole in the wall restaurant
-        loved by the locals than visit a chain. Sometimes this involves not
-        knowing the language and trying my best. Sometimes it works out,
-        sometimes it doesn't{" "}
+        I love photography and I love seeking out the lesser known parts of
+        cities or places I've never been before. I'd rather find a hole in the
+        wall restaurant loved by the locals than visit a chain. Sometimes this
+        involves not knowing the language and trying my best. Sometimes it works
+        out, sometimes it doesn't{" "}
+      </p>
+      <p>
+        I love food, I love seeking new experiences, and I love building things.
+        There is nothing better than learning something new.
       </p>
       <h3>Work</h3>
       <p>
