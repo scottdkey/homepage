@@ -1,6 +1,8 @@
+import styles from "./Projects.module.css";
+
 export const Projects = () => {
   return (
-    <>
+    <div className={styles.container}>
       <h3>@ Pluralsight</h3>
       <h4>FinTech Support Tooling - Technical Lead</h4>
       <p>
@@ -40,7 +42,7 @@ export const Projects = () => {
         and various internal pluralsight systems to fully provision any b2b
         customer.
       </p>
-      <h4>B2B Mass Creation and Provisioning - Technical Lead</h4>
+      <h4>B2B Mass provisioning and remediation tools</h4>
       <p>
         A Series of internal scripts designed to allow mass creation of B2B
         accounts to facilitate large acquisitions and migration of external
@@ -48,9 +50,15 @@ export const Projects = () => {
         Objects.
       </p>
       <p>
-        Essentially this created pathways for the A Cloud Guru purchase of
-        Pluralsight to create all necessary objects in Zuora, Salesforce, Stripe
-        and beyond migrating from Chargebee, and an entirely separate data set.
+        This allowed over 10,000 B2B accounts to be created en mass as part of a
+        migration effort.
+      </p>
+      <h4>Acquisition Migration(ACG)</h4>
+      <p>
+        Essentially this created pathways for the Pluralsight purchase of A
+        Cloud Guru to create all necessary objects in Zuora, Salesforce, Stripe
+        and beyond migrating from Chargebee, to ensure that all credit cards,
+        accounts, and subscription terms were preserved from system to system.
       </p>
       <p>
         Part of my responsibilities were to project manage the technical aspects
@@ -59,6 +67,6 @@ export const Projects = () => {
         functional teams around pluralsight to ensure that all requirements were
         met.
       </p>
-    </>
+    </div>
   );
 };

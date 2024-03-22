@@ -30,8 +30,10 @@ input[type="checkbox"] {
     transition: max-height 0.3s ease-in-out;
   }
   &:checked ~ div {
-    max-height: 1200px;
+    max-height: 800px;
+    overflow: scroll;
     transition: max-height 0.4s ease-in-out;
+    scroll-behavior: smooth;
   }
 }
 
@@ -43,12 +45,13 @@ input[type="checkbox"] {
   display: flex;
   vertical-align: center;
   padding: 1em;
+  background-color: var(--secondary);
 }
 .label-wrapper:hover {
-  background-color: var(--highlight);
+  background-color: var(--secondary-hover);
 }
 .label-wrapper:active {
-  background-color: var(--active);
+  background-color: var(--secondary-active);
 }
 
 .accordion-label {
