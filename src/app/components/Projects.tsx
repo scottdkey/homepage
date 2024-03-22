@@ -28,10 +28,38 @@ export const Projects = () => {
         correction.
       </p>
       <p>
+        A major design goal was ease of diagnosis and fast remediation of
+        issues. Because of the outlined goals we could remediate any B2B issue,
+        for any account within hours of a report. The application was powerful,
+        but accessible to all parties who would need to interact with those
+        systems. It provided extremely powerful B2B Provisioning tools, with a
+        dead simple interface.
+      </p>
+      <p>
         As the technical lead on this project I integrated with Kafka, RabbitMQ,
         and various internal pluralsight systems to fully provision any b2b
         customer.
       </p>
+      <h4>B2B Mass Creation and Provisioning - Technical Lead</h4>
+      <p>
+        A Series of internal scripts designed to allow mass creation of B2B
+        accounts to facilitate large acquisitions and migration of external
+        business accounts to be in alignment with all required Pluralsight
+        Objects.
+      </p>
+      <p>
+        Essentially this created pathways for the A Cloud Guru purchase of
+        Pluralsight to create all necessary objects in Zuora, Salesforce, Stripe
+        and beyond migrating from Chargebee, and an entirely separate data set.
+      </p>
+      <p>
+        Part of my responsibilities were to project manage the technical aspects
+        of the project, create a roadmap and plan for each step of the process
+        and update management with expected timelines, working with multi
+        functional teams around pluralsight to ensure that all requirements were
+        met.
+      </p>
+      <p>I worked closely with Dan Dickson on this project.</p>
     </>
   );
 };
