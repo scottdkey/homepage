@@ -38,8 +38,8 @@ export const About = () => {
         motions. This involved over 40 separate microservice and frontend
         applications to orchestrate the checkout processes. Part of my role was
         to help organize work and mentor other developers. This role also
-        allowed me to take part in one of the largest b2b transformations of its
-        kind, completely revamping the b2b processes end to end, leading to
+        allowed me to take part in one of the largest B2B transformations of its
+        kind, completely revamping the B2B processes end to end, leading to
         increased sales efficiency.
       </p>
 
