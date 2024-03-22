@@ -1,5 +1,4 @@
 "use client";
-import { useState } from "react";
 import { Accordion, AccordionItem } from "./components/Accordion/Accordion";
 import styles from "./page.module.css";
 import { About } from "./components/About";
@@ -11,9 +10,7 @@ export default function Home() {
     <main className={styles.main}>
       <h1 id={styles.title}>Scott Key</h1>
       <h3 id={styles.blerb}>
-        Fullstack developer who loves to build large complex services. I've
-        worked in large tech distributed microservice architecture for the last
-        couple of years.
+        Fullstack developer who loves to build large complex services. I was a pivotal part in the largest digital transformation of its kind. 
       </h3>
       <Accordion>
         <AccordionItem
