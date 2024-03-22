@@ -1,8 +1,8 @@
 import Image from "next/image";
-import LinkedInLogo from "../images/LinkedIn_icon.svg";
-import GitHubMark from "../images/github-mark/github-mark-white.svg";
+import LinkedInLogo from "../../images/LinkedIn_icon.svg";
+import GitHubMark from "../../images/github-mark/github-mark-white.svg";
 import styles from "./Contact.module.css";
-import { handleEmailFormSubmit } from "../lib/sendContactEmail";
+import { handleEmailFormSubmit } from "../../lib/sendContactEmail";
 import { useState } from "react";
 
 export const Contact = () => {

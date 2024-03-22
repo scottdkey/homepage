@@ -2,8 +2,8 @@
 import { Accordion, AccordionItem } from "./components/Accordion/Accordion";
 import styles from "./page.module.css";
 import { About } from "./components/About";
-import { Projects } from "./components/Projects";
-import { Contact } from "./components/Contact";
+import { Projects } from "./components/Projects/Projects";
+import { Contact } from "./components/Contact/Contact";
 
 export default function Home() {
   return (
@@ -13,19 +13,13 @@ export default function Home() {
         Fullstack developer who loves to build large complex services.
       </h3>
       <Accordion>
-        <AccordionItem
-          label="about"
-        >
+        <AccordionItem label="about">
           <About />
         </AccordionItem>
-        <AccordionItem
-          label="projects"
-        >
+        <AccordionItem label="projects">
           <Projects />
         </AccordionItem>
-        <AccordionItem
-          label="contact"
-        >
+        <AccordionItem label="contact">
           <Contact />
         </AccordionItem>
       </Accordion>
