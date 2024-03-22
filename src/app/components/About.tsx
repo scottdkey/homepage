@@ -3,7 +3,7 @@ export const About = () => {
     <>
       <h3>Personal</h3>
       <p>
-        In my personal life I love learning and building. I've been known to
+        In my personal life I love learning and building. I&apos;ve been known to
         woodwork and tinker with computer hardware. At one point I was regularly
         participating in PC speed building competitions, my fastest time at 8
         min 45sec{" "}
@@ -14,10 +14,10 @@ export const About = () => {
       </p>
       <p>
         I love photography and I love seeking out the lesser known parts of
-        cities or places I've never been before. I'd rather find a hole in the
+        cities or places I&apos;ve never been before. I&apos;d rather find a hole in the
         wall restaurant loved by the locals than visit a chain. Sometimes this
         involves not knowing the language and trying my best. Sometimes it works
-        out, sometimes it doesn't{" "}
+        out, sometimes it doesn&apos;t{" "}
       </p>
       <p>
         I love food, I love seeking new experiences, and I love building things.
@@ -49,7 +49,7 @@ export const About = () => {
         of customers I worked on a wonderful team of passionate, fleet footed
         developers. As the business evolved we worked to keep up with the
         various changes that ended up being the largest digital transformation
-        of it's kind. Completely revamping all B2B sales motions over the course
+        of it&apos;s kind. Completely revamping all B2B sales motions over the course
         of a year and a half.
       </p>
 
