@@ -39,7 +39,7 @@ export const handleEmailFormSubmit = async (formData: FormData) => {
 
   }
 
-  transporter.sendMail(mailOptions, (error, info) => {
+  await transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
       console.error(`Error sending email`, mailOptions)
     } else {
@@ -51,7 +51,7 @@ export const handleEmailFormSubmit = async (formData: FormData) => {
   })
 
 
-  console.log(validated)
+  console.log("validated data", validated)
 
   return validated
 };
