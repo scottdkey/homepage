@@ -27,6 +27,7 @@ export const AccordionItem = ({
       />
       <label htmlFor={label}>
         <h2>{label}</h2>
+        <i className="indicator glyphicon glyphicon-chevron-down-custom  pull-right"></i>
       </label>
       <div>{children}</div>
     </article>

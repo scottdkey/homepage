@@ -1,5 +1,7 @@
 import Image from "next/image";
 import LinkedInLogo from "../images/LinkedIn_icon.svg";
+import GitHubLogo from "../images/GitHub_Logo_White.png";
+import GitHubMark from "../images/github-mark/github-mark-white.svg";
 import "./Contact.css";
 
 export const Contact = () => {
@@ -7,7 +9,7 @@ export const Contact = () => {
     <div className="container">
       <a
         href={"https://linkedin.com/in/scottdkey"}
-        className="linkedin-button"
+        className="linkedin-button profile-button"
         target="_blank"
       >
         <Image
@@ -21,17 +23,17 @@ export const Contact = () => {
       </a>
       <a
         href={"https://github.com/scottdkey"}
-        className="linkedin-button"
+        className="github-button profile-button"
         target="_blank"
       >
         <Image
-          className="logo-image"
-          src={LinkedInLogo}
+          className="github-logo-offset logo-image"
+          src={GitHubMark}
           alt="linkedin logo"
-          width={40}
-          height={40}
+          width={30}
+          height={30}
         />
-        <div className="btn-text">Github</div>
+        <div className="btn-text">GitHub</div>
       </a>
     </div>
   );

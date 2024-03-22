@@ -4,17 +4,27 @@
   justify-content: center;
 }
 
-.linkedin-button {
+.github-logo-offset {
+  position: relative;
+  padding-left: 2px;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.profile-button {
   display: flex;
   flex-direction: row;
-  background-color: var(--linkedin-color);
   border-radius: 10px;
-  margin: 0;
   vertical-align: center;
   text-align: center;
   justify-content: center;
   text-decoration: none;
   width: 8em;
+  /* height: 3em; */
+}
+
+.linkedin-button {
+  background-color: var(--linkedin-color);
 }
 
 .logo-image {
@@ -25,6 +35,19 @@
 }
 .linkedin-button:active {
   background-color: #7694a3;
+}
+
+.github-button {
+  background-color: var(--github-color);
+  overflow: hidden;
+}
+
+.github-button:hover {
+  background-color: #4c5256;
+}
+
+.linkedin-button:active {
+  background-color: #bbcbd3;
 }
 
 .btn-text {

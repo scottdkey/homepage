@@ -21,6 +21,7 @@
   --foreground: var(--coal);
   --outline: var(--coal);
   --linkedin-color: #216587;
+  --github-color: #313538;
 
   background-color: var(--background);
   color: var(--font-color);
@@ -36,5 +37,6 @@ body {
   --outline: var(--white);
   --font-color: rgb(152, 236, 255);
   --linkedin-color: #55a7d0;
+  --github-color: rgb(70, 70, 70);
   background-color: var(--background);
 }

@@ -36,3 +36,23 @@ input[type="radio"] {
     transition: max-height 0.4s ease-in;
   }
 }
+
+.glyphicon-chevron-down-custom span,
+.glyphicon-chevron-up-custom span {
+  width: 10px;
+  height: 5px;
+  background-color: rgb(99, 99, 99);
+  display: inline-block;
+  transition: all 0.1s linear;
+}
+.glyphicon-chevron-down-custom .sp-1,
+.glyphicon-chevron-up-custom .sp-2 {
+  transform: skewY(-40deg);
+}
+.glyphicon-chevron-up-custom .sp-1,
+.glyphicon-chevron-down-custom .sp-2 {
+  transform: skewY(40deg);
+}
+.glyphicon {
+  top: -2px;
+}
