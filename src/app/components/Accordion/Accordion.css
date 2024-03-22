@@ -32,7 +32,7 @@ input[type="checkbox"] {
   &:checked ~ div {
     max-height: 1600px;
     transition: max-height 0.4s ease-in-out;
-    overflow: auto;
+    overflow: visible;
   }
 }
 
