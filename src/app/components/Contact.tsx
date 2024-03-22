@@ -53,13 +53,13 @@ export const Contact = () => {
         <form
           className={styles.emailForm}
           action={async (formData) => {
-            setSubmitted(true);
             await handleEmailFormSubmit(formData);
             formData.set("firstName", "");
             formData.set("lastName", "");
             formData.set("email", "");
             formData.set("body", "");
           }}
+          onSubmit={() => setSubmitted(true)}
         >
           <label htmlFor="firstName" className={`${styles.inputLabel}`}>
             first name

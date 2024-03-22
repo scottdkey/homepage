@@ -1,4 +1,3 @@
-
 "use server"
 import z from "zod"
 import nodemailer from "nodemailer"
@@ -71,19 +70,7 @@ export const handleEmailFormSubmit = async (formData: FormData) => {
     });
   });
 
-  await transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      console.error(`Error sending email`, mailOptions)
-    } else {
-      console.log('email sent', {
-        ...mailOptions,
-        info: info.messageId
-      })
-    }
-  })
 
-
-  console.log("validated data", validated)
 
   return validated
 };
