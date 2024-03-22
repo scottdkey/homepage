@@ -1,6 +1,24 @@
 export const About = () => {
   return (
     <>
+      <h3>Personal</h3>
+      <p>
+        In my personal life I love learning and building. I've been known to
+        woodwork and tinker with computer hardware. At one point I was regularly
+        participating in PC speed building competitions, my fastest time at 8
+        min 45sec{" "}
+      </p>
+      <p>
+        These days I spend the majority of my time enjoying hikes around where I
+        live.
+      </p>
+      <p>
+        I love photography and I love seeking out the lesser parts of cities
+        I've never been before. I'd rather find a hole in the wall restaurant
+        loved by the locals than visit a chain. Sometimes this involves not
+        knowing the language and trying my best. Sometimes it works out,
+        sometimes it doesn't{" "}
+      </p>
       <h3>Work</h3>
       <p>
         Over the last few years I&apos;ve been the guy that you could always go
@@ -34,25 +52,6 @@ export const About = () => {
       <p>
         I like to build cool things. I take great pride in focusing on fine
         details and building out clean, maintainable solutions.
-      </p>
-
-      <h3>Personal</h3>
-      <p>
-        In my personal life I love learning and building. I've been known to
-        woodwork and tinker with computer hardware. At one point I was regularly
-        participating in PC speed building competitions, my fastest time at 8
-        min 45sec{" "}
-      </p>
-      <p>
-        These days I spend the majority of my time enjoying hikes around where I
-        live.
-      </p>
-      <p>
-        I love photography and I love seeking out the lesser parts of cities
-        I've never been before. I'd rather find a hole in the wall restaurant
-        loved by the locals than visit a chain. Sometimes this involves not
-        knowing the language and trying my best. Sometimes it works out,
-        sometimes it doesn't{" "}
       </p>
     </>
   );

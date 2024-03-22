@@ -9,7 +9,7 @@ export const handleEmailFormSubmit = async (formData: FormData) => {
   const validated = z.object({
     firstName: z.string(),
     lastName: z.string(),
-    email: z.string().email(),
+    email: z.string(),
     body: z.string()
   }).parse({
     firstName: formData.get("firstName"),
