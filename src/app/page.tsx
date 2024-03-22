@@ -10,7 +10,7 @@ export default function Home() {
     <main className={styles.main}>
       <h1 id={styles.title}>Scott Key</h1>
       <h3 id={styles.blerb}>
-        Fullstack developer who loves to build large complex services. I was a pivotal part in the largest digital transformation of its kind. 
+        Fullstack developer who loves to build large complex services.
       </h3>
       <Accordion>
         <AccordionItem
