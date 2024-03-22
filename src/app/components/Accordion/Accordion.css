@@ -14,8 +14,8 @@
 
 .article {
   border: 1px solid var(--outline);
-  margin: 1em auto;
-  width: 80%;
+  margin: 0.5em auto;
+  width: 100%;
 }
 
 input[type="checkbox"] {
@@ -30,7 +30,7 @@ input[type="checkbox"] {
     transition: max-height 0.3s ease-in-out;
   }
   &:checked ~ div {
-    max-height: 800px;
+    max-height: 1600px;
     overflow: scroll;
     transition: max-height 0.4s ease-in-out;
     scroll-behavior: smooth;
