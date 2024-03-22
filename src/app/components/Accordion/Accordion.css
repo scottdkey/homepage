@@ -2,7 +2,7 @@
 @import url("../../globals.css");
 
 .accordion {
-  max-width: 850px;
+  max-width: 750px;
   text-align: left;
   display: flex;
   flex-direction: column;
@@ -14,7 +14,7 @@
 
 .article {
   border: 1px solid var(--outline);
-  margin: 0.5em auto;
+  margin: 0.9em auto;
   width: 100%;
 }
 
@@ -31,9 +31,8 @@ input[type="checkbox"] {
   }
   &:checked ~ div {
     max-height: 1600px;
-    overflow: scroll;
     transition: max-height 0.4s ease-in-out;
-    scroll-behavior: smooth;
+    overflow: auto;
   }
 }
 
