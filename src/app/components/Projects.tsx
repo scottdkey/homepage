@@ -59,7 +59,6 @@ export const Projects = () => {
         functional teams around pluralsight to ensure that all requirements were
         met.
       </p>
-      <p>I worked closely with Dan Dickson on this project.</p>
     </>
   );
 };
