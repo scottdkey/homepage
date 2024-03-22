@@ -13,15 +13,12 @@ export const AccordionItem = ({
 }>) => {
   const [open, setOpen] = useState(false);
   return (
-    <article key={label}>
+    <div key={label} className="article">
       <input
         id={label}
         type="checkbox"
         name="accordion-item"
         className="accordion-input"
-        //here to prevent error
-        onChange={() => {}}
-        
       />
       <label
         htmlFor={label}
@@ -38,7 +35,9 @@ export const AccordionItem = ({
           <span className="sp-2"></span>
         </i>
       </label>
-      <div className={`drawer-${open ? "open" : "closed"}`}>{children}</div>
-    </article>
+      <div>
+        <div className="accordion-body">{children}</div>
+      </div>
+    </div>
   );
 };

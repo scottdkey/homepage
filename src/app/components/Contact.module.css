@@ -1,0 +1,130 @@
+.container {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+}
+
+.githubLogoOffset {
+  position: relative;
+  padding-left: 2px;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.profileButton {
+  display: flex;
+  flex-direction: row;
+  border-radius: 10px;
+  vertical-align: center;
+  text-align: center;
+  justify-content: center;
+  text-decoration: none;
+  width: 8em;
+  /* height: 3em; */
+}
+
+.linkedinButton {
+  background-color: var(--linkedin-color);
+}
+
+.logoImage {
+  margin-right: auto;
+}
+.linkedinButton:hover {
+  background-color: #5293b4;
+}
+.linkedinButton:active {
+  background-color: #7694a3;
+}
+
+.githubButton {
+  background-color: var(--github-color);
+  overflow: hidden;
+}
+
+.githubButton:hover {
+  background-color: #4c5256;
+}
+
+.linkedinButton:active {
+  background-color: #bbcbd3;
+}
+
+.btnText {
+  height: fit-content;
+  width: fit-content;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-right: 0.8em;
+  color: white;
+  font-weight: 700;
+}
+
+.emailForm {
+  margin-top: 2em;
+  display: flex;
+  flex-direction: column;
+  margin-left: auto;
+  margin-right: auto;
+  align-items: right;
+  vertical-align: center;
+  justify-content: center;
+  width: 80%;
+}
+
+.inputLabel {
+  margin-left: auto;
+  padding-top: 1em;
+  padding-bottom: 0.3em;
+  text-wrap: nowrap;
+  text-align: right;
+  font-size: large;
+}
+
+.standardInput {
+  margin-left: auto;
+  height: fit-content;
+  width: fit-content;
+  border-radius: 10px;
+  border: 1px solid var(--primary);
+  padding: 7px;
+}
+
+.bodyInput {
+  height: 100%;
+  width: 100%;
+  min-height: 8em;
+  resize: none;
+}
+
+.btn {
+  background-color: var(--primary);
+  height: fit-content;
+  width: fit-content;
+  padding: 1em;
+  border-radius: 10px;
+  margin-top: 1em;
+}
+
+.submitButton {
+  margin-left: auto;
+}
+
+.btn:hover {
+  background-color: var(--primary-hover);
+}
+
+.btn:active {
+  background-color: var(--primary-active);
+}
+
+.submittedArea {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.submittedTitle {
+  margin-top: 2em;
+}

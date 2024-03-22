@@ -12,9 +12,8 @@
   margin-right: auto;
 }
 
-article {
+.article {
   border: 1px solid var(--outline);
-  padding: 1em;
   margin: 1em auto;
   width: 80%;
 }
@@ -30,15 +29,26 @@ input[type="checkbox"] {
     overflow: hidden;
     transition: max-height 0.3s ease-in-out;
   }
-
   &:checked ~ div {
     max-height: 1200px;
     transition: max-height 0.4s ease-in-out;
   }
 }
+
+.accordion-body {
+  margin: 1em;
+}
+
 .label-wrapper {
   display: flex;
   vertical-align: center;
+  padding: 1em;
+}
+.label-wrapper:hover {
+  background-color: var(--highlight);
+}
+.label-wrapper:active {
+  background-color: var(--active);
 }
 
 .accordion-label {

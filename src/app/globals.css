@@ -22,6 +22,11 @@
   --outline: var(--coal);
   --linkedin-color: #216587;
   --github-color: #313538;
+  --primary: rgb(31, 98, 180);
+  --primary-hover: rgb(19, 64, 120);
+  --primary-active: rgb(77, 112, 155);
+  --highlight: rgba(69, 100, 146, 0.23);
+  --active: rgba(73, 94, 99, 0.681);
 
   background-color: var(--background);
   color: var(--font-color);
@@ -38,5 +43,10 @@ body {
   --font-color: rgb(152, 236, 255);
   --linkedin-color: #55a7d0;
   --github-color: rgb(70, 70, 70);
+  --primary: rgb(43, 68, 99);
+  --primary-hover: rgb(67, 119, 182);
+  --primary-active: rgb(15, 70, 138);
+  --highlight: rgba(74, 106, 138, 0.577);
+  --active: rgba(21, 37, 41, 0.647);
   background-color: var(--background);
 }
