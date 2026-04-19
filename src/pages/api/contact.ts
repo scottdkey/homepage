@@ -1,3 +1,4 @@
+/// <reference types="@cloudflare/workers-types" />
 import type { APIRoute } from 'astro';
 import { env } from 'cloudflare:workers';
 
