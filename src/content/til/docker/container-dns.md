@@ -18,7 +18,7 @@ Any `compose.yaml` file creates a default network named `<project>_default`. All
 services:
   api:
     environment:
-      DB_HOST: db   # resolves to the db container's IP
+      DB_HOST: db # resolves to the db container's IP
   db:
     image: postgres:16
 ```
@@ -63,7 +63,7 @@ For containers that need to resolve a hostname that doesn't exist in DNS, use `e
 services:
   app:
     extra_hosts:
-      - "nas.local:192.168.10.50"
+      - 'nas.local:192.168.10.50'
 ```
 
 This writes to `/etc/hosts` inside the container.

@@ -15,7 +15,7 @@ services:
   db:
     image: postgres:16-alpine
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $POSTGRES_USER -d $POSTGRES_DB"]
+      test: ['CMD-SHELL', 'pg_isready -U $POSTGRES_USER -d $POSTGRES_DB']
       interval: 5s
       timeout: 5s
       retries: 10
@@ -32,10 +32,10 @@ services:
 
 ## Other conditions
 
-| condition | means |
-|---|---|
-| `service_started` | default — container exists, not necessarily healthy |
-| `service_healthy` | healthcheck passing |
+| condition                        | means                                                   |
+| -------------------------------- | ------------------------------------------------------- |
+| `service_started`                | default — container exists, not necessarily healthy     |
+| `service_healthy`                | healthcheck passing                                     |
 | `service_completed_successfully` | for one-shot init containers (migrations, seed scripts) |
 
 ## Useful healthchecks by service

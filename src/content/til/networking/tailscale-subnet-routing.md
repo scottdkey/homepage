@@ -51,9 +51,9 @@ By default, Tailscale keys expire after 180 days. For always-on subnet routers, 
 
 ## Exit node vs subnet router
 
-| | Subnet router | Exit node |
-|---|---|---|
-| Routes | specific subnets only | all traffic |
+|          | Subnet router            | Exit node                       |
+| -------- | ------------------------ | ------------------------------- |
+| Routes   | specific subnets only    | all traffic                     |
 | Use case | access home LAN remotely | route all internet through home |
 
 Advertise as an exit node:

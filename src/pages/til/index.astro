@@ -27,6 +27,7 @@ for (const entry of entries) {
 
 const sortedTree = Object.entries(tree).sort(([a], [b]) => a.localeCompare(b));
 ---
+
 <PageLayout title="TIL">
   <div class="page-wrap">
     <PageHero title="Today I Learned" />
@@ -34,18 +35,22 @@ const sortedTree = Object.entries(tree).sort(([a], [b]) => a.localeCompare(b));
     {entries.length === 0 && <p style="color: var(--color-muted)">No entries yet.</p>}
 
     <div class="til-tree">
-      {sortedTree.map(([cat, node]) => (
-        <div class="til-branch">
-          <p class="til-cat">{cat}</p>
-          <TilBranch node={node} />
-        </div>
-      ))}
+      {
+        sortedTree.map(([cat, node]) => (
+          <div class="til-branch">
+            <p class="til-cat">{cat}</p>
+            <TilBranch node={node} />
+          </div>
+        ))
+      }
     </div>
   </div>
 </PageLayout>
 
 <style is:global>
-  .page-wrap { padding: var(--space-12) 0; }
+  .page-wrap {
+    padding: var(--space-12) 0;
+  }
 
   .til-tree {
     display: flex;

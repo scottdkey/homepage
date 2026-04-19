@@ -19,8 +19,8 @@ Compose automatically loads `.env` from the same directory as `compose.yaml` for
 # .env contains: TAG=1.2.3
 services:
   app:
-    image: myapp:${TAG}        # .env substitutes this
-    env_file: .env             # this passes .env vars INTO the container
+    image: myapp:${TAG} # .env substitutes this
+    env_file: .env # this passes .env vars INTO the container
 ```
 
 Without `env_file:`, `TAG` is used to build the image reference but the container doesn't see it.

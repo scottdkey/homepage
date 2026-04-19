@@ -18,11 +18,13 @@ Enabling VLAN filtering before the bridge VLAN table is fully configured will dr
 ## Trunk vs access ports
 
 Trunk ports carry multiple VLANs tagged:
+
 ```
 /interface bridge port set [find interface=ether1] frame-types=admit-all
 ```
 
 Access ports carry one VLAN untagged:
+
 ```
 /interface bridge port set [find interface=ether2] pvid=20 frame-types=admit-only-untagged-and-priority-tagged
 ```

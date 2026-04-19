@@ -6,9 +6,10 @@ interface Props {
 }
 const { id, heading, paragraphs } = Astro.props;
 ---
+
 <section class="case-section" aria-labelledby={`${id}-heading`}>
   <h2 id={`${id}-heading`}>{heading}</h2>
-  {paragraphs.map(p => <p set:html={p} />)}
+  {paragraphs.map((p) => <p set:html={p} />)}
 </section>
 
 <style>

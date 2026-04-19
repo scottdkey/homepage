@@ -42,17 +42,21 @@ Rules are evaluated top to bottom, first match wins.
 ## Common patterns
 
 **Wheel group (like sudo):**
+
 ```
 permit persist :wheel
 ```
+
 Add your user: `adduser scott wheel`
 
 **Single-user machine (no password prompt):**
+
 ```
 permit nopass scott
 ```
 
 **Passwordless for package management only:**
+
 ```
 permit nopass scott cmd apk
 permit nopass scott cmd rc-service

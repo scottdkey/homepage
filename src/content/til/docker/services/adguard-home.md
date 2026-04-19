@@ -18,10 +18,10 @@ services:
       - ./workdir:/opt/adguardhome/work
       - ./confdir:/opt/adguardhome/conf
     ports:
-      - "53:53/tcp"
-      - "53:53/udp"
-      - "3000:3000/tcp"   # setup UI (first run only)
-      - "80:80/tcp"       # web UI after setup
+      - '53:53/tcp'
+      - '53:53/udp'
+      - '3000:3000/tcp' # setup UI (first run only)
+      - '80:80/tcp' # web UI after setup
 ```
 
 Port 53 must be free on the host. If `systemd-resolved` is running and binding to 53, disable it:
@@ -45,6 +45,7 @@ See the [Unbound DNS gotchas entry](/til/networking/opnsense-dns-gotchas) — sp
 ## Blocklists
 
 In **Filters → DNS blocklists**, the defaults are good. Commonly added extras:
+
 - OISD (full or basic)
 - HaGeZi Multi Pro
 

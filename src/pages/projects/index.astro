@@ -8,69 +8,125 @@ import { jobs } from '../../data/work';
 import { projects } from '../../data/projects';
 
 const skills = [
-  'TypeScript', 'React', 'Next.js', 'Node.js', 'Fastify', 'PostgreSQL',
-  'Redis', 'Kafka', 'RabbitMQ', 'Kubernetes',
-  'GCP (GKE, Cloud SQL, GCS, Artifact Registry)', 'AWS', 'Docker', 'Stripe', 'Shopify',
+  'TypeScript',
+  'React',
+  'Next.js',
+  'Node.js',
+  'Fastify',
+  'PostgreSQL',
+  'Redis',
+  'Kafka',
+  'RabbitMQ',
+  'Kubernetes',
+  'GCP (GKE, Cloud SQL, GCS, Artifact Registry)',
+  'AWS',
+  'Docker',
+  'Stripe',
+  'Shopify',
 ];
 ---
+
 <PageLayout title="Projects" description="Scott Key — work history and notable projects.">
   <!-- View toggle -->
   <div class="view-toggle-bar">
-    <a href="/api/resume.pdf" download="scott-key-resume.pdf" class="btn-download-always">Download PDF ↓</a>
+    <a href="/api/resume.pdf" download="scott-key-resume.pdf" class="btn-download-always"
+      >Download PDF ↓</a
+    >
     <span class="toggle-label mono" data-toggle-label="work">Web</span>
-    <button class="toggle-switch" data-view-toggle role="switch" aria-checked="false" aria-label="Toggle resume view">
-      <span class="toggle-thumb" />
+    <button
+      class="toggle-switch"
+      data-view-toggle
+      role="switch"
+      aria-checked="false"
+      aria-label="Toggle resume view"
+    >
+      <span class="toggle-thumb"></span>
     </button>
     <span class="toggle-label mono" data-toggle-label="resume">Resume</span>
   </div>
 
   <!-- ── Work view ─────────────────────────────────────────── -->
   <div id="view-work" data-view="work">
-    <section class="section" aria-labelledby="experience-heading" style="padding-top: var(--space-8); border-top: none;">
+    <section
+      class="section"
+      aria-labelledby="experience-heading"
+      style="padding-top: var(--space-8); border-top: none;"
+    >
       <h2 id="experience-heading" class="section-label mono">Experience</h2>
       <div class="card-grid">
-        {jobs.map(job => {
-          const hasCaseStudy = job.slug !== 'skm';
-          const href = hasCaseStudy ? `/projects/${job.slug}` : null;
-          return (
-            <article class:list={['job-card', { 'job-card--link': !!href }]}>
-              {href && <a class="job-card-overlay" href={href} aria-label={job.company} />}
-              <div class="card-meta">
-                <Tag label={job.dates} />
-                <Tag label={job.title} />
-              </div>
-              <h3>{job.company}</h3>
-              <p class="job-intro">{job.intro}</p>
-              {job.stack.length > 0 && (
-                <div class="stack-tags">
-                  {job.stack.map(t => <Tag label={t} />)}
+        {
+          jobs.map((job) => {
+            const hasCaseStudy = job.slug !== 'skm';
+            const href = hasCaseStudy ? `/projects/${job.slug}` : null;
+            return (
+              <article class:list={['job-card', { 'job-card--link': !!href }]}>
+                {href && <a class="job-card-overlay" href={href} aria-label={job.company} />}
+                <div class="card-meta">
+                  <Tag label={job.dates} />
+                  <Tag label={job.title} />
                 </div>
-              )}
-              {job.site && (
-                <div class="job-links">
-                  <a href={job.site} target="_blank" rel="noopener noreferrer" class="job-link-btn">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                      <circle cx="12" cy="12" r="10"/>
-                      <line x1="2" y1="12" x2="22" y2="12"/>
-                      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-                    </svg>
-                    {new URL(job.site).hostname}
-                  </a>
-                </div>
-              )}
-              {href && <span class="card-arrow" aria-hidden="true">→</span>}
-            </article>
-          );
-        })}
+                <h3>{job.company}</h3>
+                <p class="job-intro">{job.intro}</p>
+                {job.stack.length > 0 && (
+                  <div class="stack-tags">
+                    {job.stack.map((t) => (
+                      <Tag label={t} />
+                    ))}
+                  </div>
+                )}
+                {job.site && (
+                  <div class="job-links">
+                    <a
+                      href={job.site}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="job-link-btn"
+                    >
+                      <svg
+                        width="13"
+                        height="13"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                      >
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="2" y1="12" x2="22" y2="12" />
+                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                      </svg>
+                      {new URL(job.site).hostname}
+                    </a>
+                  </div>
+                )}
+                {href && (
+                  <span class="card-arrow" aria-hidden="true">
+                    →
+                  </span>
+                )}
+              </article>
+            );
+          })
+        }
       </div>
     </section>
 
     <section class="section" aria-labelledby="projects-heading">
       <h2 id="projects-heading" class="section-label mono">Notable Projects</h2>
       <div class="card-grid card-grid--3">
-        {projects.map(p => (
-          <ProjectCard name={p.name} description={p.description} tags={p.tags} site={p.site} github={p.github} />
-        ))}
+        {
+          projects.map((p) => (
+            <ProjectCard
+              name={p.name}
+              description={p.description}
+              tags={p.tags}
+              site={p.site}
+              github={p.github}
+            />
+          ))
+        }
       </div>
     </section>
   </div>
@@ -87,8 +143,12 @@ const skills = [
         <div class="resume-header-right">
           <div class="resume-contact mono">
             <EmailLink />
-            <a href="https://linkedin.com/in/scottdkey" target="_blank" rel="noopener noreferrer">linkedin.com/in/scottdkey</a>
-            <a href="https://github.com/scottdkey" target="_blank" rel="noopener noreferrer">github.com/scottdkey</a>
+            <a href="https://linkedin.com/in/scottdkey" target="_blank" rel="noopener noreferrer"
+              >linkedin.com/in/scottdkey</a
+            >
+            <a href="https://github.com/scottdkey" target="_blank" rel="noopener noreferrer"
+              >github.com/scottdkey</a
+            >
             <span>scottkey.dev</span>
           </div>
         </div>
@@ -101,17 +161,19 @@ const skills = [
 
       <section class="resume-section" aria-labelledby="exp-heading">
         <h2 id="exp-heading">Experience</h2>
-        {jobs.map(job => (
-          <ResumeJob
-            company={job.company}
-            title={job.title}
-            dates={job.dates}
-            bullets={job.sections.length === 0 ? job.printBullets : []}
-            slug={job.sections.length > 0 ? job.slug : undefined}
-            site={job.site}
-            sections={job.sections.length > 0 ? job.sections : []}
-          />
-        ))}
+        {
+          jobs.map((job) => (
+            <ResumeJob
+              company={job.company}
+              title={job.title}
+              dates={job.dates}
+              bullets={job.sections.length === 0 ? job.printBullets : []}
+              slug={job.sections.length > 0 ? job.slug : undefined}
+              site={job.site}
+              sections={job.sections.length > 0 ? job.sections : []}
+            />
+          ))
+        }
       </section>
     </div>
   </div>
@@ -119,18 +181,20 @@ const skills = [
 
 <script>
   function initWorkToggle() {
-    const workView   = document.getElementById('view-work');
+    const workView = document.getElementById('view-work');
     const resumeView = document.getElementById('view-resume');
-    const btn        = document.querySelector<HTMLButtonElement>('[data-view-toggle]');
+    const btn = document.querySelector<HTMLButtonElement>('[data-view-toggle]');
 
     function setView(view: 'work' | 'resume', pushState = false) {
       if (!workView || !resumeView || !btn) return;
       const isResume = view === 'resume';
-      workView.hidden   = isResume;
+      workView.hidden = isResume;
       resumeView.hidden = !isResume;
       btn.setAttribute('aria-checked', String(isResume));
-      document.querySelectorAll('[data-toggle-label]').forEach(el => {
-        (el as HTMLElement).dataset.active = String((el as HTMLElement).dataset.toggleLabel === view);
+      document.querySelectorAll('[data-toggle-label]').forEach((el) => {
+        (el as HTMLElement).dataset.active = String(
+          (el as HTMLElement).dataset.toggleLabel === view
+        );
       });
       if (pushState) history.pushState({ view }, '', isResume ? '?view=resume' : location.pathname);
     }
@@ -143,8 +207,10 @@ const skills = [
       setView(next, true);
     });
 
-    window.addEventListener('popstate', e => {
-      const v = e.state?.view ?? (new URLSearchParams(location.search).get('view') === 'resume' ? 'resume' : 'work');
+    window.addEventListener('popstate', (e) => {
+      const v =
+        e.state?.view ??
+        (new URLSearchParams(location.search).get('view') === 'resume' ? 'resume' : 'work');
       setView(v);
     });
   }
@@ -168,7 +234,7 @@ const skills = [
     color: var(--color-muted);
     transition: color 150ms ease;
   }
-  .toggle-label[data-active="true"] {
+  .toggle-label[data-active='true'] {
     color: var(--color-text);
   }
   .btn-download-always {
@@ -182,9 +248,15 @@ const skills = [
     font-weight: 600;
     letter-spacing: 0.04em;
     text-decoration: none;
-    transition: background 180ms ease, color 180ms ease;
+    transition:
+      background 180ms ease,
+      color 180ms ease;
   }
-  .btn-download-always:hover { background: var(--color-accent); color: var(--color-bg); text-decoration: none; }
+  .btn-download-always:hover {
+    background: var(--color-accent);
+    color: var(--color-bg);
+    text-decoration: none;
+  }
   .toggle-switch {
     position: relative;
     width: 40px;
@@ -196,7 +268,7 @@ const skills = [
     padding: 0;
     transition: background 200ms ease;
   }
-  .toggle-switch[aria-checked="true"] {
+  .toggle-switch[aria-checked='true'] {
     background: var(--color-accent);
   }
   .toggle-thumb {
@@ -210,7 +282,7 @@ const skills = [
     transition: transform 200ms ease;
     pointer-events: none;
   }
-  .toggle-switch[aria-checked="true"] .toggle-thumb {
+  .toggle-switch[aria-checked='true'] .toggle-thumb {
     transform: translateX(18px);
   }
 
@@ -233,7 +305,9 @@ const skills = [
     gap: var(--space-4);
     align-items: start;
   }
-  .card-grid--3 { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+  .card-grid--3 {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
 
   .job-card {
     position: relative;
@@ -248,54 +322,163 @@ const skills = [
   .job-card--link:hover {
     background: color-mix(in srgb, var(--color-surface) 80%, var(--color-accent) 20%);
   }
-  .job-card-overlay { position: absolute; inset: 0; border-radius: inherit; z-index: 0; }
-  .card-meta { display: flex; gap: var(--space-2); flex-wrap: wrap; }
-  .job-card h3 { font-size: 1.1rem; }
-  .job-intro { font-size: 0.875rem; color: var(--color-muted); line-height: 1.6; flex: 1; }
-  .stack-tags { display: flex; gap: var(--space-2); flex-wrap: wrap; position: relative; z-index: 1; }
-  .job-links { position: relative; z-index: 1; padding-top: var(--space-2); border-top: 1px solid color-mix(in srgb, var(--color-mono) 25%, transparent); }
-  .job-link-btn {
-    display: inline-flex; align-items: center; gap: var(--space-1);
-    font-size: 0.75rem; font-family: 'Commit Mono', monospace; font-weight: 600;
-    letter-spacing: 0.04em; color: var(--color-muted); text-decoration: none;
-    padding: var(--space-1) var(--space-3); border: 1px solid var(--color-mono);
-    border-radius: var(--radius-md); transition: color 150ms ease, border-color 150ms ease;
+  .job-card-overlay {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    z-index: 0;
   }
-  .job-link-btn:hover { color: var(--color-accent); border-color: var(--color-accent); text-decoration: none; }
-  .card-arrow { color: var(--color-accent); font-size: 1rem; align-self: flex-end; }
+  .card-meta {
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+  .job-card h3 {
+    font-size: 1.1rem;
+  }
+  .job-intro {
+    font-size: 0.875rem;
+    color: var(--color-muted);
+    line-height: 1.6;
+    flex: 1;
+  }
+  .stack-tags {
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+  }
+  .job-links {
+    position: relative;
+    z-index: 1;
+    padding-top: var(--space-2);
+    border-top: 1px solid color-mix(in srgb, var(--color-mono) 25%, transparent);
+  }
+  .job-link-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-size: 0.75rem;
+    font-family: 'Commit Mono', monospace;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--color-muted);
+    text-decoration: none;
+    padding: var(--space-1) var(--space-3);
+    border: 1px solid var(--color-mono);
+    border-radius: var(--radius-md);
+    transition:
+      color 150ms ease,
+      border-color 150ms ease;
+  }
+  .job-link-btn:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+    text-decoration: none;
+  }
+  .card-arrow {
+    color: var(--color-accent);
+    font-size: 1rem;
+    align-self: flex-end;
+  }
 
   /* Resume view */
-  .resume-wrap { padding: var(--space-12) 0; }
+  .resume-wrap {
+    padding: var(--space-12) 0;
+  }
   .resume-header {
-    display: flex; justify-content: space-between; align-items: flex-start;
-    gap: var(--space-8); flex-wrap: wrap; margin-bottom: var(--space-12);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--space-8);
+    flex-wrap: wrap;
+    margin-bottom: var(--space-12);
   }
-  .resume-header-left { display: flex; flex-direction: column; gap: var(--space-2); }
-  .resume-header-right { display: flex; flex-direction: column; align-items: flex-end; gap: var(--space-4); }
-  @media (max-width: 640px) { .resume-header-right { align-items: flex-start; } }
-  .resume-header h1 { font-size: 2rem; }
-  .resume-title { font-size: 0.9rem; color: var(--color-muted); }
-  .resume-location { font-size: 0.75rem; color: var(--color-mono); }
+  .resume-header-left {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .resume-header-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: var(--space-4);
+  }
+  @media (max-width: 640px) {
+    .resume-header-right {
+      align-items: flex-start;
+    }
+  }
+  .resume-header h1 {
+    font-size: 2rem;
+  }
+  .resume-title {
+    font-size: 0.9rem;
+    color: var(--color-muted);
+  }
+  .resume-location {
+    font-size: 0.75rem;
+    color: var(--color-mono);
+  }
   .resume-contact {
-    font-size: 0.8rem; color: var(--color-muted);
-    display: flex; flex-direction: column; align-items: flex-end; gap: var(--space-1);
+    font-size: 0.8rem;
+    color: var(--color-muted);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: var(--space-1);
   }
-  @media (max-width: 640px) { .resume-contact { align-items: flex-start; } }
-  .resume-contact :global(a) { color: var(--color-accent); }
+  @media (max-width: 640px) {
+    .resume-contact {
+      align-items: flex-start;
+    }
+  }
+  .resume-contact :global(a) {
+    color: var(--color-accent);
+  }
   .btn-download {
-    background: transparent; color: var(--color-accent); border: 1px solid var(--color-accent);
-    border-radius: var(--radius-sm); padding: 10px 20px; font-size: 0.85rem; font-weight: 600;
-    font-family: 'Commit Mono', monospace; letter-spacing: 0.04em; cursor: pointer;
-    transition: background 180ms ease, color 180ms ease; text-decoration: none;
+    background: transparent;
+    color: var(--color-accent);
+    border: 1px solid var(--color-accent);
+    border-radius: var(--radius-sm);
+    padding: 10px 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    font-family: 'Commit Mono', monospace;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition:
+      background 180ms ease,
+      color 180ms ease;
+    text-decoration: none;
   }
-  .btn-download:hover { background: var(--color-accent); color: var(--color-bg); text-decoration: none; }
-  .resume-section { margin-bottom: var(--space-10); }
+  .btn-download:hover {
+    background: var(--color-accent);
+    color: var(--color-bg);
+    text-decoration: none;
+  }
+  .resume-section {
+    margin-bottom: var(--space-10);
+  }
   .resume-section h2 {
-    font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.12em;
-    color: var(--color-muted); font-weight: 400; margin-bottom: var(--space-6);
-    padding-bottom: var(--space-2); border-bottom: 1px solid var(--color-surface);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-muted);
+    font-weight: 400;
+    margin-bottom: var(--space-6);
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid var(--color-surface);
   }
-  .skills-line { color: var(--color-muted); line-height: 2; font-size: 0.875rem; }
+  .skills-line {
+    color: var(--color-muted);
+    line-height: 2;
+    font-size: 0.875rem;
+  }
 
-  .mono { font-family: 'Commit Mono', monospace; }
+  .mono {
+    font-family: 'Commit Mono', monospace;
+  }
 </style>

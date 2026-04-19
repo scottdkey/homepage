@@ -17,11 +17,11 @@ services:
     volumes:
       - ./data:/data
     environment:
-      DOMAIN: "https://vault.yourdomain.com"
-      SIGNUPS_ALLOWED: "false"      # disable after creating your account
-      ADMIN_TOKEN: ""               # set to enable /admin panel
+      DOMAIN: 'https://vault.yourdomain.com'
+      SIGNUPS_ALLOWED: 'false' # disable after creating your account
+      ADMIN_TOKEN: '' # set to enable /admin panel
     ports:
-      - "3011:80"
+      - '3011:80'
 ```
 
 Vaultwarden serves plain HTTP — put a reverse proxy (Caddy, Nginx) in front for TLS. Bitwarden clients require HTTPS.
@@ -34,6 +34,7 @@ Vaultwarden serves plain HTTP — put a reverse proxy (Caddy, Nginx) in front fo
 4. Set `ADMIN_TOKEN` to a strong random string if you want the admin panel
 
 Generate a token:
+
 ```sh
 openssl rand -base64 48
 ```

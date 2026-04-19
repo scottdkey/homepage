@@ -18,8 +18,8 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./data:/data
     ports:
-      - "9000:9000"
-      - "9443:9443"
+      - '9000:9000'
+      - '9443:9443'
 ```
 
 Access at `http://<host>:9000` or `https://<host>:9443`. Create an admin account on first visit — you have a short window before it locks you out and you need to restart the container.
@@ -42,7 +42,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - /var/lib/docker/volumes:/var/lib/docker/volumes
     ports:
-      - "9001:9001"
+      - '9001:9001'
 ```
 
 In Portainer: **Environments → Add Environment → Agent**. Enter the remote host IP and port 9001.

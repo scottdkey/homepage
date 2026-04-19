@@ -12,6 +12,7 @@ interface Props {
 }
 const { title, description, prose = false } = Astro.props;
 ---
+
 <Base title={title} description={description}>
   <Header slot="header" />
   <div class:list={['container', { prose }]} style="padding-bottom: 5rem;">

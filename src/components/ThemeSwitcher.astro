@@ -1,11 +1,12 @@
 ---
 const themes = [
-  { id: 'tide',   label: 'Slate & Tide',  color: '#3ABBA4' },
-  { id: 'forest', label: 'Forest Floor',  color: '#4DB885' },
+  { id: 'tide', label: 'Slate & Tide', color: '#3ABBA4' },
+  { id: 'forest', label: 'Forest Floor', color: '#4DB885' },
   { id: 'copper', label: 'Copper & Clay', color: '#D4884A' },
-  { id: 'ocean',  label: 'Deep Ocean',    color: '#5B9CF6' },
+  { id: 'ocean', label: 'Deep Ocean', color: '#5B9CF6' },
 ];
 ---
+
 <div class="theme-switcher" data-theme-switcher>
   <button
     class="switcher-trigger"
@@ -15,45 +16,51 @@ const themes = [
     data-tooltip="Color theme"
     data-theme-chevron
   >
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <polyline points="9 18 15 12 9 6"/>
+    <svg
+      width="12"
+      height="12"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <polyline points="9 18 15 12 9 6"></polyline>
     </svg>
   </button>
 
-  <div
-    class="theme-dropdown"
-    role="listbox"
-    aria-label="Color theme"
-    data-theme-dropdown
-    hidden
-  >
-    {themes.map(t => (
-      <button
-        class="theme-option"
-        role="option"
-        data-theme-id={t.id}
-        aria-selected="false"
-        style={`--swatch: ${t.color}`}
-      >
-        <span class="swatch" aria-hidden="true" />
-        <span>{t.label}</span>
-      </button>
-    ))}
+  <div class="theme-dropdown" role="listbox" aria-label="Color theme" data-theme-dropdown hidden>
+    {
+      themes.map((t) => (
+        <button
+          class="theme-option"
+          role="option"
+          data-theme-id={t.id}
+          aria-selected="false"
+          style={`--swatch: ${t.color}`}
+        >
+          <span class="swatch" aria-hidden="true" />
+          <span>{t.label}</span>
+        </button>
+      ))
+    }
   </div>
 </div>
 
 <script>
   function initThemeSwitcher() {
     const switcher = document.querySelector<HTMLElement>('[data-theme-switcher]');
-    const trigger  = document.querySelector<HTMLButtonElement>('[data-theme-chevron]');
+    const trigger = document.querySelector<HTMLButtonElement>('[data-theme-chevron]');
     const dropdown = document.querySelector<HTMLElement>('[data-theme-dropdown]');
-    const options  = document.querySelectorAll<HTMLButtonElement>('[data-theme-id]');
+    const options = document.querySelectorAll<HTMLButtonElement>('[data-theme-id]');
     if (!trigger || !dropdown) return;
 
     function setTheme(id: string) {
       document.documentElement.setAttribute('data-theme', id);
       localStorage.setItem('theme', id);
-      options.forEach(o => o.setAttribute('aria-selected', String(o.dataset.themeId === id)));
+      options.forEach((o) => o.setAttribute('aria-selected', String(o.dataset.themeId === id)));
     }
     function setOpen(open: boolean) {
       trigger!.setAttribute('aria-expanded', String(open));
@@ -63,10 +70,21 @@ const themes = [
 
     setTheme(localStorage.getItem('theme') || 'tide');
 
-    trigger.addEventListener('click', () => setOpen(trigger.getAttribute('aria-expanded') !== 'true'));
-    options.forEach(btn => btn.addEventListener('click', () => { setTheme(btn.dataset.themeId!); setOpen(false); }));
-    document.addEventListener('click', e => { if (!switcher?.contains(e.target as Node)) setOpen(false); });
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') setOpen(false); });
+    trigger.addEventListener('click', () =>
+      setOpen(trigger.getAttribute('aria-expanded') !== 'true')
+    );
+    options.forEach((btn) =>
+      btn.addEventListener('click', () => {
+        setTheme(btn.dataset.themeId!);
+        setOpen(false);
+      })
+    );
+    document.addEventListener('click', (e) => {
+      if (!switcher?.contains(e.target as Node)) setOpen(false);
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') setOpen(false);
+    });
   }
 
   document.addEventListener('DOMContentLoaded', initThemeSwitcher);
@@ -88,14 +106,18 @@ const themes = [
     border-radius: var(--radius-sm);
     color: var(--color-muted);
     cursor: pointer;
-    transition: color 150ms ease, border-color 150ms ease;
+    transition:
+      color 150ms ease,
+      border-color 150ms ease;
   }
   .switcher-trigger:hover,
-  .switcher-trigger[aria-expanded="true"] {
+  .switcher-trigger[aria-expanded='true'] {
     color: var(--color-text);
     border-color: var(--color-accent);
   }
-  .switcher-trigger:active { transform: scale(0.93); }
+  .switcher-trigger:active {
+    transform: scale(0.93);
+  }
 
   /* Dropdown panel */
   .theme-dropdown {
@@ -108,7 +130,7 @@ const themes = [
     overflow: hidden;
     min-width: 160px;
     z-index: 200;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
   }
 
   .theme-option {
@@ -124,16 +146,18 @@ const themes = [
     font-size: 0.8rem;
     letter-spacing: 0.02em;
     text-align: left;
-    transition: background 120ms ease, color 120ms ease;
+    transition:
+      background 120ms ease,
+      color 120ms ease;
   }
   .theme-option:hover {
     background: color-mix(in srgb, var(--color-surface) 60%, var(--color-accent) 40%);
     color: var(--color-text);
   }
-  .theme-option[aria-selected="true"] {
+  .theme-option[aria-selected='true'] {
     color: var(--color-text);
   }
-  .theme-option[aria-selected="true"] .swatch {
+  .theme-option[aria-selected='true'] .swatch {
     outline: 2px solid var(--color-text);
     outline-offset: 2px;
   }

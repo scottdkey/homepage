@@ -29,6 +29,7 @@ pct create 201 local:vztmpl/debian-12-standard_12.7-1_amd64.tar.zst \
 **Privileged**: UID 0 inside = UID 0 on the host. Required for some workloads (NFS mounts, nested Docker) but increases attack surface.
 
 Switch in `/etc/pve/lxc/<id>.conf`:
+
 ```
 unprivileged: 1
 ```

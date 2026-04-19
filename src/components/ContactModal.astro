@@ -1,5 +1,7 @@
 ---
+
 ---
+
 <div
   id="contact-modal"
   role="dialog"
@@ -12,8 +14,17 @@
     <div class="modal-header">
       <h2 id="contact-modal-title">Get in touch</h2>
       <button class="modal-close" aria-label="Close contact form" data-contact-close>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
-          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          aria-hidden="true"
+        >
+          <line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
       </button>
     </div>
@@ -35,33 +46,48 @@
     </form>
 
     <div class="form-success" id="form-success" hidden>
-      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/>
+      <svg
+        width="32"
+        height="32"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <circle cx="12" cy="12" r="10"></circle><polyline points="9 12 11 14 15 10"></polyline>
       </svg>
       <p>Message sent. I'll get back to you soon.</p>
     </div>
 
-    <p class="form-error" id="form-error" hidden>Something went wrong — try emailing me directly.</p>
+    <p class="form-error" id="form-error" hidden>
+      Something went wrong — try emailing me directly.
+    </p>
   </div>
 </div>
 
 <script>
   function initModal() {
-    const modal     = document.getElementById('contact-modal');
-    const form      = document.getElementById('contact-form') as HTMLFormElement | null;
+    const modal = document.getElementById('contact-modal');
+    const form = document.getElementById('contact-form') as HTMLFormElement | null;
     const submitBtn = document.querySelector<HTMLButtonElement>('[data-submit-btn]');
-    const success   = document.getElementById('form-success');
-    const errorMsg  = document.getElementById('form-error');
-    const triggers  = document.querySelectorAll('[data-contact-trigger]');
-    const closeBtn  = document.querySelector('[data-contact-close]');
+    const success = document.getElementById('form-success');
+    const errorMsg = document.getElementById('form-error');
+    const triggers = document.querySelectorAll('[data-contact-trigger]');
+    const closeBtn = document.querySelector('[data-contact-close]');
     if (!modal || !form || !success || !errorMsg) return;
 
     function openModal() {
-      form!.hidden        = false;
+      form!.hidden = false;
       form!.reset();
-      success!.hidden     = true;
-      errorMsg!.hidden    = true;
-      if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Send message'; }
+      success!.hidden = true;
+      errorMsg!.hidden = true;
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Send message';
+      }
       modal!.setAttribute('aria-hidden', 'false');
       modal!.classList.add('is-open');
       modal!.querySelector<HTMLElement>('input, textarea')?.focus();
@@ -76,25 +102,32 @@
       }, 200);
     }
 
-    triggers.forEach(t => t.addEventListener('click', openModal));
+    triggers.forEach((t) => t.addEventListener('click', openModal));
     closeBtn?.addEventListener('click', closeModal);
-    modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
-    document.addEventListener('keydown', e => {
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && modal!.classList.contains('is-open')) closeModal();
     });
 
-    modal.addEventListener('keydown', e => {
+    modal.addEventListener('keydown', (e) => {
       if (e.key !== 'Tab') return;
       const focusable = modal!.querySelectorAll<HTMLElement>(
         'button:not([hidden]), input:not([hidden]), textarea:not([hidden]), [tabindex]:not([tabindex="-1"])'
       );
       const first = focusable[0];
-      const last  = focusable[focusable.length - 1];
-      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
-      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
     });
 
-    form.addEventListener('submit', async e => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
       if (!submitBtn) return;
       submitBtn.disabled = true;
@@ -102,8 +135,10 @@
       errorMsg!.hidden = true;
       try {
         const res = await fetch('/api/contact', { method: 'POST', body: new FormData(form!) });
-        if (res.ok) { form!.hidden = true; success!.hidden = false; }
-        else throw new Error('non-ok');
+        if (res.ok) {
+          form!.hidden = true;
+          success!.hidden = false;
+        } else throw new Error('non-ok');
       } catch {
         errorMsg!.hidden = false;
         submitBtn.disabled = false;
@@ -127,13 +162,18 @@
     padding: var(--space-4);
     visibility: hidden;
     opacity: 0;
-    transition: opacity 200ms ease, background 200ms ease, visibility 0ms linear 200ms;
+    transition:
+      opacity 200ms ease,
+      background 200ms ease,
+      visibility 0ms linear 200ms;
   }
   .modal-backdrop.is-open {
     visibility: visible;
     opacity: 1;
     background: rgba(0, 0, 0, 0.6);
-    transition: opacity 200ms ease, background 200ms ease;
+    transition:
+      opacity 200ms ease,
+      background 200ms ease;
   }
 
   .modal-panel {
@@ -145,7 +185,9 @@
     position: relative;
     opacity: 0;
     transform: scale(0.95) translateY(-12px);
-    transition: opacity 250ms ease, transform 250ms cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition:
+      opacity 250ms ease,
+      transform 250ms cubic-bezier(0.34, 1.56, 0.64, 1);
   }
   .modal-backdrop.is-open .modal-panel {
     opacity: 1;
@@ -158,7 +200,9 @@
     align-items: center;
     margin-bottom: var(--space-6);
   }
-  .modal-header h2 { font-size: 1.25rem; }
+  .modal-header h2 {
+    font-size: 1.25rem;
+  }
 
   .modal-close {
     display: flex;
@@ -171,9 +215,14 @@
     border-radius: var(--radius-sm);
     color: var(--color-muted);
     cursor: pointer;
-    transition: color 150ms ease, border-color 150ms ease;
+    transition:
+      color 150ms ease,
+      border-color 150ms ease;
   }
-  .modal-close:hover { color: var(--color-text); border-color: var(--color-accent); }
+  .modal-close:hover {
+    color: var(--color-text);
+    border-color: var(--color-accent);
+  }
 
   .field {
     display: flex;
@@ -189,7 +238,8 @@
     text-transform: uppercase;
     font-family: 'Commit Mono', monospace;
   }
-  input, textarea {
+  input,
+  textarea {
     background: var(--color-bg);
     border: 1px solid var(--color-mono);
     border-radius: var(--radius-sm);
@@ -200,8 +250,14 @@
     width: 100%;
     transition: border-color 120ms ease;
   }
-  input:focus, textarea:focus { border-color: var(--color-accent); outline: none; }
-  textarea { resize: vertical; }
+  input:focus,
+  textarea:focus {
+    border-color: var(--color-accent);
+    outline: none;
+  }
+  textarea {
+    resize: vertical;
+  }
 
   .submit-btn {
     background: var(--color-accent);
@@ -216,8 +272,13 @@
     margin-top: var(--space-2);
     transition: opacity 150ms ease;
   }
-  .submit-btn:hover:not(:disabled) { opacity: 0.85; }
-  .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .submit-btn:hover:not(:disabled) {
+    opacity: 0.85;
+  }
+  .submit-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 
   .form-success {
     display: none;
@@ -231,7 +292,10 @@
     text-align: center;
     color: var(--color-accent);
   }
-  .form-success p { color: var(--color-text); font-size: 0.95rem; }
+  .form-success p {
+    color: var(--color-text);
+    font-size: 0.95rem;
+  }
 
   .form-error {
     display: none;

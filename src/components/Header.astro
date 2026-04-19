@@ -11,15 +11,22 @@ function isCurrent(href: string) {
   return pathname === href || pathname.startsWith(href + '/');
 }
 ---
+
 <header class="site-header">
   <div class="container header-inner">
     <a href="/" class="wordmark" aria-label="Scott Key — home">sk</a>
 
     <nav aria-label="Main navigation" class="desktop-nav">
       <ul role="list">
-        {mainNav.map(link => (
-          <li><a href={link.href} aria-current={isCurrent(link.href) ? 'page' : undefined}>{link.label}</a></li>
-        ))}
+        {
+          mainNav.map((link) => (
+            <li>
+              <a href={link.href} aria-current={isCurrent(link.href) ? 'page' : undefined}>
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
       </ul>
     </nav>
 
@@ -47,10 +54,19 @@ function isCurrent(href: string) {
         aria-controls="mobile-drawer"
         data-menu-btn
       >
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
-          <line x1="3" y1="6" x2="21" y2="6"/>
-          <line x1="3" y1="12" x2="21" y2="12"/>
-          <line x1="3" y1="18" x2="21" y2="18"/>
+        <svg
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          aria-hidden="true"
+        >
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
         </svg>
       </button>
     </div>
@@ -63,17 +79,37 @@ function isCurrent(href: string) {
   <nav class="drawer-panel" aria-label="Mobile navigation">
     <div class="drawer-header">
       <span class="wordmark">sk</span>
-      <button class="drawer-close" aria-label="Close menu" data-drawer-close>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
-          <line x1="18" y1="6" x2="6" y2="18"/>
-          <line x1="6" y1="6" x2="18" y2="18"/>
+      <button class="drawer-close" aria-label="Close menu" data-drawer-close tabindex="-1">
+        <svg
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          aria-hidden="true"
+        >
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
       </button>
     </div>
     <ul role="list" class="drawer-links">
-      {mainNav.map(link => (
-        <li><a href={link.href} class="drawer-link" aria-current={isCurrent(link.href) ? 'page' : undefined}>{link.label}</a></li>
-      ))}
+      {
+        mainNav.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              class="drawer-link"
+              aria-current={isCurrent(link.href) ? 'page' : undefined}
+              tabindex="-1"
+            >
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
     </ul>
     <button
       class="drawer-contact"
@@ -81,6 +117,7 @@ function isCurrent(href: string) {
       aria-controls="contact-modal"
       data-contact-trigger
       data-drawer-close-on-contact
+      tabindex="-1"
     >
       Get in touch
     </button>
@@ -89,45 +126,65 @@ function isCurrent(href: string) {
 
 <script>
   function initHeader() {
-    const menuBtn   = document.querySelector<HTMLButtonElement>('[data-menu-btn]');
-    const drawer    = document.querySelector<HTMLElement>('[data-drawer]');
-    const closeBtns = document.querySelectorAll<HTMLElement>('[data-drawer-close], [data-drawer-backdrop]');
+    const menuBtn = document.querySelector<HTMLButtonElement>('[data-menu-btn]');
+    const drawer = document.querySelector<HTMLElement>('[data-drawer]');
+    const closeBtns = document.querySelectorAll<HTMLElement>(
+      '[data-drawer-close], [data-drawer-backdrop]'
+    );
+
+    const focusableDrawerEls = drawer?.querySelectorAll<HTMLElement>(
+      '.drawer-close, .drawer-link, .drawer-contact'
+    );
 
     function openDrawer() {
       drawer?.setAttribute('aria-hidden', 'false');
       drawer?.classList.add('is-open');
       menuBtn?.setAttribute('aria-expanded', 'true');
       document.body.style.overflow = 'hidden';
+      focusableDrawerEls?.forEach((el) => el.removeAttribute('tabindex'));
     }
     function closeDrawer() {
       drawer?.setAttribute('aria-hidden', 'true');
       drawer?.classList.remove('is-open');
       menuBtn?.setAttribute('aria-expanded', 'false');
       document.body.style.overflow = '';
+      focusableDrawerEls?.forEach((el) => el.setAttribute('tabindex', '-1'));
     }
 
     menuBtn?.addEventListener('click', openDrawer);
-    closeBtns.forEach(el => el.addEventListener('click', closeDrawer));
-    drawer?.querySelectorAll('.drawer-link').forEach(link => link.addEventListener('click', closeDrawer));
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
+    closeBtns.forEach((el) => el.addEventListener('click', closeDrawer));
+    drawer
+      ?.querySelectorAll('.drawer-link')
+      .forEach((link) => link.addEventListener('click', closeDrawer));
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeDrawer();
+    });
 
     // Keep --header-height in sync
     const header = document.querySelector<HTMLElement>('.site-header');
     function syncHeight() {
-      if (header) document.documentElement.style.setProperty('--header-height', header.getBoundingClientRect().height + 'px');
+      if (header)
+        document.documentElement.style.setProperty(
+          '--header-height',
+          header.getBoundingClientRect().height + 'px'
+        );
     }
     syncHeight();
     new ResizeObserver(syncHeight).observe(document.body);
 
     // Hide on scroll down, reveal on scroll up
     let lastY = 0;
-    window.addEventListener('scroll', () => {
-      const y = window.scrollY;
-      if (y < 80) header?.classList.remove('header-hidden');
-      else if (y > lastY) header?.classList.add('header-hidden');
-      else header?.classList.remove('header-hidden');
-      lastY = y;
-    }, { passive: true });
+    window.addEventListener(
+      'scroll',
+      () => {
+        const y = window.scrollY;
+        if (y < 80) header?.classList.remove('header-hidden');
+        else if (y > lastY) header?.classList.add('header-hidden');
+        else header?.classList.remove('header-hidden');
+        lastY = y;
+      },
+      { passive: true }
+    );
   }
 
   document.addEventListener('DOMContentLoaded', initHeader);
@@ -143,7 +200,9 @@ function isCurrent(href: string) {
     padding: var(--space-4) 0;
     transition: transform 280ms ease;
   }
-  .site-header.header-hidden { transform: translateY(-110%); }
+  .site-header.header-hidden {
+    transform: translateY(-110%);
+  }
 
   .header-inner {
     display: flex;
@@ -174,7 +233,9 @@ function isCurrent(href: string) {
     transition: color 150ms ease;
   }
   .desktop-nav a:hover,
-  .desktop-nav a[aria-current="page"] { color: var(--color-text); }
+  .desktop-nav a[aria-current='page'] {
+    color: var(--color-text);
+  }
 
   .header-controls {
     display: flex;
@@ -183,7 +244,10 @@ function isCurrent(href: string) {
     margin-left: auto;
   }
 
-  .mode-group { display: flex; align-items: center; }
+  .mode-group {
+    display: flex;
+    align-items: center;
+  }
   .mode-group :global(.dark-toggle) {
     border-radius: var(--radius-sm) 0 0 var(--radius-sm);
     border-right: none;
@@ -204,8 +268,13 @@ function isCurrent(href: string) {
     cursor: pointer;
     transition: opacity 150ms ease;
   }
-  .contact-trigger:hover { opacity: 0.85; }
-  .contact-trigger:active { opacity: 0.7; transform: scale(0.97); }
+  .contact-trigger:hover {
+    opacity: 0.85;
+  }
+  .contact-trigger:active {
+    opacity: 0.7;
+    transform: scale(0.97);
+  }
 
   /* Social dock — normal flow, right-aligned under the button */
   .social-dock {
@@ -234,13 +303,17 @@ function isCurrent(href: string) {
     border-radius: var(--radius-sm);
     color: var(--color-muted);
     cursor: pointer;
-    transition: color 150ms ease, border-color 150ms ease;
+    transition:
+      color 150ms ease,
+      border-color 150ms ease;
   }
   .menu-btn:hover {
     color: var(--color-text);
     border-color: var(--color-accent);
   }
-  .menu-btn:active { transform: scale(0.93); }
+  .menu-btn:active {
+    transform: scale(0.93);
+  }
 
   /* Header tooltips appear below */
   .site-header :global([data-tooltip]::after) {
@@ -250,14 +323,24 @@ function isCurrent(href: string) {
   }
 
   @media (max-width: 900px) {
-    .desktop-nav { display: none; }
-    .header-inner { gap: var(--space-4); }
-    .menu-btn { display: flex; }
-    .contact-trigger { display: none; }
+    .desktop-nav {
+      display: none;
+    }
+    .header-inner {
+      gap: var(--space-4);
+    }
+    .menu-btn {
+      display: flex;
+    }
+    .contact-trigger {
+      display: none;
+    }
   }
 
   @media (max-width: 640px) {
-    .header-controls { gap: var(--space-2); }
+    .header-controls {
+      gap: var(--space-2);
+    }
   }
 
   /* ── Drawer ─────────────────────────────────────────── */
@@ -267,7 +350,9 @@ function isCurrent(href: string) {
     z-index: 200;
     pointer-events: none;
   }
-  .drawer.is-open { pointer-events: all; }
+  .drawer.is-open {
+    pointer-events: all;
+  }
 
   .drawer-backdrop {
     position: absolute;
@@ -277,7 +362,9 @@ function isCurrent(href: string) {
     transition: opacity 250ms ease;
     cursor: pointer;
   }
-  .drawer.is-open .drawer-backdrop { opacity: 1; }
+  .drawer.is-open .drawer-backdrop {
+    opacity: 1;
+  }
 
   .drawer-panel {
     position: absolute;
@@ -294,7 +381,9 @@ function isCurrent(href: string) {
     transform: translateX(100%);
     transition: transform 250ms ease;
   }
-  .drawer.is-open .drawer-panel { transform: translateX(0); }
+  .drawer.is-open .drawer-panel {
+    transform: translateX(0);
+  }
 
   .drawer-header {
     display: flex;
@@ -313,7 +402,9 @@ function isCurrent(href: string) {
     border-radius: var(--radius-sm);
     color: var(--color-muted);
     cursor: pointer;
-    transition: color 150ms ease, border-color 150ms ease;
+    transition:
+      color 150ms ease,
+      border-color 150ms ease;
   }
   .drawer-close:hover {
     color: var(--color-text);
@@ -338,8 +429,11 @@ function isCurrent(href: string) {
     border-bottom: 1px solid var(--color-surface);
     transition: color 150ms ease;
   }
-  .drawer-link:hover { color: var(--color-accent); text-decoration: none; }
-  .drawer-link[aria-current="page"] {
+  .drawer-link:hover {
+    color: var(--color-accent);
+    text-decoration: none;
+  }
+  .drawer-link[aria-current='page'] {
     color: var(--color-accent);
   }
 
@@ -355,6 +449,7 @@ function isCurrent(href: string) {
     transition: opacity 150ms ease;
     width: 100%;
   }
-  .drawer-contact:hover { opacity: 0.85; }
-
+  .drawer-contact:hover {
+    opacity: 0.85;
+  }
 </style>

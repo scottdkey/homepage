@@ -7,7 +7,7 @@ export const prerender = true;
 
 export async function getStaticPaths() {
   const posts = await getCollection('notes', ({ data }) => !data.draft);
-  return posts.map(post => ({
+  return posts.map((post) => ({
     params: { slug: post.id },
     props: { post },
   }));
@@ -16,6 +16,7 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const { Content } = await render(post);
 ---
+
 <PageLayout title={post.data.title} description={post.data.description} prose={true}>
   <article class="prose page-wrap">
     <PageHero tag="Notes" title={post.data.title} />
@@ -24,5 +25,7 @@ const { Content } = await render(post);
 </PageLayout>
 
 <style>
-  .page-wrap { padding: var(--space-12) 0; }
+  .page-wrap {
+    padding: var(--space-12) 0;
+  }
 </style>

@@ -17,7 +17,7 @@ services:
     volumes:
       - ./data:/app/data
     ports:
-      - "3001:3001"
+      - '3001:3001'
 ```
 
 Access at `http://<host>:3001`. Create an admin account on first visit.

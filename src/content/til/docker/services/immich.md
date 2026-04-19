@@ -35,12 +35,12 @@ Access at `http://<host>:2283`. First user to register becomes admin.
 
 ## Containers
 
-| Service | Role |
-|---|---|
-| `immich-server` | Main API and web UI |
+| Service                   | Role                          |
+| ------------------------- | ----------------------------- |
+| `immich-server`           | Main API and web UI           |
 | `immich-machine-learning` | Face recognition, CLIP search |
-| `postgres` | Database |
-| `redis` | Job queue |
+| `postgres`                | Database                      |
+| `redis`                   | Job queue                     |
 
 ## External library
 

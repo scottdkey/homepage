@@ -1,5 +1,7 @@
 ---
+
 ---
+
 <style is:global>
   pre {
     position: relative;
@@ -25,7 +27,10 @@
     letter-spacing: 0.05em;
     pointer-events: none;
     opacity: 0;
-    transition: opacity 120ms ease, color 120ms ease, border-color 120ms ease;
+    transition:
+      opacity 120ms ease,
+      color 120ms ease,
+      border-color 120ms ease;
     line-height: 1.6;
     user-select: none;
   }
@@ -42,7 +47,7 @@
 </style>
 
 <script>
-  document.querySelectorAll<HTMLElement>('pre').forEach(pre => {
+  document.querySelectorAll<HTMLElement>('pre').forEach((pre) => {
     const hint = document.createElement('span');
     hint.className = 'copy-hint';
     hint.textContent = 'copy';

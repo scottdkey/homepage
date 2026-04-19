@@ -7,11 +7,13 @@ tags: [nfs, nas, linux]
 If you mount a subdirectory of an NFS export rather than the root of the share, you'll get **stale file handle** errors when the NFS server restarts or the share is unmounted and remounted on the server side.
 
 **Don't do this:**
+
 ```
 192.168.1.10:/volume1/data/appdata  /mnt/appdata  nfs  defaults  0 0
 ```
 
 **Do this instead — mount the root share and use a subdirectory locally:**
+
 ```
 192.168.1.10:/volume1/data  /mnt/nas  nfs  defaults  0 0
 ```

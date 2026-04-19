@@ -1,5 +1,7 @@
 ---
+
 ---
+
 <button
   class="reading-toggle"
   aria-pressed="false"
@@ -18,7 +20,10 @@
     function syncBtn() {
       const on = localStorage.getItem('readingMode') === 'true';
       btn!.setAttribute('aria-pressed', String(on));
-      btn!.setAttribute('data-tooltip', on ? 'Atkinson — click to reset' : 'Switch to Atkinson font');
+      btn!.setAttribute(
+        'data-tooltip',
+        on ? 'Atkinson — click to reset' : 'Switch to Atkinson font'
+      );
     }
     syncBtn();
 
@@ -50,13 +55,17 @@
     font-family: 'Commit Mono', monospace;
     font-weight: 700;
     cursor: pointer;
-    transition: color 150ms ease, border-color 150ms ease;
+    transition:
+      color 150ms ease,
+      border-color 150ms ease;
     line-height: 1;
   }
   .reading-toggle:hover,
-  .reading-toggle[aria-pressed="true"] {
+  .reading-toggle[aria-pressed='true'] {
     color: var(--color-text);
     border-color: var(--color-accent);
   }
-  .reading-toggle:active { transform: scale(0.93); }
+  .reading-toggle:active {
+    transform: scale(0.93);
+  }
 </style>
