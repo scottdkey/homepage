@@ -7,14 +7,14 @@ tags: [docker, build]
 A multi-stage build uses multiple `FROM` statements in one Dockerfile. Only the final stage ships — earlier stages are discarded.
 
 ```dockerfile
-FROM node:20-alpine AS builder
+FROM node:24-alpine AS builder
 WORKDIR /app
 COPY package*.json ./
 RUN npm ci
 COPY . .
 RUN npm run build
 
-FROM node:20-alpine
+FROM node:24-alpine
 WORKDIR /app
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/node_modules ./node_modules
@@ -27,7 +27,7 @@ The `builder` stage has all dev dependencies and source files. The final stage g
 
 **Only copy what runs.** Don't `COPY . .` in the final stage — enumerate exactly what the app needs.
 
-**Pin your base images.** `node:20-alpine` can change. Use digest pins for production: `node:20-alpine@sha256:...`.
+**Pin your base images.** `node:24-alpine` can change. Use digest pins for production: `node:20-alpine@sha256:...`.
 
 **Build args in the right stage.** A `--build-arg` passed at build time is only visible in the stage where `ARG` is declared. Declare it in each stage that needs it.
 

@@ -13,7 +13,7 @@ const tree: Record<string, TilNode> = {};
 for (const entry of entries) {
   const parts = entry.id.split('/');
   const topCat = parts[0];
-  const subPath = parts.slice(1, -1); // segments between top-level dir and filename
+  const subPath = parts.slice(1, -1);
 
   if (!tree[topCat]) tree[topCat] = { entries: [], children: {} };
 
@@ -26,15 +26,41 @@ for (const entry of entries) {
 }
 
 const sortedTree = Object.entries(tree).sort(([a], [b]) => a.localeCompare(b));
+
+// Search index — serialized at build time, consumed by client JS
+const searchIndex = entries.map((e) => ({
+  id: e.id,
+  title: e.data.title,
+  tags: e.data.tags,
+  desc: e.data.description ?? '',
+  date: e.data.pubDate.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  }),
+  // category path for display: "docker / host-setup"
+  path: e.id.split('/').slice(0, -1).join(' / '),
+}));
 ---
 
 <PageLayout title="TIL">
   <div class="page-wrap">
     <PageHero title="Today I Learned" />
 
+    <div class="search-wrap">
+      <input
+        id="til-search"
+        class="search-input"
+        type="search"
+        placeholder="Search topics, tags…"
+        autocomplete="off"
+        spellcheck="false"
+      />
+    </div>
+
     {entries.length === 0 && <p style="color: var(--color-muted)">No entries yet.</p>}
 
-    <div class="til-tree">
+    <div id="til-tree" class="til-tree">
       {
         sortedTree.map(([cat, node]) => (
           <div class="til-branch">
@@ -44,14 +70,183 @@ const sortedTree = Object.entries(tree).sort(([a], [b]) => a.localeCompare(b));
         ))
       }
     </div>
+
+    <div id="til-results" class="til-results" hidden></div>
   </div>
 </PageLayout>
+
+<script is:inline define:vars={{ searchIndex }}>
+  const input = document.getElementById('til-search');
+  const treeEl = document.getElementById('til-tree');
+  const resultsEl = document.getElementById('til-results');
+
+  function highlight(text, query) {
+    if (!query) return text;
+    const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return text.replace(new RegExp(`(${escaped})`, 'gi'), '<mark>$1</mark>');
+  }
+
+  function renderResults(q) {
+    const norm = q.toLowerCase().trim();
+
+    if (!norm) {
+      treeEl.hidden = false;
+      resultsEl.hidden = true;
+      resultsEl.innerHTML = '';
+      return;
+    }
+
+    const matched = searchIndex.filter(
+      (e) =>
+        e.title.toLowerCase().includes(norm) ||
+        e.tags.some((t) => t.toLowerCase().includes(norm)) ||
+        e.desc.toLowerCase().includes(norm) ||
+        e.path.toLowerCase().includes(norm)
+    );
+
+    treeEl.hidden = true;
+    resultsEl.hidden = false;
+
+    if (matched.length === 0) {
+      resultsEl.innerHTML = `<p class="search-empty">No results for "<strong>${q}</strong>"</p>`;
+      return;
+    }
+
+    resultsEl.innerHTML = matched
+      .map(
+        (e) => `
+      <a class="search-result" href="/til/${e.id}">
+        ${e.path ? `<span class="result-path">${e.path}</span>` : ''}
+        <span class="result-title">${highlight(e.title, q)}</span>
+        ${e.desc ? `<span class="result-desc">${highlight(e.desc, q)}</span>` : ''}
+        <span class="result-meta">
+          ${e.tags.map((t) => `<span class="result-tag">${t}</span>`).join('')}
+          <span class="result-date">${e.date}</span>
+        </span>
+      </a>
+    `
+      )
+      .join('');
+  }
+
+  input.addEventListener('input', (e) => renderResults(e.target.value));
+</script>
 
 <style is:global>
   .page-wrap {
     padding: var(--space-12) 0;
   }
 
+  /* ── Search ──────────────────────────────────── */
+  .search-wrap {
+    margin-bottom: var(--space-10);
+    max-width: var(--prose-width);
+  }
+
+  .search-input {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    font-family: 'Commit Mono', monospace;
+    background: var(--color-surface);
+    color: var(--color-text);
+    border: 1px solid var(--color-border, rgba(128, 128, 128, 0.25));
+    border-radius: var(--radius-sm);
+    outline: none;
+    transition: border-color 120ms ease;
+  }
+
+  .search-input:focus {
+    border-color: var(--color-accent);
+  }
+
+  .search-input::placeholder {
+    color: var(--color-muted);
+    opacity: 0.6;
+  }
+
+  /* ── Results ─────────────────────────────────── */
+  .til-results {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    max-width: var(--prose-width);
+  }
+
+  .search-empty {
+    color: var(--color-muted);
+    font-size: 0.875rem;
+  }
+
+  .search-result {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface);
+    text-decoration: none !important;
+    transition: background 120ms ease;
+  }
+
+  .search-result:hover {
+    background: var(--color-surface-raised, var(--color-surface));
+    outline: 1px solid var(--color-accent);
+  }
+
+  .result-path {
+    font-size: 0.65rem;
+    font-family: 'Commit Mono', monospace;
+    color: var(--color-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    opacity: 0.7;
+  }
+
+  .result-title {
+    font-size: 0.9rem;
+    color: var(--color-text) !important;
+    line-height: 1.4;
+  }
+
+  .result-desc {
+    font-size: 0.8rem;
+    color: var(--color-muted);
+    line-height: 1.5;
+  }
+
+  .result-meta {
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: 0.15rem;
+  }
+
+  .result-tag {
+    font-size: 0.65rem;
+    font-family: 'Commit Mono', monospace;
+    background: var(--color-mono-faint, rgba(128, 128, 128, 0.12));
+    color: var(--color-muted);
+    padding: 0.1rem 0.4rem;
+    border-radius: var(--radius-sm);
+  }
+
+  .result-date {
+    font-size: 0.65rem;
+    font-family: 'Commit Mono', monospace;
+    color: var(--color-muted);
+    opacity: 0.6;
+    margin-left: auto;
+  }
+
+  mark {
+    background: transparent;
+    color: var(--color-accent);
+    font-weight: 600;
+  }
+
+  /* ── Tree ────────────────────────────────────── */
   .til-tree {
     display: flex;
     flex-direction: column;
