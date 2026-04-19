@@ -51,8 +51,8 @@ export const jobs: Job[] = [
     printBullets: [
       "One of two founding engineers on Rebuy.app, Rebuy's greenfield B2B commerce platform. Primary engineer across every surface: merchant dashboard, customer checkout, Fastify API, Payouts system, and the internal tooling layer.",
       "<strong>Payouts (owner):</strong> Designed and built the end-to-end payout system from scratch — Stripe Connect integration, idempotency keys to prevent double-pays, ledger reconciliation against Stripe's API, exactly-once guarantees via pre-transfer invariant guards, and an append-only audit log. Architected for reuse across the wider Rebuy platform.",
-      '<strong>Carl CLI (sole author):</strong> Unified developer CLI that orchestrates ~18 containers across 5 Docker Compose stacks, 3 bare-metal Node servers, a Cloudflare Tunnel, Caddy reverse proxy, Stripe listener, and live GKE kubectl contexts. New engineer onboarding: 3 commands. Also owns vulnerability scanning, Helm/GKE deploys, and the E2E test runner.',
-      '<strong>@rebuy/tributary (sole author):</strong> Internal OpenAPI-to-TypeScript code generator. One command produces typed fetchers, Zod schemas, React Query hooks, and a Next.js server/client proxy across four services — eliminating API-contract drift entirely. Published as a private npm package on GCP Artifact Registry.',
+      '<strong>Carl CLI (author):</strong> Unified developer CLI that orchestrates ~18 containers across 5 Docker Compose stacks, 3 bare-metal Node servers, a Cloudflare Tunnel, Caddy reverse proxy, Stripe listener, and live GKE kubectl contexts. New engineer onboarding: 3 commands. Also owns vulnerability scanning, Helm/GKE deploys, and the E2E test runner.',
+      '<strong>@rebuy/tributary (author):</strong> Internal OpenAPI-to-TypeScript code generator. One command produces typed fetchers, Zod schemas, React Query hooks, and a Next.js server/client proxy across four services — eliminating API-contract drift entirely. Published as a private npm package on GCP Artifact Registry.',
       "<strong>@rebuy/ice-age (maintainer):</strong> Inherited and extended Rebuy's Kysely migration framework — added transaction isolation guards, Pino logging, and an interactive schema visualizer (Preact + esbuild) with pan/zoom, FK mapping, drift detection, and multi-service federation.",
       '<strong>Shopify embeddable (author):</strong> React/Vite widget embedded into merchant Shopify themes via Liquid. Same-origin proxy eliminates CORS; Shopify passthrough auth via bod-shopify-connector. Versioned artifacts deployed to GCS.',
       'Primary CI/CD author (Bitbucket Pipelines + GKE/Helm). Led production upgrade to Next.js 16 + React 19 with React Compiler enabled in prod.',
@@ -71,7 +71,7 @@ export const jobs: Job[] = [
         heading: 'Carl CLI',
         paragraphs: [
           "Carl is the unified development CLI I authored for rebuy.app. It started as individual scripts I didn't want to lose and grew into the tool every engineer on the platform uses every day. `carl dev` orchestrates roughly 18 containers across 5 Docker Compose stacks — each service (bod-api, bod-shopify-connector, bod-accounts) has its own dedicated Postgres instance and migrator, plus workers, a Cloudflare Tunnel, a Caddy reverse proxy, a Stripe listener, a data seeder, and a test runner — plus three bare-metal Node dev servers and live kubectl contexts pointing at staging and prod.",
-          'One command. Onboarding a new engineer is three commands: `git clone`, `carl init`, `carl dev`. Init handles Homebrew, direnv, 1Password CLI, version-manager detection, all five repo clones, and shell configuration. Beyond local dev, Carl owns vulnerability scanning, Helm-based GKE deploys, cluster access, integration and E2E test runners, and an OpenAPI validation pipeline. Ten command categories, ~25 scripts, one author.',
+          'One command. Onboarding a new engineer is three commands: `git clone`, `carl init`, `carl dev`. Init handles Homebrew, direnv, 1Password CLI, version-manager detection, all five repo clones, and shell configuration. Beyond local dev, Carl owns vulnerability scanning, Helm-based GKE deploys, cluster access, integration and E2E test runners, and an OpenAPI validation pipeline. Ten command categories, ~25 scripts.',
         ],
       },
       {
@@ -140,7 +140,7 @@ export const jobs: Job[] = [
         heading: 'SHAFT — Self Help App FinTech',
         paragraphs: [
           'SHAFT is an internal Next.js tool I authored at Pluralsight. It integrates Kafka streams, RabbitMQ streams, and Salesforce to surface provisioning discrepancies in real time — data mismatches between billing systems and customer records that would otherwise require an engineer to investigate and manually correct.',
-          'SHAFT put that capability in the hands of ~20 non-technical stakeholders with specific financial permissions. I was the primary author, built it solo, and handed it to the team to iterate on.',
+          'SHAFT put that capability in the hands of ~20 non-technical stakeholders with specific financial permissions. I was the primary author and handed it to the team to iterate on.',
         ],
       },
       {
@@ -181,7 +181,7 @@ export const jobs: Job[] = [
       'Built Ignition plugins in Kotlin (SFTP module) and authored development tooling from scratch for a polyglot environment (Java/Python/HTML/React).',
     ],
     printBullets: [
-      'Sole programmer at an industrial engineering consultancy. Built React UIs on top of Ignition SCADA for city-scale infrastructure clients — sensor dashboards, live alerting, and automation controls.',
+      'Software engineer at an industrial engineering consultancy. Built React UIs on top of Ignition SCADA for city-scale infrastructure clients — sensor dashboards, live alerting, and automation controls.',
       'Logan, Utah water treatment plant (most involved): ~1,000 operator screens with tens of thousands of live sensor data points. Primary interface for plant monitoring and automation control.',
       'Built development tooling from scratch for a polyglot environment (JVM/Python/HTML/React). Authored a compiled Kotlin SFTP plugin installed into production Ignition systems.',
     ],
@@ -190,7 +190,7 @@ export const jobs: Job[] = [
         id: 'the-work',
         heading: 'React on top of industrial infrastructure',
         paragraphs: [
-          'SKM Engineering is an industrial engineering consultancy. My role was explicitly programmer — I was brought in to build the software layer on top of the SCADA systems their engineers designed. Most of the staff held engineering degrees; I wrote the code. That meant working directly with multiple clients to understand what operators needed and translating that into working interfaces.',
+          'SKM Engineering is an industrial engineering consultancy. I built the software layer on top of the SCADA systems their engineers designed — working directly with multiple clients to understand what operators needed and translating that into working interfaces.',
           'The stack was polyglot by necessity: Ignition SCADA runs on the JVM, scripting is Python, and the frontend is HTML/CSS/JS with React components injected into the environment. Nothing was built for modern web tooling. Every development workflow I wanted required building it from scratch. I also built a compiled Kotlin SFTP plugin — installed directly into client Ignition systems — that became part of the standard deployment.',
         ],
       },
