@@ -173,14 +173,43 @@ export const jobs: Job[] = [
     dates: 'Jan 2021–Nov 2021',
     site: 'https://skmeng.com/',
     intro:
-      'Built operational UIs for water and wastewater management systems using Ignition SCADA.',
-    stack: ['Ignition SCADA'],
+      'Built React UIs for industrial SCADA systems — sensor dashboards, alerting, and automation controls for city-scale infrastructure including the Logan, Utah water treatment plant.',
+    stack: ['React', 'Python', 'Kotlin', 'Ignition SCADA', 'Java'],
     bullets: [
-      'Built operational UIs for water and wastewater management systems using Ignition SCADA.',
+      'Built React UIs for industrial SCADA systems serving city-scale infrastructure.',
+      'Logan, Utah water treatment plant: ~1,000 screens, tens of thousands of live data points, operator controls for automation flows.',
+      'Built Ignition plugins in Kotlin (SFTP module) and authored development tooling from scratch for a polyglot environment (Java/Python/HTML/React).',
     ],
     printBullets: [
-      'Built operational UIs for water and wastewater management systems using Ignition SCADA.',
+      'Sole programmer at an industrial engineering consultancy. Built React UIs on top of Ignition SCADA for city-scale infrastructure clients — sensor dashboards, live alerting, and automation controls.',
+      'Logan, Utah water treatment plant (most involved): ~1,000 operator screens with tens of thousands of live sensor data points. Primary interface for plant monitoring and automation control.',
+      'Built development tooling from scratch for a polyglot environment (JVM/Python/HTML/React). Authored a compiled Kotlin SFTP plugin installed into production Ignition systems.',
     ],
-    sections: [],
+    sections: [
+      {
+        id: 'the-work',
+        heading: 'React on top of industrial infrastructure',
+        paragraphs: [
+          'SKM Engineering is an industrial engineering consultancy. My role was explicitly programmer — I was brought in to build the software layer on top of the SCADA systems their engineers designed. Most of the staff held engineering degrees; I wrote the code. That meant working directly with multiple clients to understand what operators needed and translating that into working interfaces.',
+          'The stack was polyglot by necessity: Ignition SCADA runs on the JVM, scripting is Python, and the frontend is HTML/CSS/JS with React components injected into the environment. Nothing was built for modern web tooling. Every development workflow I wanted required building it from scratch. I also built a compiled Kotlin SFTP plugin — installed directly into client Ignition systems — that became part of the standard deployment.',
+        ],
+      },
+      {
+        id: 'logan',
+        heading: 'Logan Water Treatment Plant',
+        paragraphs: [
+          'The most involved project was the Logan, Utah water treatment plant — a full SCADA front-end serving as the primary operator interface for the facility. Roughly 1,000 screens backed by tens of thousands of individual data points. Operators used it for everything: live sensor readouts, plant-wide alerting, UI animations that reflected actual physical state, and controls for the automation flows managing the treatment process itself.',
+          "At that scale, the display layer has real operational weight. The right data needs to be visible at a glance, alerts need to surface without noise, and controls need to be trustworthy. I implemented across the full stack — from individual sensor readout panels up through the automation control interfaces. Systems went live and were handed off to the city's own engineering teams for ongoing operations.",
+        ],
+      },
+      {
+        id: 'tooling',
+        heading: 'Building tooling for an environment that had none',
+        paragraphs: [
+          "Ignition wasn't designed for component-based development. Getting React components into the stack required building the injection pipeline myself. Getting any kind of consistent build and deploy workflow required learning and extending the Ignition plugin system — a process that ended with me shipping a Kotlin plugin with its own build toolchain.",
+          'Each client integration was a fresh challenge — different hardware, different PLC configurations, different operational requirements. The job was as much infrastructure and tooling work as it was UI development.',
+        ],
+      },
+    ],
   },
 ];

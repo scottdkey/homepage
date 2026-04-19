@@ -57,8 +57,7 @@ const skills = [
       <div class="card-grid">
         {
           jobs.map((job) => {
-            const hasCaseStudy = job.slug !== 'skm';
-            const href = hasCaseStudy ? `/projects/${job.slug}` : null;
+            const href = job.sections.length > 0 ? `/projects/${job.slug}` : null;
             return (
               <article class:list={['job-card', { 'job-card--link': !!href }]}>
                 {href && <a class="job-card-overlay" href={href} aria-label={job.company} />}
@@ -304,7 +303,6 @@ const skills = [
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: var(--space-4);
-    align-items: start;
   }
   .card-grid--3 {
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
