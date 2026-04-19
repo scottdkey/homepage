@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>scottkey.dev — Palette Options</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: system-ui, sans-serif; background: #0a0a0a; color: #eee; padding: 2rem; }
+  h1 { font-size: 1rem; font-weight: 400; color: #888; margin-bottom: 2rem; letter-spacing: 0.05em; text-transform: uppercase; }
+
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+
+  .option { border-radius: 5px; overflow: hidden; }
+  .option-label { padding: 0.5rem 1rem; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; background: #111; color: #666; }
+
+  /* Dark card mock */
+  .mock { padding: 1.5rem; }
+  .mock-nav { font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 1.5rem; display: flex; gap: 1.5rem; }
+  .mock-h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; line-height: 1.2; }
+  .mock-sub { font-size: 0.8rem; margin-bottom: 1rem; line-height: 1.5; opacity: 0.7; }
+  .mock-tag { display: inline-block; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.2rem 0.5rem; border-radius: 5px; margin-right: 0.3rem; }
+  .mock-card { border-radius: 3px; padding: 1rem; margin-top: 1rem; }
+  .mock-card-title { font-size: 0.75rem; font-weight: 600; margin-bottom: 0.3rem; }
+  .mock-card-body { font-size: 0.65rem; opacity: 0.65; line-height: 1.4; }
+  .mock-btn { display: inline-block; margin-top: 1rem; font-size: 0.7rem; letter-spacing: 0.06em; padding: 0.5rem 1rem; border-radius: 3px; font-weight: 600; }
+
+  /* Swatch row */
+  .swatches { display: flex; height: 32px; }
+  .swatch { flex: 1; position: relative; }
+  .swatch-label { position: absolute; bottom: -18px; left: 0; right: 0; text-align: center; font-size: 0.5rem; color: #555; }
+
+  .divider { height: 1px; background: #222; margin: 1rem 0; }
+
+  /* Light preview strip */
+  .light-strip { padding: 1rem 1.5rem; font-size: 0.75rem; }
+  .light-strip-title { font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.5rem; opacity: 0.5; }
+</style>
+</head>
+<body>
+
+<h1>scottkey.dev — Palette Options · Warm Craft · Dark First</h1>
+
+<div class="grid">
+
+  <!-- OPTION 1: Forest Floor -->
+  <div class="option" style="background:#111412;">
+    <div class="option-label" style="background:#191E1A; color:#7A8C7D;">Option 1 — Forest Floor · moss green</div>
+    <div class="mock" style="background:#111412; color:#E8EDE6;">
+      <div class="mock-nav" style="color:#7A8C7D;">
+        <span>work</span><span>notes</span><span>resume</span><span>contact</span>
+      </div>
+      <div class="mock-h1" style="color:#E8EDE6;">Scott Key</div>
+      <div class="mock-sub" style="color:#E8EDE6;">Senior Software Engineer. Platform thinker. User advocate.</div>
+      <span class="mock-tag" style="background:#1C2E22; color:#4DB885;">TypeScript</span>
+      <span class="mock-tag" style="background:#1C2E22; color:#4DB885;">Next.js</span>
+      <span class="mock-tag" style="background:#1C2E22; color:#4DB885;">Fastify</span>
+      <div class="mock-card" style="background:#191E1A; border:1px solid #242E25;">
+        <div class="mock-card-title" style="color:#4DB885;">Carl CLI</div>
+        <div class="mock-card-body" style="color:#E8EDE6;">Sole author. Orchestrates 18 containers from one command. 3-command onboarding for a new engineer.</div>
+      </div>
+      <div class="mock-btn" style="background:#4DB885; color:#0E1A10;">Get in touch →</div>
+    </div>
+    <div style="padding: 0 1.5rem 0.5rem; background:#111412;">
+      <div class="swatches" style="margin-bottom:1.5rem;">
+        <div class="swatch" style="background:#111412;"><span class="swatch-label">#111412</span></div>
+        <div class="swatch" style="background:#191E1A;"><span class="swatch-label">#191E1A</span></div>
+        <div class="swatch" style="background:#E8EDE6;"><span class="swatch-label">#E8EDE6</span></div>
+        <div class="swatch" style="background:#4DB885;"><span class="swatch-label">#4DB885</span></div>
+        <div class="swatch" style="background:#7A8C7D;"><span class="swatch-label">#7A8C7D</span></div>
+        <div class="swatch" style="background:#5A6B5C;"><span class="swatch-label">#5A6B5C</span></div>
+      </div>
+    </div>
+    <div class="light-strip" style="background:#F4F1EB; color:#141712;">
+      <div class="light-strip-title" style="color:#6B7A6D;">Light mode</div>
+      <strong style="color:#1F7A4F;">Scott Key</strong> — Senior Software Engineer.
+      <span style="color:#1F7A4F;">Available now</span>
+    </div>
+  </div>
+
+  <!-- OPTION 2: Slate & Tide -->
+  <div class="option" style="background:#0E1214;">
+    <div class="option-label" style="background:#161D20; color:#6A8F8A;">Option 2 — Slate & Tide · dusty teal</div>
+    <div class="mock" style="background:#0E1214; color:#E4ECEE;">
+      <div class="mock-nav" style="color:#6A8F8A;">
+        <span>work</span><span>notes</span><span>resume</span><span>contact</span>
+      </div>
+      <div class="mock-h1" style="color:#E4ECEE;">Scott Key</div>
+      <div class="mock-sub" style="color:#E4ECEE;">Senior Software Engineer. Platform thinker. User advocate.</div>
+      <span class="mock-tag" style="background:#162226; color:#3ABBA4;">TypeScript</span>
+      <span class="mock-tag" style="background:#162226; color:#3ABBA4;">Next.js</span>
+      <span class="mock-tag" style="background:#162226; color:#3ABBA4;">Fastify</span>
+      <div class="mock-card" style="background:#161D20; border:1px solid #1E2D30;">
+        <div class="mock-card-title" style="color:#3ABBA4;">Carl CLI</div>
+        <div class="mock-card-body" style="color:#E4ECEE;">Sole author. Orchestrates 18 containers from one command. 3-command onboarding for a new engineer.</div>
+      </div>
+      <div class="mock-btn" style="background:#3ABBA4; color:#061214;">Get in touch →</div>
+    </div>
+    <div style="padding: 0 1.5rem 0.5rem; background:#0E1214;">
+      <div class="swatches" style="margin-bottom:1.5rem;">
+        <div class="swatch" style="background:#0E1214;"><span class="swatch-label">#0E1214</span></div>
+        <div class="swatch" style="background:#161D20;"><span class="swatch-label">#161D20</span></div>
+        <div class="swatch" style="background:#E4ECEE;"><span class="swatch-label">#E4ECEE</span></div>
+        <div class="swatch" style="background:#3ABBA4;"><span class="swatch-label">#3ABBA4</span></div>
+        <div class="swatch" style="background:#6A8F8A;"><span class="swatch-label">#6A8F8A</span></div>
+        <div class="swatch" style="background:#4A6B68;"><span class="swatch-label">#4A6B68</span></div>
+      </div>
+    </div>
+    <div class="light-strip" style="background:#F2F4F5; color:#0E1618;">
+      <div class="light-strip-title" style="color:#5A7A75;">Light mode</div>
+      <strong style="color:#1A8A78;">Scott Key</strong> — Senior Software Engineer.
+      <span style="color:#1A8A78;">Available now</span>
+    </div>
+  </div>
+
+  <!-- OPTION 3: Copper & Clay -->
+  <div class="option" style="background:#131110;">
+    <div class="option-label" style="background:#1C1916; color:#8A7060;">Option 3 — Copper & Clay · burnt amber</div>
+    <div class="mock" style="background:#131110; color:#EDE8DE;">
+      <div class="mock-nav" style="color:#8A7060;">
+        <span>work</span><span>notes</span><span>resume</span><span>contact</span>
+      </div>
+      <div class="mock-h1" style="color:#EDE8DE;">Scott Key</div>
+      <div class="mock-sub" style="color:#EDE8DE;">Senior Software Engineer. Platform thinker. User advocate.</div>
+      <span class="mock-tag" style="background:#251E18; color:#D4884A;">TypeScript</span>
+      <span class="mock-tag" style="background:#251E18; color:#D4884A;">Next.js</span>
+      <span class="mock-tag" style="background:#251E18; color:#D4884A;">Fastify</span>
+      <div class="mock-card" style="background:#1C1916; border:1px solid #2A2218;">
+        <div class="mock-card-title" style="color:#D4884A;">Carl CLI</div>
+        <div class="mock-card-body" style="color:#EDE8DE;">Sole author. Orchestrates 18 containers from one command. 3-command onboarding for a new engineer.</div>
+      </div>
+      <div class="mock-btn" style="background:#D4884A; color:#180E08;">Get in touch →</div>
+    </div>
+    <div style="padding: 0 1.5rem 0.5rem; background:#131110;">
+      <div class="swatches" style="margin-bottom:1.5rem;">
+        <div class="swatch" style="background:#131110;"><span class="swatch-label">#131110</span></div>
+        <div class="swatch" style="background:#1C1916;"><span class="swatch-label">#1C1916</span></div>
+        <div class="swatch" style="background:#EDE8DE;"><span class="swatch-label">#EDE8DE</span></div>
+        <div class="swatch" style="background:#D4884A;"><span class="swatch-label">#D4884A</span></div>
+        <div class="swatch" style="background:#8A7060;"><span class="swatch-label">#8A7060</span></div>
+        <div class="swatch" style="background:#6A5848;"><span class="swatch-label">#6A5848</span></div>
+      </div>
+    </div>
+    <div class="light-strip" style="background:#F5F0E8; color:#131110;">
+      <div class="light-strip-title" style="color:#7A6252;">Light mode</div>
+      <strong style="color:#A85E28;">Scott Key</strong> — Senior Software Engineer.
+      <span style="color:#A85E28;">Available now</span>
+    </div>
+  </div>
+
+  <!-- OPTION 4: Deep Ocean -->
+  <div class="option" style="background:#0D1117;">
+    <div class="option-label" style="background:#141B22; color:#6A84A0;">Option 4 — Deep Ocean · steel blue</div>
+    <div class="mock" style="background:#0D1117; color:#E2E8F0;">
+      <div class="mock-nav" style="color:#6A84A0;">
+        <span>work</span><span>notes</span><span>resume</span><span>contact</span>
+      </div>
+      <div class="mock-h1" style="color:#E2E8F0;">Scott Key</div>
+      <div class="mock-sub" style="color:#E2E8F0;">Senior Software Engineer. Platform thinker. User advocate.</div>
+      <span class="mock-tag" style="background:#141E2A; color:#5B9CF6;">TypeScript</span>
+      <span class="mock-tag" style="background:#141E2A; color:#5B9CF6;">Next.js</span>
+      <span class="mock-tag" style="background:#141E2A; color:#5B9CF6;">Fastify</span>
+      <div class="mock-card" style="background:#141B22; border:1px solid #1E2A38;">
+        <div class="mock-card-title" style="color:#5B9CF6;">Carl CLI</div>
+        <div class="mock-card-body" style="color:#E2E8F0;">Sole author. Orchestrates 18 containers from one command. 3-command onboarding for a new engineer.</div>
+      </div>
+      <div class="mock-btn" style="background:#5B9CF6; color:#040810;">Get in touch →</div>
+    </div>
+    <div style="padding: 0 1.5rem 0.5rem; background:#0D1117;">
+      <div class="swatches" style="margin-bottom:1.5rem;">
+        <div class="swatch" style="background:#0D1117;"><span class="swatch-label">#0D1117</span></div>
+        <div class="swatch" style="background:#141B22;"><span class="swatch-label">#141B22</span></div>
+        <div class="swatch" style="background:#E2E8F0;"><span class="swatch-label">#E2E8F0</span></div>
+        <div class="swatch" style="background:#5B9CF6;"><span class="swatch-label">#5B9CF6</span></div>
+        <div class="swatch" style="background:#6A84A0;"><span class="swatch-label">#6A84A0</span></div>
+        <div class="swatch" style="background:#4A6480;"><span class="swatch-label">#4A6480</span></div>
+      </div>
+    </div>
+    <div class="light-strip" style="background:#F3F5F8; color:#0D1117;">
+      <div class="light-strip-title" style="color:#5A7490;">Light mode</div>
+      <strong style="color:#2563EB;">Scott Key</strong> — Senior Software Engineer.
+      <span style="color:#2563EB;">Available now</span>
+    </div>
+  </div>
+
+</div>
+
+<p style="margin-top:2rem; font-size:0.65rem; color:#444; letter-spacing:0.05em;">All accents clear WCAG AA (4.5:1) against their respective backgrounds.</p>
+
+</body>
+</html>

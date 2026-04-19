@@ -1,0 +1,114 @@
+---
+interface Section {
+  id: string;
+  heading: string;
+  paragraphs: string[];
+}
+interface Props {
+  company: string;
+  title: string;
+  dates: string;
+  bullets: string[];
+  slug?: string;
+  site?: string;
+  sections?: Section[];
+}
+const { company, title, dates, bullets, slug, site, sections } = Astro.props;
+const detailHref = slug ? `/projects/${slug}` : site ?? null;
+---
+<div class="job">
+  <div class="job-header">
+    <h3>
+      {detailHref
+        ? <a href={detailHref} {...(slug ? {} : { target: '_blank', rel: 'noopener noreferrer' })}>{company}</a>
+        : company
+      }
+    </h3>
+    <span class="mono job-dates">{dates}</span>
+  </div>
+  <p class="job-title">{title}</p>
+  {bullets.length > 0 && (
+    <ul>
+      {bullets.map(b => <li set:html={b} />)}
+    </ul>
+  )}
+  {sections && sections.length > 0 && (
+    <div class="job-sections">
+      {sections.map(s => (
+        <div class="job-section">
+          <p class="job-section-heading mono">{s.heading}</p>
+          <ul class="job-section-list">
+            {s.paragraphs.map(p => <li class="job-section-body">{p}</li>)}
+          </ul>
+        </div>
+      ))}
+
+    </div>
+  )}
+</div>
+
+<style>
+  .job { margin-bottom: var(--space-8); }
+  .job-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+    margin-bottom: var(--space-1);
+  }
+  .job-header h3 { font-size: 1.5rem; }
+  .job-header a {
+    color: var(--color-text);
+    text-decoration: none;
+  }
+  .job-header a:hover { color: var(--color-accent); }
+  .job-dates { font-size: 1rem; color: var(--color-mono); white-space: nowrap; }
+  .job-title { font-size: 1.05rem; color: var(--color-accent); margin-bottom: var(--space-3); font-family: 'Commit Mono', monospace; }
+  .job ul {
+    padding-left: var(--space-5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .job li { font-size: 1rem; color: var(--color-muted); line-height: 1.75; }
+
+  .job-sections {
+    margin-top: var(--space-5);
+    padding-top: var(--space-4);
+    border-top: 1px solid color-mix(in srgb, var(--color-mono) 20%, transparent);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+  .job-section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .job-section-heading {
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-accent);
+  }
+  .job-section-list {
+    padding-left: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .job-section-body {
+    font-size: 1rem;
+    color: var(--color-muted);
+    line-height: 1.75;
+  }
+
+  @media print {
+    .job-header a { color: inherit; }
+    .job li { color: #333; }
+    .job-title { color: #555; }
+    .job-dates { color: #666; }
+    .job-sections { display: none; }
+  }
+</style>

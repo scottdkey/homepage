@@ -1,0 +1,66 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import { getCollection } from 'astro:content';
+
+const entries = await getCollection('til', ({ data }) => !data.draft);
+const byCategory = entries.reduce<Record<string, typeof entries>>((acc, e) => {
+  const cat = e.id.split('/')[0];
+  (acc[cat] ??= []).push(e);
+  return acc;
+}, {});
+---
+<PageLayout title="TIL">
+  <div class="page-wrap">
+    <PageHero title="Today I Learned" />
+
+    {entries.length === 0 && <p class="empty">No entries yet.</p>}
+
+    {Object.keys(byCategory).length > 0 && (
+      <div class="category-grid">
+        {Object.entries(byCategory).map(([cat, items]) => (
+          <section class="category-card">
+            <h2 class="category-label">{cat}</h2>
+            <ul>
+              {items.map(item => (
+                <li><a href={`/til/${item.id}`}>{item.data.title}</a></li>
+              ))}
+            </ul>
+          </section>
+        ))}
+      </div>
+    )}
+  </div>
+</PageLayout>
+
+<style>
+  .page-wrap { padding: var(--space-12) 0; }
+  .empty { color: var(--color-muted); }
+
+  .category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: var(--space-4);
+    align-items: start;
+  }
+
+  .category-card {
+    background: var(--color-surface);
+    border-radius: var(--radius-sm);
+    padding: var(--space-6);
+  }
+
+  .category-label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-mono);
+    font-family: 'Commit Mono', monospace;
+    font-weight: 600;
+    margin-bottom: var(--space-4);
+  }
+
+  ul { list-style: none; display: flex; flex-direction: column; gap: var(--space-2); }
+  li a { font-size: 0.9rem; color: var(--color-text); text-decoration: none; }
+  li a:hover { color: var(--color-accent); }
+</style>

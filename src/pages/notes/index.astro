@@ -1,0 +1,31 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('notes', ({ data }) => !data.draft);
+posts.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+---
+<PageLayout title="Notes">
+  <div class="page-wrap">
+    <PageHero title="Notes" />
+    <div class="post-list">
+      {posts.map(post => (
+        <article class="post-item">
+          <a href={`/notes/${post.id}`} class="post-title">{post.data.title}</a>
+          {post.data.description && <p class="post-desc">{post.data.description}</p>}
+        </article>
+      ))}
+      {posts.length === 0 && <p class="empty">No posts yet.</p>}
+    </div>
+  </div>
+</PageLayout>
+
+<style>
+  .page-wrap { padding: var(--space-12) 0; }
+  .post-list { display: flex; flex-direction: column; gap: var(--space-6); max-width: var(--prose-width); }
+  .post-title { font-size: 1.1rem; font-weight: 600; color: var(--color-text); text-decoration: none; }
+  .post-title:hover { color: var(--color-accent); }
+  .post-desc { color: var(--color-muted); margin-top: var(--space-2); font-size: 0.9rem; line-height: 1.6; }
+  .empty { color: var(--color-muted); }
+</style>

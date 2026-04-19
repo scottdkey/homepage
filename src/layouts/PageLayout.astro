@@ -1,0 +1,21 @@
+---
+import Base from './Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ContactModal from '../components/ContactModal.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  prose?: boolean;
+}
+const { title, description, prose = false } = Astro.props;
+---
+<Base title={title} description={description}>
+  <Header slot="header" />
+  <div class:list={['container', { prose }]} style="padding-bottom: 5rem;">
+    <slot />
+  </div>
+  <Footer slot="footer" />
+  <ContactModal />
+</Base>

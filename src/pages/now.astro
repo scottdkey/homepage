@@ -1,0 +1,76 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import DraftBanner from '../components/DraftBanner.astro';
+import PageHero from '../components/PageHero.astro';
+import { siteConfig } from '../data/config';
+---
+<PageLayout title="Now" description="What Scott Key is currently working on.">
+  <DraftBanner />
+  <div class="now-wrap">
+    <PageHero title="What I'm doing now" />
+
+    <div class="now-sections">
+      <section class="now-section">
+        <h2>Currently</h2>
+        <p>Senior Software Engineer at Rebuy. Building BOD — merchant dashboard, customer checkout, Payouts. Recently merged with the R.AI team and exploring distributed agentic systems: orchestration, multi-agent patterns, agent infrastructure.</p>
+      </section>
+
+      {siteConfig.activelyLooking && (
+        <section class="now-section">
+          <h2>Looking for</h2>
+          <p>A role with real ownership and hard problems. <button data-contact-trigger class="inline-trigger">Get in touch</button></p>
+        </section>
+      )}
+
+      <section class="now-section">
+        <h2>Side</h2>
+        <p>Running Halvor — a self-hosted platform for home automation built on Proxmox, OPNsense, and containerized services. Writing about it at <a href="/notes">/notes</a>. Building this site.</p>
+      </section>
+
+      <section class="now-section">
+        <h2>Location</h2>
+        <p>Mountain Standard Time.</p>
+      </section>
+    </div>
+  </div>
+</PageLayout>
+
+<style>
+  .now-wrap { padding: var(--space-12) 0; }
+
+  .now-sections { max-width: var(--prose-width); }
+
+  .now-section {
+    padding: var(--space-8) 0;
+    border-top: 1px solid var(--color-surface);
+  }
+
+  .now-section h2 {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-muted);
+    font-weight: 600;
+    font-family: 'Commit Mono', monospace;
+    margin-bottom: var(--space-3);
+  }
+
+  .now-section p {
+    color: var(--color-text);
+    line-height: 1.75;
+    font-size: 0.95rem;
+  }
+
+  .inline-trigger {
+    background: none;
+    border: none;
+    color: var(--color-accent);
+    font: inherit;
+    font-size: inherit;
+    padding: 0;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .inline-trigger:hover { opacity: 0.8; }
+</style>

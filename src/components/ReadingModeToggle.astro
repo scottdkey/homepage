@@ -1,0 +1,62 @@
+---
+---
+<button
+  class="reading-toggle"
+  aria-pressed="false"
+  aria-label="Reading mode"
+  data-tooltip="Accessible reading font"
+  data-reading-toggle
+>
+  Aa
+</button>
+
+<script>
+  function initReadingToggle() {
+    const btn = document.querySelector<HTMLButtonElement>('[data-reading-toggle]');
+    if (!btn) return;
+
+    function syncBtn() {
+      const on = localStorage.getItem('readingMode') === 'true';
+      btn!.setAttribute('aria-pressed', String(on));
+      btn!.setAttribute('data-tooltip', on ? 'Atkinson — click to reset' : 'Switch to Atkinson font');
+    }
+    syncBtn();
+
+    btn.addEventListener('mouseenter', syncBtn);
+    btn.addEventListener('click', () => {
+      const next = btn.getAttribute('aria-pressed') !== 'true';
+      btn.setAttribute('aria-pressed', String(next));
+      document.documentElement.setAttribute('data-reading-mode', String(next));
+      localStorage.setItem('readingMode', String(next));
+      syncBtn();
+    });
+  }
+
+  document.addEventListener('astro:page-load', initReadingToggle);
+</script>
+
+<style>
+  .reading-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    background: transparent;
+    border: 1px solid var(--color-muted);
+    border-radius: var(--radius-sm);
+    color: var(--color-muted);
+    font-size: 0.8rem;
+    font-family: 'Commit Mono', monospace;
+    font-weight: 700;
+    cursor: pointer;
+    transition: color 150ms ease, border-color 150ms ease;
+    line-height: 1;
+  }
+  .reading-toggle:hover,
+  .reading-toggle[aria-pressed="true"] {
+    color: var(--color-text);
+    border-color: var(--color-accent);
+  }
+  .reading-toggle:active { transform: scale(0.93); }
+</style>

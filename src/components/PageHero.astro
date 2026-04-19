@@ -1,0 +1,42 @@
+---
+interface Props {
+  tag?: string;
+  title: string;
+  lead?: string;
+}
+const { tag, title, lead } = Astro.props;
+---
+<header class="page-hero">
+  {tag && <p class="hero-tag">{tag}</p>}
+  <h1>{title}</h1>
+  {lead && <p class="hero-lead">{lead}</p>}
+  <slot />
+</header>
+
+<style>
+  .page-hero {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    margin-bottom: var(--space-12);
+  }
+  .hero-tag {
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-family: 'Commit Mono', monospace;
+    font-weight: 600;
+    color: var(--color-muted);
+    background: var(--color-surface);
+    display: inline-block;
+    padding: 0.2rem 0.5rem;
+    border-radius: var(--radius-sm);
+    align-self: flex-start;
+  }
+  .hero-lead {
+    font-size: 1.05rem;
+    color: var(--color-muted);
+    max-width: var(--prose-width);
+    line-height: 1.75;
+  }
+</style>

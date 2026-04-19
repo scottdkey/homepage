@@ -1,0 +1,8 @@
+/* General Sans — Fontshare */
+@import url('https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap');
+
+/* Commit Mono — Fontshare */
+@import url('https://api.fontshare.com/v2/css?f[]=commit-mono@400,700&display=swap');
+
+/* Atkinson Hyperlegible — Google Fonts (reading mode) */
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap');

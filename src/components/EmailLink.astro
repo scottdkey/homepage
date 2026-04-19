@@ -1,0 +1,51 @@
+---
+interface Props {
+  class?: string;
+  label?: string;
+  icon?: boolean;
+  'data-tooltip'?: string;
+}
+const { class: className, label, icon = false, 'data-tooltip': tooltip } = Astro.props;
+
+// Split and encode at build time — raw address never appears in HTML source.
+// Cloudflare Scrape Shield adds a second layer at the CDN edge.
+const user = 'me';
+const domain = 'scottkey';
+const tld = 'dev';
+const encoded = btoa(`${user}@${domain}.${tld}`);
+---
+<a
+  class:list={['email-link', className]}
+  href="#"
+  data-e={encoded}
+  aria-label={label ?? 'Send email'}
+  data-tooltip={tooltip}
+  data-email-link
+>
+  {icon
+    ? <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
+    : label
+      ? label
+      : <span class="email-display" aria-hidden="true" data-email-display>&#8203;</span>
+  }
+  <noscript>{user}&#64;{domain}&#46;{tld}</noscript>
+</a>
+
+<script>
+  document.querySelectorAll<HTMLAnchorElement>('[data-email-link]').forEach(el => {
+    const encoded = el.dataset.e;
+    if (!encoded) return;
+    const address = atob(encoded);
+    el.href = `mailto:${address}`;
+    const display = el.querySelector('[data-email-display]');
+    if (display) display.textContent = address;
+  });
+</script>
+
+<style>
+  .email-link { text-decoration: none; }
+  .email-link:not(.icon-link) { color: var(--color-accent); }
+  .email-link:not(.icon-link):hover { text-decoration: underline; }
+  .email-link.icon-link { color: var(--color-mono); }
+  .email-link.icon-link:hover { color: var(--color-accent); }
+</style>
