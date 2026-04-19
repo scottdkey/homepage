@@ -48,7 +48,7 @@ export const projects: Project[] = [
     description:
       'Multi-edition Shakespeare reader with lexicon, cross-edition alignment, and reference works. Covers 37 plays across five editions (First Folio 1623, Globe 1864, Folger, Standard Ebooks, Moby) with side-by-side comparison and word-level reference hovers. Built on SQLite, Go, and SvelteKit. PWA with offline capability.',
     tags: ['Go', 'SvelteKit', 'SQLite', 'Railway', 'Cloudflare'],
-    site: 'https://bardbase.pages.dev',
+    site: 'https://bardbase.scottkey.dev',
     github: 'https://github.com/scottdkey/bardbase',
   },
   {
