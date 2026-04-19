@@ -36,7 +36,7 @@ services:
 
 Create `config/mosquitto.conf`:
 
-```conf
+```ini
 listener 1883
 listener 9001
 protocol websockets
@@ -72,7 +72,7 @@ docker exec -it mosquitto \
 
 Update `mosquitto.conf`:
 
-```conf
+```ini
 allow_anonymous false
 password_file /mosquitto/config/passwd
 ```
