@@ -1,22 +1,17 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
-import PageHero from '../../components/PageHero.astro';
 import TilBranch from '../../components/TilBranch.astro';
 import type { TilNode } from '../../components/TilBranch.astro';
 import { getCollection } from 'astro:content';
 
 const entries = await getCollection('til', ({ data }) => !data.draft);
 
-// Build a recursive tree from file paths
 const tree: Record<string, TilNode> = {};
-
 for (const entry of entries) {
   const parts = entry.id.split('/');
   const topCat = parts[0];
   const subPath = parts.slice(1, -1);
-
   if (!tree[topCat]) tree[topCat] = { entries: [], children: {} };
-
   let node = tree[topCat];
   for (const seg of subPath) {
     if (!node.children[seg]) node.children[seg] = { entries: [], children: {} };
@@ -24,10 +19,8 @@ for (const entry of entries) {
   }
   node.entries.push(entry);
 }
-
 const sortedTree = Object.entries(tree).sort(([a], [b]) => a.localeCompare(b));
 
-// Search index — serialized at build time, consumed by client JS
 const searchIndex = entries.map((e) => ({
   id: e.id,
   title: e.data.title,
@@ -38,16 +31,17 @@ const searchIndex = entries.map((e) => ({
     month: 'short',
     day: 'numeric',
   }),
-  // category path for display: "docker / host-setup"
   path: e.id.split('/').slice(0, -1).join(' / '),
 }));
 ---
 
 <PageLayout title="TIL">
   <div class="page-wrap">
-    <PageHero title="Today I Learned" />
-
-    <div class="search-wrap">
+    <header class="til-header">
+      <div class="til-header-left">
+        <h1 class="til-title">Today I Learned</h1>
+        <span class="til-count">{entries.length} entries</span>
+      </div>
       <input
         id="til-search"
         class="search-input"
@@ -56,42 +50,76 @@ const searchIndex = entries.map((e) => ({
         autocomplete="off"
         spellcheck="false"
       />
+    </header>
+
+    <div class="til-body">
+      <!-- Results above tree; hidden until search fires -->
+      <div id="til-results" class="til-results" style="display:none"></div>
+
+      <!-- Tree; hidden when searching -->
+      <div id="til-tree" class="til-tree">
+        {
+          sortedTree.map(([cat, node]) => (
+            <div class="til-branch">
+              <p class="til-cat">{cat}</p>
+              <TilBranch node={node} />
+            </div>
+          ))
+        }
+      </div>
     </div>
-
-    {entries.length === 0 && <p style="color: var(--color-muted)">No entries yet.</p>}
-
-    <div id="til-tree" class="til-tree">
-      {
-        sortedTree.map(([cat, node]) => (
-          <div class="til-branch">
-            <p class="til-cat">{cat}</p>
-            <TilBranch node={node} />
-          </div>
-        ))
-      }
-    </div>
-
-    <div id="til-results" class="til-results" hidden></div>
   </div>
+
+  <!-- All-results dialog (outside page-wrap so it can fill viewport) -->
+  <dialog id="til-all-dialog" class="results-dialog">
+    <div class="dialog-inner">
+      <div class="dialog-top">
+        <span id="dialog-label" class="dialog-label"></span>
+        <button id="til-dialog-close" class="dialog-close" aria-label="Close">✕</button>
+      </div>
+      <div id="til-all-results" class="dialog-results"></div>
+    </div>
+  </dialog>
 </PageLayout>
 
 <script is:inline define:vars={{ searchIndex }}>
+  const PREVIEW = 4;
   const input = document.getElementById('til-search');
   const treeEl = document.getElementById('til-tree');
   const resultsEl = document.getElementById('til-results');
+  const dialog = document.getElementById('til-all-dialog');
+  const dialogLabel = document.getElementById('dialog-label');
+  const dialogResults = document.getElementById('til-all-results');
 
-  function highlight(text, query) {
-    if (!query) return text;
-    const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    return text.replace(new RegExp(`(${escaped})`, 'gi'), '<mark>$1</mark>');
+  function esc(str) {
+    return str.replace(
+      /[&<>"']/g,
+      (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]
+    );
+  }
+  function highlight(text, q) {
+    if (!q) return esc(text);
+    const pattern = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return esc(text).replace(new RegExp(`(${pattern})`, 'gi'), '<mark>$1</mark>');
+  }
+  function resultCard(e, q) {
+    return `<a class="search-result" href="/til/${e.id}">
+      ${e.path ? `<span class="result-path">${esc(e.path)}</span>` : ''}
+      <span class="result-title">${highlight(e.title, q)}</span>
+      ${e.desc ? `<span class="result-desc">${highlight(e.desc, q)}</span>` : ''}
+      <span class="result-meta">
+        ${e.tags.map((t) => `<span class="result-tag">${esc(t)}</span>`).join('')}
+        <span class="result-date">${esc(e.date)}</span>
+      </span>
+    </a>`;
   }
 
   function renderResults(q) {
     const norm = q.toLowerCase().trim();
 
     if (!norm) {
-      treeEl.hidden = false;
-      resultsEl.hidden = true;
+      treeEl.style.display = '';
+      resultsEl.style.display = 'none';
       resultsEl.innerHTML = '';
       return;
     }
@@ -104,78 +132,116 @@ const searchIndex = entries.map((e) => ({
         e.path.toLowerCase().includes(norm)
     );
 
-    treeEl.hidden = true;
-    resultsEl.hidden = false;
+    treeEl.style.display = 'none';
+    resultsEl.style.display = 'flex';
 
     if (matched.length === 0) {
-      resultsEl.innerHTML = `<p class="search-empty">No results for "<strong>${q}</strong>"</p>`;
+      resultsEl.innerHTML = `<p class="search-empty">No results for "<strong>${esc(q)}</strong>"</p>`;
       return;
     }
 
-    resultsEl.innerHTML = matched
-      .map(
-        (e) => `
-      <a class="search-result" href="/til/${e.id}">
-        ${e.path ? `<span class="result-path">${e.path}</span>` : ''}
-        <span class="result-title">${highlight(e.title, q)}</span>
-        ${e.desc ? `<span class="result-desc">${highlight(e.desc, q)}</span>` : ''}
-        <span class="result-meta">
-          ${e.tags.map((t) => `<span class="result-tag">${t}</span>`).join('')}
-          <span class="result-date">${e.date}</span>
-        </span>
-      </a>
-    `
-      )
-      .join('');
+    const preview = matched.slice(0, PREVIEW);
+    const extra = matched.length - PREVIEW;
+    resultsEl.innerHTML =
+      preview.map((e) => resultCard(e, q)).join('') +
+      (extra > 0
+        ? `<button class="show-all-btn" id="til-show-all">Show all ${matched.length} results</button>`
+        : '');
+
+    document.getElementById('til-show-all')?.addEventListener('click', () => {
+      dialogLabel.textContent = `${matched.length} results for "${q}"`;
+      dialogResults.innerHTML = matched.map((e) => resultCard(e, q)).join('');
+      dialog.showModal();
+    });
   }
 
   input.addEventListener('input', (e) => renderResults(e.target.value));
+
+  // Close dialog
+  document.getElementById('til-dialog-close').addEventListener('click', () => dialog.close());
+  dialog.addEventListener('click', (e) => {
+    if (e.target === dialog) dialog.close();
+  });
 </script>
 
 <style is:global>
   .page-wrap {
-    padding: var(--space-12) 0;
+    padding: var(--space-10) 0 var(--space-16);
   }
 
-  /* ── Search ──────────────────────────────────── */
-  .search-wrap {
-    margin-bottom: var(--space-10);
+  /* ── Header ──────────────────────────────────── */
+  .til-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+    flex-wrap: wrap;
+    padding-bottom: var(--space-6);
+    border-bottom: 1px solid color-mix(in srgb, var(--color-mono) 15%, transparent);
+    margin-bottom: var(--space-8);
     max-width: var(--prose-width);
   }
 
+  .til-header-left {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3);
+    flex: 1;
+    min-width: 0;
+  }
+
+  .til-title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .til-count {
+    font-size: 0.7rem;
+    font-family: 'Commit Mono', monospace;
+    color: var(--color-mono);
+    opacity: 0.5;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+  }
+
   .search-input {
-    width: 100%;
-    padding: 0.5rem 0.75rem;
-    font-size: 0.875rem;
+    flex: 1;
+    min-width: 180px;
+    max-width: 300px;
+    margin-left: auto;
+    padding: 0.4rem 0.65rem;
+    font-size: 0.8rem;
     font-family: 'Commit Mono', monospace;
     background: var(--color-surface);
     color: var(--color-text);
-    border: 1px solid var(--color-border, rgba(128, 128, 128, 0.25));
+    border: 1px solid color-mix(in srgb, var(--color-mono) 30%, transparent);
     border-radius: var(--radius-sm);
     outline: none;
     transition: border-color 120ms ease;
   }
-
   .search-input:focus {
     border-color: var(--color-accent);
   }
-
   .search-input::placeholder {
     color: var(--color-muted);
-    opacity: 0.6;
+    opacity: 0.5;
   }
 
-  /* ── Results ─────────────────────────────────── */
+  /* ── Body / Results ──────────────────────────── */
+  .til-body {
+    max-width: var(--prose-width);
+  }
+
   .til-results {
-    display: flex;
     flex-direction: column;
     gap: var(--space-2);
-    max-width: var(--prose-width);
+    margin-bottom: var(--space-4);
   }
 
   .search-empty {
     color: var(--color-muted);
     font-size: 0.875rem;
+    padding: var(--space-4) 0;
   }
 
   .search-result {
@@ -186,57 +252,54 @@ const searchIndex = entries.map((e) => ({
     border-radius: var(--radius-sm);
     background: var(--color-surface);
     text-decoration: none !important;
-    transition: background 120ms ease;
+    border: 1px solid transparent;
+    transition:
+      border-color 120ms ease,
+      background 120ms ease;
   }
-
   .search-result:hover {
-    background: var(--color-surface-raised, var(--color-surface));
-    outline: 1px solid var(--color-accent);
+    border-color: color-mix(in srgb, var(--color-accent) 50%, transparent);
+    background: color-mix(in srgb, var(--color-surface) 80%, var(--color-accent) 20%);
   }
 
   .result-path {
-    font-size: 0.65rem;
+    font-size: 0.6rem;
     font-family: 'Commit Mono', monospace;
-    color: var(--color-muted);
+    color: var(--color-mono);
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    opacity: 0.7;
+    opacity: 0.6;
   }
-
   .result-title {
-    font-size: 0.9rem;
+    font-size: 0.875rem;
     color: var(--color-text) !important;
     line-height: 1.4;
   }
-
   .result-desc {
-    font-size: 0.8rem;
+    font-size: 0.775rem;
     color: var(--color-muted);
     line-height: 1.5;
   }
-
   .result-meta {
     display: flex;
     gap: var(--space-2);
     flex-wrap: wrap;
     align-items: center;
-    margin-top: 0.15rem;
+    margin-top: 0.2rem;
   }
-
   .result-tag {
-    font-size: 0.65rem;
+    font-size: 0.6rem;
     font-family: 'Commit Mono', monospace;
-    background: var(--color-mono-faint, rgba(128, 128, 128, 0.12));
+    background: color-mix(in srgb, var(--color-mono) 12%, transparent);
     color: var(--color-muted);
     padding: 0.1rem 0.4rem;
     border-radius: var(--radius-sm);
   }
-
   .result-date {
-    font-size: 0.65rem;
+    font-size: 0.6rem;
     font-family: 'Commit Mono', monospace;
-    color: var(--color-muted);
-    opacity: 0.6;
+    color: var(--color-mono);
+    opacity: 0.5;
     margin-left: auto;
   }
 
@@ -246,12 +309,32 @@ const searchIndex = entries.map((e) => ({
     font-weight: 600;
   }
 
+  .show-all-btn {
+    align-self: flex-start;
+    margin-top: var(--space-1);
+    background: transparent;
+    border: 1px solid color-mix(in srgb, var(--color-mono) 35%, transparent);
+    border-radius: var(--radius-sm);
+    color: var(--color-muted);
+    font-size: 0.75rem;
+    font-family: 'Commit Mono', monospace;
+    letter-spacing: 0.04em;
+    padding: 0.35rem 0.75rem;
+    cursor: pointer;
+    transition:
+      border-color 120ms ease,
+      color 120ms ease;
+  }
+  .show-all-btn:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+
   /* ── Tree ────────────────────────────────────── */
   .til-tree {
     display: flex;
     flex-direction: column;
     gap: var(--space-8);
-    max-width: var(--prose-width);
   }
 
   .til-branch {
@@ -261,50 +344,110 @@ const searchIndex = entries.map((e) => ({
   }
 
   .til-cat {
-    font-size: 0.65rem !important;
+    font-size: 0.6rem !important;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.12em;
     color: var(--color-mono) !important;
     font-family: 'Commit Mono', monospace !important;
     font-weight: 400 !important;
     margin-bottom: var(--space-2);
+    opacity: 0.7;
   }
 
   .til-subcat-label {
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     text-transform: uppercase;
     letter-spacing: 0.08em;
     color: var(--color-mono);
     font-family: 'Commit Mono', monospace;
     font-weight: 400;
+    opacity: 0.7;
   }
 
   .til-row {
     display: flex;
     align-items: baseline;
     gap: var(--space-3);
-    padding: 0.2rem 0;
+    padding: 0.15rem 0;
   }
 
   .til-connector {
     font-family: 'Commit Mono', monospace;
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     color: var(--color-mono);
-    opacity: 0.35;
+    opacity: 0.25;
     flex-shrink: 0;
     user-select: none;
     line-height: 1;
   }
 
   .til-link {
-    font-size: 0.9rem;
+    font-size: 0.875rem;
     color: var(--color-muted) !important;
     text-decoration: none !important;
     line-height: 1.5;
     transition: color 120ms ease;
   }
-
   .til-link:hover {
     color: var(--color-accent) !important;
+  }
+
+  /* ── Dialog ──────────────────────────────────── */
+  .results-dialog {
+    background: var(--color-bg);
+    border: 1px solid color-mix(in srgb, var(--color-mono) 20%, transparent);
+    border-radius: var(--radius-sm);
+    padding: 0;
+    width: min(580px, 92vw);
+    max-height: 72vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .results-dialog::backdrop {
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(2px);
+  }
+  .dialog-inner {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+  }
+  .dialog-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-4) var(--space-5);
+    border-bottom: 1px solid color-mix(in srgb, var(--color-mono) 15%, transparent);
+    flex-shrink: 0;
+  }
+  .dialog-label {
+    font-size: 0.75rem;
+    font-family: 'Commit Mono', monospace;
+    color: var(--color-muted);
+    letter-spacing: 0.04em;
+  }
+  .dialog-close {
+    background: transparent;
+    border: none;
+    color: var(--color-muted);
+    font-size: 0.9rem;
+    cursor: pointer;
+    padding: 0.2rem 0.4rem;
+    border-radius: var(--radius-sm);
+    transition: color 120ms ease;
+    line-height: 1;
+  }
+  .dialog-close:hover {
+    color: var(--color-text);
+  }
+  .dialog-results {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-4) var(--space-5);
+    overflow-y: auto;
+    flex: 1;
   }
 </style>
