@@ -4,7 +4,7 @@ import cloudflare from '@astrojs/cloudflare';
 import rehypeMermaid from 'rehype-mermaid';
 
 export default defineConfig({
-  output: 'static',
+  output: 'server',
   adapter: cloudflare(),
   integrations: [mdx()],
   prefetch: {
