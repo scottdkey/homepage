@@ -1,6 +1,5 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
-import DraftBanner from '../../components/DraftBanner.astro';
 import Tag from '../../components/Tag.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
 import ResumeJob from '../../components/ResumeJob.astro';
@@ -15,8 +14,6 @@ const skills = [
 ];
 ---
 <PageLayout title="Projects" description="Scott Key — work history and notable projects.">
-  <DraftBanner />
-
   <!-- View toggle -->
   <div class="view-toggle-bar">
     <a href="/api/resume.pdf" download="scott-key-resume.pdf" class="btn-download-always">Download PDF ↓</a>
