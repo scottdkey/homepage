@@ -54,7 +54,7 @@ export const projects: Project[] = [
   {
     name: 'Halvor',
     description:
-      'Home automation infrastructure project — a self-hosted platform for home automation built on Proxmox, OPNsense, and containerized services. Covers network segmentation, NAS configuration, LXC/VM provisioning, and service orchestration. Private repo; guides and writeups published at /notes.',
+      'Home automation infrastructure project — a self-hosted platform for home automation built on Proxmox, OPNsense, and containerized services. Covers network segmentation, NAS configuration, LXC/VM provisioning, and service orchestration. Private repo; guides and writeups published at /til.',
     tags: ['Proxmox', 'OPNsense', 'Docker', 'Networking'],
   },
 ];
