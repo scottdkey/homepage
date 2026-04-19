@@ -1,66 +1,110 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
 import PageHero from '../../components/PageHero.astro';
+import TilBranch from '../../components/TilBranch.astro';
+import type { TilNode } from '../../components/TilBranch.astro';
 import { getCollection } from 'astro:content';
 
 const entries = await getCollection('til', ({ data }) => !data.draft);
-const byCategory = entries.reduce<Record<string, typeof entries>>((acc, e) => {
-  const cat = e.id.split('/')[0];
-  (acc[cat] ??= []).push(e);
-  return acc;
-}, {});
+
+// Build a recursive tree from file paths
+const tree: Record<string, TilNode> = {};
+
+for (const entry of entries) {
+  const parts = entry.id.split('/');
+  const topCat = parts[0];
+  const subPath = parts.slice(1, -1); // segments between top-level dir and filename
+
+  if (!tree[topCat]) tree[topCat] = { entries: [], children: {} };
+
+  let node = tree[topCat];
+  for (const seg of subPath) {
+    if (!node.children[seg]) node.children[seg] = { entries: [], children: {} };
+    node = node.children[seg];
+  }
+  node.entries.push(entry);
+}
+
+const sortedTree = Object.entries(tree).sort(([a], [b]) => a.localeCompare(b));
 ---
 <PageLayout title="TIL">
   <div class="page-wrap">
     <PageHero title="Today I Learned" />
 
-    {entries.length === 0 && <p class="empty">No entries yet.</p>}
+    {entries.length === 0 && <p style="color: var(--color-muted)">No entries yet.</p>}
 
-    {Object.keys(byCategory).length > 0 && (
-      <div class="category-grid">
-        {Object.entries(byCategory).map(([cat, items]) => (
-          <section class="category-card">
-            <h2 class="category-label">{cat}</h2>
-            <ul>
-              {items.map(item => (
-                <li><a href={`/til/${item.id}`}>{item.data.title}</a></li>
-              ))}
-            </ul>
-          </section>
-        ))}
-      </div>
-    )}
+    <div class="til-tree">
+      {sortedTree.map(([cat, node]) => (
+        <div class="til-branch">
+          <p class="til-cat">{cat}</p>
+          <TilBranch node={node} />
+        </div>
+      ))}
+    </div>
   </div>
 </PageLayout>
 
-<style>
+<style is:global>
   .page-wrap { padding: var(--space-12) 0; }
-  .empty { color: var(--color-muted); }
 
-  .category-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: var(--space-4);
-    align-items: start;
+  .til-tree {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    max-width: var(--prose-width);
   }
 
-  .category-card {
-    background: var(--color-surface);
-    border-radius: var(--radius-sm);
-    padding: var(--space-6);
+  .til-branch {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
   }
 
-  .category-label {
-    font-size: 0.65rem;
+  .til-cat {
+    font-size: 0.65rem !important;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    color: var(--color-mono);
-    font-family: 'Commit Mono', monospace;
-    font-weight: 600;
-    margin-bottom: var(--space-4);
+    color: var(--color-mono) !important;
+    font-family: 'Commit Mono', monospace !important;
+    font-weight: 400 !important;
+    margin-bottom: var(--space-2);
   }
 
-  ul { list-style: none; display: flex; flex-direction: column; gap: var(--space-2); }
-  li a { font-size: 0.9rem; color: var(--color-text); text-decoration: none; }
-  li a:hover { color: var(--color-accent); }
+  .til-subcat-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-mono);
+    font-family: 'Commit Mono', monospace;
+    font-weight: 400;
+  }
+
+  .til-row {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3);
+    padding: 0.2rem 0;
+  }
+
+  .til-connector {
+    font-family: 'Commit Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--color-mono);
+    opacity: 0.35;
+    flex-shrink: 0;
+    user-select: none;
+    line-height: 1;
+  }
+
+  .til-link {
+    font-size: 0.9rem;
+    color: var(--color-muted) !important;
+    text-decoration: none !important;
+    line-height: 1.5;
+    transition: color 120ms ease;
+  }
+
+  .til-link:hover {
+    color: var(--color-accent) !important;
+  }
 </style>

@@ -131,6 +131,7 @@ h1, h2, h3, h4, h5, h6 {
 .prose li { margin-bottom: var(--space-2); }
 .prose code { font-family: 'Commit Mono', monospace; font-size: 0.875em; background: var(--color-surface); padding: 0.1em 0.35em; border-radius: var(--radius-md); }
 .prose pre { background: var(--color-surface); padding: var(--space-4); border-radius: var(--radius-sm); overflow-x: auto; margin-bottom: var(--space-4); }
+.prose pre { background: var(--color-code-bg) !important; }
 .prose pre code { background: none; padding: 0; }
 .prose blockquote { border-left: 3px solid var(--color-accent); padding-left: var(--space-4); color: var(--color-muted); margin-bottom: var(--space-4); }
 

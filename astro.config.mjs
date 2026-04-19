@@ -7,6 +7,10 @@ export default defineConfig({
   output: 'static',
   adapter: cloudflare(),
   integrations: [mdx()],
+  prefetch: {
+    prefetchAll: true,
+    defaultStrategy: 'hover',
+  },
   markdown: {
     rehypePlugins: [rehypeMermaid],
   },

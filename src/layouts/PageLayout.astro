@@ -3,6 +3,7 @@ import Base from './Base.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import ContactModal from '../components/ContactModal.astro';
+import CopyCodeBlocks from '../components/CopyCodeBlocks.astro';
 
 interface Props {
   title: string;
@@ -18,4 +19,5 @@ const { title, description, prose = false } = Astro.props;
   </div>
   <Footer slot="footer" />
   <ContactModal />
+  {prose && <CopyCodeBlocks />}
 </Base>

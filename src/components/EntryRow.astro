@@ -1,0 +1,31 @@
+---
+interface Props {
+  label: string;
+}
+const { label } = Astro.props;
+---
+<div class="entry-row">
+  <p class="entry-label">{label}</p>
+  <p class="entry-body"><slot /></p>
+</div>
+
+<style>
+  .entry-row {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .entry-label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-mono);
+    font-family: 'Commit Mono', monospace;
+    font-weight: 400;
+  }
+  .entry-body {
+    line-height: 1.75;
+    color: var(--color-muted);
+    font-size: 0.95rem;
+  }
+</style>

@@ -1,6 +1,8 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
 import DraftBanner from '../components/DraftBanner.astro';
+import EntryRow from '../components/EntryRow.astro';
+import { siteConfig } from '../data/config';
 ---
 <PageLayout title="Home" description="Scott Key — Senior Software Engineer. TypeScript, React, Node.js, Kubernetes. Remote.">
   <DraftBanner />
@@ -21,21 +23,28 @@ import DraftBanner from '../components/DraftBanner.astro';
 
   <section class="section" aria-labelledby="about-heading">
     <h2 id="about-heading" class="section-label mono">About</h2>
-    <div class="about-grid">
-      <div class="about-text">
-        <p>I don't care what I'm building — I care about building it well, and making it good for the user on every layer of the stack.</p>
-        <p>Senior software engineer working across the full stack. At Rebuy I own the Bulk-on-Demand platform — merchant dashboard, customer checkout, the Fastify API, and Payouts. I've authored the team's dev CLI, API code generator, and Shopify-embeddable distribution system.</p>
-        <p>Before Rebuy I was on the FinTech team at Pluralsight, building financial tooling around a B2B provisioning pipeline that processed ~$9M/month at peak. Before that, water and wastewater management UIs using Ignition SCADA.</p>
-        <p>I came to software by a less direct route — video editing, self-taught over years of side projects — and I'm glad for it. It left me with a strong instinct for the person actually using the thing.</p>
-      </div>
-      <aside class="about-aside">
-        <p class="about-aside-label">Currently</p>
-        <p class="about-aside-item">Senior SWE at Rebuy</p>
-        <p class="about-aside-label" style="margin-top: var(--space-2);">Stack</p>
-        <p class="about-aside-item">TypeScript · React · Next.js · Node.js · PostgreSQL · Kubernetes · GCP</p>
-        <p class="about-aside-label" style="margin-top: var(--space-2);">Location</p>
-        <p class="about-aside-item">Mountain Standard Time</p>
-      </aside>
+    <div class="about-text">
+      <p>I don't care what I'm building — I care about building it well, and making it good for the user on every layer of the stack.</p>
+      <p>Senior software engineer working across the full stack. At Rebuy I work cross functionally on every part of the Rebuy.app platform — merchant dashboard, customer checkout, the Fastify API, and Payouts. I've authored the team's dev CLI, API code generator, and Shopify-embeddable distribution system.</p>
+      <p>Before Rebuy I was on the FinTech team at Pluralsight, building financial tooling around a B2B provisioning pipeline that processed ~$9M/month at peak. Before that, water and wastewater management UIs using Ignition SCADA.</p>
+      <p>I came to software by a less direct route — video editing, self-taught over years of side projects — and I'm glad for it. It left me with a strong instinct for the person actually using the thing.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="entry-grid">
+
+      <EntryRow label="Currently">Senior Software Engineer at Rebuy. Building BOD — merchant dashboard, customer checkout, Payouts. Recently merged with the R.AI team and exploring distributed agentic systems: orchestration, multi-agent patterns, agent infrastructure.</EntryRow>
+
+      {siteConfig.activelyLooking && (
+        <EntryRow label="Looking for">A role with real ownership and hard problems. <button data-contact-trigger class="inline-trigger">Get in touch</button></EntryRow>
+      )}
+
+      <EntryRow label="Stack">TypeScript · React · Next.js · Node.js · PostgreSQL · Kubernetes · GCP</EntryRow>
+
+      <EntryRow label="Side">Running Halvor — a self-hosted platform for home automation built on Proxmox, OPNsense, and containerized services. Writing about it at <a href="/til">/til</a>. </EntryRow>
+
+
     </div>
   </section>
 
@@ -77,39 +86,14 @@ import DraftBanner from '../components/DraftBanner.astro';
   .section { padding: var(--space-12) 0; border-top: 1px solid var(--color-surface); }
   .section-label { font-size: 0.7rem; color: var(--color-muted); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: var(--space-8); font-weight: 400; }
 
-  .about-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--space-4);
-  }
-  @media (min-width: 768px) {
-    .about-grid {
-      grid-template-columns: 2fr 1fr;
-      gap: var(--space-8);
-      align-items: start;
-    }
-  }
-  .about-text { display: flex; flex-direction: column; gap: var(--space-4); }
+  .about-text { display: flex; flex-direction: column; gap: var(--space-4); max-width: var(--prose-width); }
   .about-text p { line-height: 1.75; color: var(--color-muted); }
-  .about-aside {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-3);
-    padding: var(--space-6);
-    background: var(--color-surface);
-    border-radius: var(--radius-sm);
-  }
-  .about-aside-label {
-    font-size: 0.65rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--color-mono);
-    font-family: 'Commit Mono', monospace;
-  }
-  .about-aside-item {
-    font-size: 0.8rem;
-    color: var(--color-muted);
-    line-height: 1.5;
-  }
 
+  .entry-grid { display: flex; flex-direction: column; gap: var(--space-8); max-width: var(--prose-width); }
+  .inline-trigger {
+    background: none; border: none; color: var(--color-accent); font: inherit;
+    font-size: inherit; padding: 0; cursor: pointer;
+    text-decoration: underline; text-underline-offset: 2px;
+  }
+  .inline-trigger:hover { opacity: 0.8; }
 </style>

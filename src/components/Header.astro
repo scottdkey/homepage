@@ -130,7 +130,7 @@ function isCurrent(href: string) {
     }, { passive: true });
   }
 
-  document.addEventListener('astro:page-load', initHeader);
+  document.addEventListener('DOMContentLoaded', initHeader);
 </script>
 
 <style>

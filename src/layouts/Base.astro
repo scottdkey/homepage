@@ -1,5 +1,4 @@
 ---
-import { ClientRouter } from 'astro:transitions';
 interface Props {
   title: string;
   description?: string;
@@ -14,10 +13,8 @@ const { title, description = 'Scott Key — Senior Software Engineer' } = Astro.
     <meta name="description" content={description} />
     <meta name="robots" content="noai, noimageai" />
     <title>{title} — Scott Key</title>
-    <ClientRouter />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-    <!-- Prevent theme flash on initial load -->
     <script is:inline>
       (function () {
         const html = document.documentElement;
@@ -27,18 +24,6 @@ const { title, description = 'Scott Key — Senior Software Engineer' } = Astro.
           html.setAttribute('data-reading-mode', 'true');
         }
       })();
-    </script>
-    <!-- Preserve theme across client-side navigations -->
-    <script>
-      document.addEventListener('astro:before-swap', (e: any) => {
-        const html = document.documentElement;
-        const incoming = e.newDocument.documentElement;
-        incoming.setAttribute('data-theme', html.getAttribute('data-theme') || 'tide');
-        incoming.setAttribute('data-mode', html.getAttribute('data-mode') || 'dark');
-        const rm = html.getAttribute('data-reading-mode');
-        if (rm) incoming.setAttribute('data-reading-mode', rm);
-        else incoming.removeAttribute('data-reading-mode');
-      });
     </script>
   </head>
   <body>

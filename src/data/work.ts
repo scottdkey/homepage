@@ -25,7 +25,7 @@ export const jobs: Job[] = [
     dates: "May 2024–present",
     site: "https://rebuy.app",
     intro:
-      "One of two engineers who started Bulk-on-Demand (BOD), Rebuy's greenfield commerce platform. Primary engineer across every surface: merchant dashboard, customer checkout, the Fastify API, Payouts, and the tooling layer underneath.",
+      "One of two engineers who started Rebuy.app, Rebuy's greenfield commerce platform. Primary engineer across every surface: merchant dashboard, customer checkout, the Fastify API, Payouts, and the tooling layer underneath.",
     stack: [
       "Next.js 16",
       "React 19",
@@ -40,7 +40,7 @@ export const jobs: Job[] = [
       "GCP",
     ],
     bullets: [
-      "One of two engineers who started Bulk-on-Demand (BOD), Rebuy's greenfield commerce platform. Primary engineer across every surface.",
+      "One of two engineers who started Rebuy.app, Rebuy's greenfield commerce platform. Primary engineer across every surface.",
       "<strong>Payouts (author):</strong> End-to-end financial feature — Stripe integration, idempotency keys, ledger reconciliation, exactly-once guarantees, append-only audit log.",
       "<strong>Carl (author):</strong> Unified dev CLI orchestrating ~18 containers across 5 Docker Compose stacks, 3 Node dev servers, Cloudflare Tunnel, live GKE contexts. 3-command onboarding. 10 command categories, ~25 scripts.",
       "<strong>@rebuy/tributary (author):</strong> OpenAPI → TypeScript code generator producing typed fetchers, Zod schemas, React Query hooks, and a Next.js-aware proxy. Eliminates API-client drift. Private npm (GCP Artifact Registry).",
@@ -49,7 +49,7 @@ export const jobs: Job[] = [
       "Led BOD upgrade to Next.js 16 + React 19 in production. Running React Compiler in prod. Primary CI/CD author (Bitbucket Pipelines + GKE/Helm).",
     ],
     printBullets: [
-      "One of two founding engineers on Bulk-on-Demand (BOD), Rebuy's greenfield B2B commerce platform. Primary engineer across every surface: merchant dashboard, customer checkout, Fastify API, Payouts system, and the internal tooling layer.",
+      "One of two founding engineers on Rebuy.app, Rebuy's greenfield B2B commerce platform. Primary engineer across every surface: merchant dashboard, customer checkout, Fastify API, Payouts system, and the internal tooling layer.",
       "<strong>Payouts (owner):</strong> Designed and built the end-to-end payout system from scratch — Stripe Connect integration, idempotency keys to prevent double-pays, ledger reconciliation against Stripe's API, exactly-once guarantees via pre-transfer invariant guards, and an append-only audit log. Architected for reuse across the wider Rebuy platform.",
       "<strong>Carl CLI (sole author):</strong> Unified developer CLI that orchestrates ~18 containers across 5 Docker Compose stacks, 3 bare-metal Node servers, a Cloudflare Tunnel, Caddy reverse proxy, Stripe listener, and live GKE kubectl contexts. New engineer onboarding: 3 commands. Also owns vulnerability scanning, Helm/GKE deploys, and the E2E test runner.",
       "<strong>@rebuy/tributary (sole author):</strong> Internal OpenAPI-to-TypeScript code generator. One command produces typed fetchers, Zod schemas, React Query hooks, and a Next.js server/client proxy across four services — eliminating API-contract drift entirely. Published as a private npm package on GCP Artifact Registry.",

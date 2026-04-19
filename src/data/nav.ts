@@ -7,7 +7,6 @@ export const mainNav: NavLink[] = [
   { href: '/projects', label: 'Projects' },
   { href: '/til', label: 'TIL' },
   { href: '/notes', label: 'Notes' },
-  { href: '/now', label: 'Now' },
 ];
 
 export const footerLinks: NavLink[] = [

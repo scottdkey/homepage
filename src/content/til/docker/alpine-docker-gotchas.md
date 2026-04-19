@@ -6,11 +6,17 @@ tags: [docker, alpine]
 
 Alpine is an excellent lightweight Docker host but has a few differences from Debian-based systems worth knowing upfront.
 
-**Package name**: the Docker service package is `docker-openrc`, not `docker.io` or `docker-ce`. Install with:
+**Package name**: the Docker service package is `docker-openrc`, not `docker.io` or `docker-ce`.
 
 ```sh
 apk add docker-openrc
+```
+
+```sh
 rc-update add docker default
+```
+
+```sh
 service docker start
 ```
 
