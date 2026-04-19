@@ -53,10 +53,8 @@ const searchIndex = entries.map((e) => ({
     </header>
 
     <div class="til-body">
-      <!-- Results above tree; hidden until search fires -->
       <div id="til-results" class="til-results" style="display:none"></div>
 
-      <!-- Tree; hidden when searching -->
       <div id="til-tree" class="til-tree">
         {
           sortedTree.map(([cat, node]) => (
@@ -69,27 +67,12 @@ const searchIndex = entries.map((e) => ({
       </div>
     </div>
   </div>
-
-  <!-- All-results dialog (outside page-wrap so it can fill viewport) -->
-  <dialog id="til-all-dialog" class="results-dialog">
-    <div class="dialog-inner">
-      <div class="dialog-top">
-        <span id="dialog-label" class="dialog-label"></span>
-        <button id="til-dialog-close" class="dialog-close" aria-label="Close">✕</button>
-      </div>
-      <div id="til-all-results" class="dialog-results"></div>
-    </div>
-  </dialog>
 </PageLayout>
 
 <script is:inline define:vars={{ searchIndex }}>
-  const PREVIEW = 4;
   const input = document.getElementById('til-search');
   const treeEl = document.getElementById('til-tree');
   const resultsEl = document.getElementById('til-results');
-  const dialog = document.getElementById('til-all-dialog');
-  const dialogLabel = document.getElementById('dialog-label');
-  const dialogResults = document.getElementById('til-all-results');
 
   function esc(str) {
     return str.replace(
@@ -140,33 +123,15 @@ const searchIndex = entries.map((e) => ({
       return;
     }
 
-    const preview = matched.slice(0, PREVIEW);
-    const extra = matched.length - PREVIEW;
-    resultsEl.innerHTML =
-      preview.map((e) => resultCard(e, q)).join('') +
-      (extra > 0
-        ? `<button class="show-all-btn" id="til-show-all">Show all ${matched.length} results</button>`
-        : '');
-
-    document.getElementById('til-show-all')?.addEventListener('click', () => {
-      dialogLabel.textContent = `${matched.length} results for "${q}"`;
-      dialogResults.innerHTML = matched.map((e) => resultCard(e, q)).join('');
-      dialog.showModal();
-    });
+    resultsEl.innerHTML = matched.map((e) => resultCard(e, q)).join('');
   }
 
   input.addEventListener('input', (e) => renderResults(e.target.value));
-
-  // Close dialog
-  document.getElementById('til-dialog-close').addEventListener('click', () => dialog.close());
-  dialog.addEventListener('click', (e) => {
-    if (e.target === dialog) dialog.close();
-  });
 </script>
 
 <style is:global>
   .page-wrap {
-    padding: var(--space-10) 0 var(--space-16);
+    padding: var(--space-12) 0 var(--space-16);
   }
 
   /* ── Header ──────────────────────────────────── */
@@ -178,7 +143,6 @@ const searchIndex = entries.map((e) => ({
     padding-bottom: var(--space-6);
     border-bottom: 1px solid color-mix(in srgb, var(--color-mono) 15%, transparent);
     margin-bottom: var(--space-8);
-    max-width: var(--prose-width);
   }
 
   .til-header-left {
@@ -228,7 +192,6 @@ const searchIndex = entries.map((e) => ({
 
   /* ── Body / Results ──────────────────────────── */
   .til-body {
-    max-width: var(--prose-width);
   }
 
   .til-results {
@@ -267,7 +230,6 @@ const searchIndex = entries.map((e) => ({
     color: var(--color-mono);
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    opacity: 0.6;
   }
   .result-title {
     font-size: 0.875rem;
@@ -298,7 +260,6 @@ const searchIndex = entries.map((e) => ({
     font-size: 0.6rem;
     font-family: 'Commit Mono', monospace;
     color: var(--color-mono);
-    opacity: 0.5;
     margin-left: auto;
   }
 
@@ -306,27 +267,6 @@ const searchIndex = entries.map((e) => ({
     background: transparent;
     color: var(--color-accent);
     font-weight: 600;
-  }
-
-  .show-all-btn {
-    align-self: flex-start;
-    margin-top: var(--space-1);
-    background: transparent;
-    border: 1px solid color-mix(in srgb, var(--color-mono) 35%, transparent);
-    border-radius: var(--radius-sm);
-    color: var(--color-muted);
-    font-size: 0.75rem;
-    font-family: 'Commit Mono', monospace;
-    letter-spacing: 0.04em;
-    padding: 0.35rem 0.75rem;
-    cursor: pointer;
-    transition:
-      border-color 120ms ease,
-      color 120ms ease;
-  }
-  .show-all-btn:hover {
-    border-color: var(--color-accent);
-    color: var(--color-accent);
   }
 
   /* ── Tree ────────────────────────────────────── */
@@ -387,64 +327,5 @@ const searchIndex = entries.map((e) => ({
   }
   .til-link:hover {
     color: var(--color-accent) !important;
-  }
-
-  /* ── Dialog ──────────────────────────────────── */
-  .results-dialog {
-    background: var(--color-bg);
-    border: 1px solid color-mix(in srgb, var(--color-mono) 20%, transparent);
-    border-radius: var(--radius-sm);
-    padding: 0;
-    width: min(580px, 92vw);
-    max-height: 72vh;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-  }
-  .results-dialog::backdrop {
-    background: rgba(0, 0, 0, 0.55);
-    backdrop-filter: blur(2px);
-  }
-  .dialog-inner {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    overflow: hidden;
-  }
-  .dialog-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: var(--space-4) var(--space-5);
-    border-bottom: 1px solid color-mix(in srgb, var(--color-mono) 15%, transparent);
-    flex-shrink: 0;
-  }
-  .dialog-label {
-    font-size: 0.75rem;
-    font-family: 'Commit Mono', monospace;
-    color: var(--color-muted);
-    letter-spacing: 0.04em;
-  }
-  .dialog-close {
-    background: transparent;
-    border: none;
-    color: var(--color-muted);
-    font-size: 0.9rem;
-    cursor: pointer;
-    padding: 0.2rem 0.4rem;
-    border-radius: var(--radius-sm);
-    transition: color 120ms ease;
-    line-height: 1;
-  }
-  .dialog-close:hover {
-    color: var(--color-text);
-  }
-  .dialog-results {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-    padding: var(--space-4) var(--space-5);
-    overflow-y: auto;
-    flex: 1;
   }
 </style>
