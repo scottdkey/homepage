@@ -12,12 +12,11 @@ import { siteConfig } from '../data/config';
     <p class="hero-label mono">Senior Software Engineer</p>
     <h1 class="hero-h1">End to end is where I thrive.</h1>
     <p class="hero-sub">
-      Currently at <a href="https://rebuy.app" target="_blank" rel="noopener noreferrer">Rebuy</a> working
-      across every layer of the BOD platform — merchant dashboard, checkout, Payouts, and the tooling
-      that keeps the team moving. I work closely with product and cross-functional stakeholders to simplify
-      workflows and ship things that are genuinely better than what they replaced. I don't think of software
-      as having a finish line — fast iteration and short feedback cycles are what actually take good products
-      to great.
+      At <a href="https://rebuy.app" target="_blank" rel="noopener noreferrer">Rebuy</a> I was part of
+      the founding team on rebuy.app, building the commerce platform from a blank file. I've shipped the
+      merchant dashboard, customer checkout, and Payouts, and when the team needed better tooling I wrote
+      the CLI and code generator to get us there. My best work happens when I can follow a problem all
+      the way through — from the product conversation to the deployment.
     </p>
     <div class="hero-ctas">
       <button data-contact-trigger class="btn-primary">Get in touch</button>
@@ -33,14 +32,14 @@ import { siteConfig } from '../data/config';
     <h2 id="about-heading" class="section-label mono">About</h2>
     <div class="about-text">
       <p>
-        I don't care what I'm building — I care about building it well, and making it good for the
-        user on every layer of the stack.
+        I don't care what I'm building — I care about building it well. Build experiences that
+        delight customers.
       </p>
       <p>
-        Senior software engineer working across the full stack. At Rebuy I work cross functionally
-        on every part of the Rebuy.app platform — merchant dashboard, customer checkout, the Fastify
-        API, and Payouts. I've authored the team's dev CLI, API code generator, and
-        Shopify-embeddable distribution system.
+        At Rebuy I helped start rebuy.app from scratch — a full commerce platform built inside
+        Rebuy. I took primary ownership of the merchant dashboard and customer checkout, built out
+        Payouts alongside the team, and wrote the developer tooling that now powers most of our
+        daily workflow: a CLI, an API code generator, and a Shopify-embeddable build system.
       </p>
       <p>
         Before Rebuy I was on the FinTech team at Pluralsight, building financial tooling around a
@@ -48,9 +47,9 @@ import { siteConfig } from '../data/config';
         wastewater management UIs using Ignition SCADA.
       </p>
       <p>
-        I came to software by a less direct route — video editing, self-taught over years of side
-        projects — and I'm glad for it. It left me with a strong instinct for the person actually
-        using the thing.
+        I came to software the long way — through video editing, self-taught over years of side
+        projects, picking up whatever I needed to ship the thing I was working on. It left me with a
+        strong instinct for the person on the other side of the screen.
       </p>
     </div>
   </section>
@@ -58,19 +57,15 @@ import { siteConfig } from '../data/config';
   <section class="section">
     <div class="entry-grid">
       <EntryRow label="Currently"
-        >Senior Software Engineer at Rebuy. Building BOD — merchant dashboard, customer checkout,
-        Payouts. Recently merged with the R.AI team and exploring distributed agentic systems:
-        orchestration, multi-agent patterns, agent infrastructure.</EntryRow
+        >Senior Software Engineer at Rebuy. Part of the founding team on rebuy.app — a greenfield
+        commerce platform I've helped build from scratch. Since joining the R.AI team I've been
+        working in distributed agentic systems: multi-agent orchestration, tool use, and the
+        infrastructure underneath.</EntryRow
       >
 
       {
         siteConfig.activelyLooking && (
-          <EntryRow label="Looking for">
-            A role with real ownership and hard problems.{' '}
-            <button data-contact-trigger class="inline-trigger">
-              Get in touch
-            </button>
-          </EntryRow>
+          <EntryRow label="Looking for">A role with real ownership and hard problems. </EntryRow>
         )
       }
 
