@@ -12,6 +12,8 @@ for (const route of routes) {
 }
 
 test('a11y: contact modal', async ({ page }) => {
+  // Disable CSS transitions so axe doesn't scan while the panel is mid-animation
+  await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/');
   await page.click('[data-contact-trigger]');
   const modal = page.locator('#contact-modal');
