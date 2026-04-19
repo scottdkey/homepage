@@ -5,7 +5,7 @@ import rehypeMermaid from 'rehype-mermaid';
 
 export default defineConfig({
   output: 'server',
-  adapter: cloudflare(),
+  adapter: cloudflare({ platformProxy: { enabled: true } }),
   integrations: [mdx()],
   prefetch: {
     prefetchAll: true,
