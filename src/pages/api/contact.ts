@@ -1,8 +1,9 @@
 import type { APIRoute } from 'astro';
+import { env } from 'cloudflare:workers';
 
 export const prerender = false;
 
-export const POST: APIRoute = async ({ request, locals }) => {
+export const POST: APIRoute = async ({ request }) => {
   const data    = await request.formData();
   const name    = data.get('name')?.toString().trim();
   const email   = data.get('email')?.toString().trim();
@@ -15,9 +16,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
     });
   }
 
-  // Runtime env (Cloudflare Workers) takes precedence; import.meta.env covers local dev
-  const runtime = (locals as { runtime?: { env?: Record<string, string> } }).runtime;
-  const apiKey = runtime?.env?.RESEND_API_KEY ?? import.meta.env.RESEND_API_KEY;
+  const apiKey = (env as Record<string, string>).RESEND_API_KEY ?? import.meta.env.RESEND_API_KEY;
   if (!apiKey) {
     console.error('RESEND_API_KEY not set');
     return new Response(JSON.stringify({ error: 'Server misconfigured' }), {
