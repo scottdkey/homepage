@@ -1,0 +1,28 @@
+name: Generate Resume PDF
+
+on:
+  workflow_dispatch:
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - run: npm ci
+
+      - name: Generate resume PDF
+        env:
+          RESUME_REFERENCES: ${{ secrets.RESUME_REFERENCES }}
+        run: npx tsx scripts/generate-resume.ts
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: scott-key-resume
+          path: scott-key-resume.pdf
+          retention-days: 30

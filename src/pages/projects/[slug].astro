@@ -6,6 +6,8 @@ import CaseSection from '../../components/CaseSection.astro';
 import Tag from '../../components/Tag.astro';
 import { jobs } from '../../data/work';
 
+export const prerender = true;
+
 export function getStaticPaths() {
   return jobs
     .filter(j => j.sections.length > 0)

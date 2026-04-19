@@ -4,6 +4,8 @@ import PageHero from '../../components/PageHero.astro';
 import Tag from '../../components/Tag.astro';
 import { getCollection, render } from 'astro:content';
 
+export const prerender = true;
+
 export async function getStaticPaths() {
   const entries = await getCollection('til', ({ data }) => !data.draft);
   return entries.map(entry => ({
