@@ -3,48 +3,87 @@ import PageLayout from '../layouts/PageLayout.astro';
 import EntryRow from '../components/EntryRow.astro';
 import { siteConfig } from '../data/config';
 ---
-<PageLayout title="Home" description="Scott Key — Senior Software Engineer. TypeScript, React, Node.js, Kubernetes. Remote.">
+
+<PageLayout
+  title="Home"
+  description="Scott Key — Senior Software Engineer. TypeScript, React, Node.js, Kubernetes. Remote."
+>
   <section class="hero">
     <p class="hero-label mono">Senior Software Engineer</p>
     <h1 class="hero-h1">End to end is where I thrive.</h1>
     <p class="hero-sub">
-      Currently at <a href="https://rebuy.app" target="_blank" rel="noopener noreferrer">Rebuy</a> working across every layer of the BOD platform — merchant dashboard, checkout, Payouts, and the tooling that keeps the team moving. I work closely with product and cross-functional stakeholders to simplify workflows and ship things that are genuinely better than what they replaced. I don't think of software as having a finish line — fast iteration and short feedback cycles are what actually make products good.
+      Currently at <a href="https://rebuy.app" target="_blank" rel="noopener noreferrer">Rebuy</a> working
+      across every layer of the BOD platform — merchant dashboard, checkout, Payouts, and the tooling
+      that keeps the team moving. I work closely with product and cross-functional stakeholders to simplify
+      workflows and ship things that are genuinely better than what they replaced. I don't think of software
+      as having a finish line — fast iteration and short feedback cycles are what actually take good products
+      to great.
     </p>
     <div class="hero-ctas">
       <button data-contact-trigger class="btn-primary">Get in touch</button>
       <a href="projects" class="btn-secondary">Projects</a>
       <a href="/projects?view=resume" class="btn-secondary">Resume</a>
     </div>
-    <p class="hero-meta mono">Remote · Salt Lake City, UT · TypeScript · React · Node.js · Kubernetes</p>
+    <p class="hero-meta mono">
+      Remote · Salt Lake City, UT · TypeScript · React · Node.js · Kubernetes
+    </p>
   </section>
 
   <section class="section" aria-labelledby="about-heading">
     <h2 id="about-heading" class="section-label mono">About</h2>
     <div class="about-text">
-      <p>I don't care what I'm building — I care about building it well, and making it good for the user on every layer of the stack.</p>
-      <p>Senior software engineer working across the full stack. At Rebuy I work cross functionally on every part of the Rebuy.app platform — merchant dashboard, customer checkout, the Fastify API, and Payouts. I've authored the team's dev CLI, API code generator, and Shopify-embeddable distribution system.</p>
-      <p>Before Rebuy I was on the FinTech team at Pluralsight, building financial tooling around a B2B provisioning pipeline that processed ~$9M/month at peak. Before that, water and wastewater management UIs using Ignition SCADA.</p>
-      <p>I came to software by a less direct route — video editing, self-taught over years of side projects — and I'm glad for it. It left me with a strong instinct for the person actually using the thing.</p>
+      <p>
+        I don't care what I'm building — I care about building it well, and making it good for the
+        user on every layer of the stack.
+      </p>
+      <p>
+        Senior software engineer working across the full stack. At Rebuy I work cross functionally
+        on every part of the Rebuy.app platform — merchant dashboard, customer checkout, the Fastify
+        API, and Payouts. I've authored the team's dev CLI, API code generator, and
+        Shopify-embeddable distribution system.
+      </p>
+      <p>
+        Before Rebuy I was on the FinTech team at Pluralsight, building financial tooling around a
+        B2B provisioning pipeline that processed ~$9M/month at peak. Before that, water and
+        wastewater management UIs using Ignition SCADA.
+      </p>
+      <p>
+        I came to software by a less direct route — video editing, self-taught over years of side
+        projects — and I'm glad for it. It left me with a strong instinct for the person actually
+        using the thing.
+      </p>
     </div>
   </section>
 
   <section class="section">
     <div class="entry-grid">
+      <EntryRow label="Currently"
+        >Senior Software Engineer at Rebuy. Building BOD — merchant dashboard, customer checkout,
+        Payouts. Recently merged with the R.AI team and exploring distributed agentic systems:
+        orchestration, multi-agent patterns, agent infrastructure.</EntryRow
+      >
 
-      <EntryRow label="Currently">Senior Software Engineer at Rebuy. Building BOD — merchant dashboard, customer checkout, Payouts. Recently merged with the R.AI team and exploring distributed agentic systems: orchestration, multi-agent patterns, agent infrastructure.</EntryRow>
+      {
+        siteConfig.activelyLooking && (
+          <EntryRow label="Looking for">
+            A role with real ownership and hard problems.{' '}
+            <button data-contact-trigger class="inline-trigger">
+              Get in touch
+            </button>
+          </EntryRow>
+        )
+      }
 
-      {siteConfig.activelyLooking && (
-        <EntryRow label="Looking for">A role with real ownership and hard problems. <button data-contact-trigger class="inline-trigger">Get in touch</button></EntryRow>
-      )}
+      <EntryRow label="Stack"
+        >TypeScript · React · Next.js · Node.js · PostgreSQL · Kubernetes · GCP</EntryRow
+      >
 
-      <EntryRow label="Stack">TypeScript · React · Next.js · Node.js · PostgreSQL · Kubernetes · GCP</EntryRow>
-
-      <EntryRow label="Side">Running Halvor — a self-hosted platform for home automation built on Proxmox, OPNsense, and containerized services. Writing about it at <a href="/til">/til</a>. </EntryRow>
-
-
+      <EntryRow label="Side"
+        >Running Halvor — a self-hosted platform for home automation built on Proxmox, OPNsense, and
+        containerized services. Writing about it at <a href="/til">/til</a>.
+      </EntryRow>
     </div>
   </section>
-
 </PageLayout>
 
 <style>
@@ -59,38 +98,111 @@ import { siteConfig } from '../data/config';
       grid-template-columns: 1fr auto;
       align-items: start;
     }
-    .hero-label, .hero-h1, .hero-sub, .hero-ctas, .hero-meta {
+    .hero-label,
+    .hero-h1,
+    .hero-sub,
+    .hero-ctas,
+    .hero-meta {
       grid-column: 1;
     }
   }
-  .hero-label { color: var(--color-accent); font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; }
-  .hero-h1 { font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.1; }
-  .hero-sub { font-size: 1.05rem; color: var(--color-muted); line-height: 1.7; max-width: 64ch; }
-  .hero-ctas { display: flex; gap: var(--space-4); align-items: center; flex-wrap: wrap; }
+  .hero-label {
+    color: var(--color-accent);
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .hero-h1 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    line-height: 1.1;
+  }
+  .hero-sub {
+    font-size: 1.05rem;
+    color: var(--color-muted);
+    line-height: 1.7;
+    max-width: 64ch;
+  }
+  .hero-ctas {
+    display: flex;
+    gap: var(--space-4);
+    align-items: center;
+    flex-wrap: wrap;
+  }
   .btn-primary {
-    background: var(--color-accent); color: var(--color-bg); border: none;
-    border-radius: var(--radius-sm); padding: var(--space-3) var(--space-6);
-    font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: opacity 150ms ease; letter-spacing: 0.02em;
+    background: var(--color-accent);
+    color: var(--color-bg);
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: var(--space-3) var(--space-6);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 150ms ease;
+    letter-spacing: 0.02em;
   }
-  .btn-primary:hover { opacity: 0.85; }
+  .btn-primary:hover {
+    opacity: 0.85;
+  }
   .btn-secondary {
-    font-size: 0.9rem; color: var(--color-text); text-decoration: none;
-    border-bottom: 1px solid var(--color-mono); padding-bottom: 2px; transition: border-color 150ms ease;
+    font-size: 0.9rem;
+    color: var(--color-text);
+    text-decoration: none;
+    border-bottom: 1px solid var(--color-mono);
+    padding-bottom: 2px;
+    transition: border-color 150ms ease;
   }
-  .btn-secondary:hover { border-color: var(--color-accent); text-decoration: none; }
-  .hero-meta { font-size: 0.75rem; color: var(--color-mono); letter-spacing: 0.06em; }
+  .btn-secondary:hover {
+    border-color: var(--color-accent);
+    text-decoration: none;
+  }
+  .hero-meta {
+    font-size: 0.75rem;
+    color: var(--color-mono);
+    letter-spacing: 0.06em;
+  }
 
-  .section { padding: var(--space-12) 0; border-top: 1px solid var(--color-surface); }
-  .section-label { font-size: 0.7rem; color: var(--color-muted); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: var(--space-8); font-weight: 400; }
+  .section {
+    padding: var(--space-12) 0;
+    border-top: 1px solid var(--color-surface);
+  }
+  .section-label {
+    font-size: 0.7rem;
+    color: var(--color-muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: var(--space-8);
+    font-weight: 400;
+  }
 
-  .about-text { display: flex; flex-direction: column; gap: var(--space-4); max-width: var(--prose-width); }
-  .about-text p { line-height: 1.75; color: var(--color-muted); }
+  .about-text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    max-width: var(--prose-width);
+  }
+  .about-text p {
+    line-height: 1.75;
+    color: var(--color-muted);
+  }
 
-  .entry-grid { display: flex; flex-direction: column; gap: var(--space-8); max-width: var(--prose-width); }
+  .entry-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    max-width: var(--prose-width);
+  }
   .inline-trigger {
-    background: none; border: none; color: var(--color-accent); font: inherit;
-    font-size: inherit; padding: 0; cursor: pointer;
-    text-decoration: underline; text-underline-offset: 2px;
+    background: none;
+    border: none;
+    color: var(--color-accent);
+    font: inherit;
+    font-size: inherit;
+    padding: 0;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 2px;
   }
-  .inline-trigger:hover { opacity: 0.8; }
+  .inline-trigger:hover {
+    opacity: 0.8;
+  }
 </style>
