@@ -13,7 +13,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "prepare": "husky",
-    "test": "playwright test"
+    "test": "playwright test",
+    "generate:resume": "tsx scripts/generate-resume.ts"
   },
   "lint-staged": {
     "*.{ts,tsx,astro}": [
@@ -28,7 +29,6 @@
     "@astrojs/cloudflare": "^13.1.10",
     "@astrojs/mdx": "^5.0.3",
     "astro": "^6.1.8",
-    "pdf-lib": "^1.17.1",
     "rehype-mermaid": "^3.0.0"
   },
   "devDependencies": {
@@ -44,6 +44,8 @@
     "lint-staged": "^16.4.0",
     "prettier": "^3.8.3",
     "prettier-plugin-astro": "^0.14.1",
+    "pdf-lib": "^1.17.1",
+    "tsx": "^4.19.4",
     "typescript": "^6.0.3"
   }
 }
