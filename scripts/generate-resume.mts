@@ -1,6 +1,6 @@
 import { writeFileSync } from 'node:fs';
 import { PDFDocument, rgb, StandardFonts, PDFString } from 'pdf-lib';
-import { jobs } from '../src/data/work.ts';
+import { jobs } from '../src/data/work.js';
 
 interface Reference {
   name: string;
