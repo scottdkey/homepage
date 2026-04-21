@@ -94,7 +94,7 @@ export const jobs: Job[] = [
         id: 'ice-age',
         heading: '@rebuy/ice-age — schema visualizer',
         paragraphs: [
-          "I inherited ice-age, Rebuy's Kysely-based migration framework, and became its primary maintainer. I've added transaction guards, isolation-level support, Pino logging, and improved error handling.",
+          "I inherited ice-age, Rebuy's Kysely-based migration framework, and became a maintainer. I've added transaction guards, isolation-level support, Pino logging, and improved error handling.",
           "The piece I'm most proud of: an interactive schema visualizer authored end to end — a Preact client bundled with esbuild, invoked via `ice-age visualize`. It renders a pan/zoom diagram of the full DB schema with domain grouping, FK relationship mapping, drift detection, and multi-config federation so schemas from multiple services appear as tabs in one tool.",
         ],
       },
