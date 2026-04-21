@@ -17,6 +17,7 @@ function isCurrent(href: string) {
     <a href="/" class="wordmark" aria-label="Scott Key — home">sk</a>
 
     <nav aria-label="Main navigation" class="desktop-nav">
+      <div class="nav-pill" id="nav-pill" aria-hidden="true"></div>
       <ul role="list">
         {
           mainNav.map((link) => (
@@ -125,6 +126,47 @@ function isCurrent(href: string) {
 </div>
 
 <script>
+  function initNavPill() {
+    const nav = document.querySelector<HTMLElement>('.desktop-nav');
+    const pill = document.getElementById('nav-pill');
+    if (!nav || !pill) return;
+
+    const links = Array.from(nav.querySelectorAll<HTMLAnchorElement>('a'));
+    const active = links.find((a) => a.getAttribute('aria-current') === 'page');
+
+    function moveTo(el: HTMLElement, mode: 'active' | 'hover') {
+      const navRect = nav!.getBoundingClientRect();
+      const elRect = el.getBoundingClientRect();
+      pill!.style.width = `${elRect.width}px`;
+      pill!.style.transform = `translateX(${elRect.left - navRect.left}px)`;
+      pill!.classList.toggle('is-active', mode === 'active');
+      pill!.classList.toggle('is-hover', mode === 'hover');
+      pill!.classList.add('is-visible');
+    }
+
+    function resetToActive() {
+      if (active) {
+        moveTo(active, 'active');
+      } else {
+        pill!.classList.remove('is-visible');
+      }
+    }
+
+    // Seed position instantly (no transition on first paint)
+    if (active) {
+      pill.style.transition = 'none';
+      moveTo(active, 'active');
+      requestAnimationFrame(() => {
+        pill.style.transition = '';
+      });
+    }
+
+    links.forEach((link) => {
+      link.addEventListener('mouseenter', () => moveTo(link, 'hover'));
+    });
+    nav.addEventListener('mouseleave', resetToActive);
+  }
+
   function initHeader() {
     const menuBtn = document.querySelector<HTMLButtonElement>('[data-menu-btn]');
     const drawer = document.querySelector<HTMLElement>('[data-drawer]');
@@ -187,7 +229,10 @@ function isCurrent(href: string) {
     );
   }
 
-  document.addEventListener('DOMContentLoaded', initHeader);
+  document.addEventListener('DOMContentLoaded', () => {
+    initHeader();
+    initNavPill();
+  });
 </script>
 
 <style>
@@ -221,20 +266,59 @@ function isCurrent(href: string) {
   }
 
   /* Desktop nav */
+  .desktop-nav {
+    position: relative;
+  }
   .desktop-nav ul {
     display: flex;
-    gap: var(--space-6);
+    gap: var(--space-2);
     list-style: none;
+    position: relative;
+    z-index: 1;
   }
   .desktop-nav a {
     font-size: 0.875rem;
     color: var(--color-muted);
     text-decoration: none;
-    transition: color 150ms ease;
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-sm);
+    display: block;
+    transition: color 200ms ease;
+    position: relative;
+    z-index: 1;
   }
-  .desktop-nav a:hover,
+  .desktop-nav a:hover {
+    color: var(--color-text);
+  }
   .desktop-nav a[aria-current='page'] {
     color: var(--color-text);
+    font-weight: 600;
+  }
+
+  /* Sliding pill — JS positions it */
+  .nav-pill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    border-radius: var(--radius-sm);
+    background: color-mix(in srgb, var(--color-accent) 12%, transparent);
+    pointer-events: none;
+    transition:
+      transform 220ms cubic-bezier(0.4, 0, 0.2, 1),
+      width 220ms cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 150ms ease;
+    opacity: 0;
+    transform-origin: left center;
+  }
+  .nav-pill.is-visible {
+    opacity: 1;
+  }
+  .nav-pill.is-active {
+    background: color-mix(in srgb, var(--color-accent) 12%, transparent);
+  }
+  .nav-pill.is-hover {
+    background: color-mix(in srgb, var(--color-mono) 12%, transparent);
   }
 
   .header-controls {
@@ -435,6 +519,7 @@ function isCurrent(href: string) {
   }
   .drawer-link[aria-current='page'] {
     color: var(--color-accent);
+    font-weight: 700;
   }
 
   .drawer-contact {

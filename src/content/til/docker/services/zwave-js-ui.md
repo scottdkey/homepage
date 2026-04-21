@@ -5,12 +5,12 @@ tags: [docker, services, zwave, smart-home, zwave-js-ui]
 description: Self-hosted Z-Wave controller that bridges a USB Z-Wave stick to MQTT. Pairs with Mosquitto and Home Assistant for local Z-Wave control.
 ---
 
-Z-Wave JS UI manages a Z-Wave USB controller and publishes device state to [Mosquitto](/til/docker/services/mosquitto). [Home Assistant](/til/docker/services/home-assistant) auto-discovers Z-Wave devices via MQTT — the same pattern as [Zigbee2MQTT](/til/docker/services/zigbee2mqtt), just for Z-Wave devices (door locks, dimmers, smart switches).
+Z-Wave JS UI manages a Z-Wave USB controller and exposes device state to [Home Assistant](/til/docker/services/home-assistant) either via MQTT ([Mosquitto](/til/docker/services/mosquitto)) or directly over WebSocket. The MQTT path mirrors the [Zigbee2MQTT](/til/docker/services/zigbee2mqtt) pattern; the WebSocket path skips the broker entirely. Works for Z-Wave devices: door locks, dimmers, smart switches.
 
 ## Prerequisites
 
 - A Z-Wave USB controller (e.g., Zooz ZST10 700, Aeotec Z-Stick 7, UZB-7)
-- A running [Mosquitto broker](/til/docker/services/mosquitto)
+- A running [Mosquitto broker](/til/docker/services/mosquitto) _(optional — only required for MQTT mode; Home Assistant can connect directly via WebSocket instead)_
 
 ## Compose
 

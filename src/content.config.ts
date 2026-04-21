@@ -3,6 +3,7 @@ import { glob } from 'astro/loaders';
 
 const sharedSchema = z.object({
   title: z.string(),
+  tagline: z.string().optional(),
   description: z.string().optional(),
   pubDate: z.coerce.date(),
   tags: z.array(z.string()).default([]),

@@ -1,5 +1,5 @@
 ---
-title: Debian LXC in Proxmox
+title: Debian LXC
 pubDate: 2026-04-18
 tags: [proxmox, debian, lxc]
 ---
@@ -64,4 +64,4 @@ To mount host paths into an LXC, add to `/etc/pve/lxc/<id>.conf`:
 mp0: /mnt/nas,mp=/mnt/nas
 ```
 
-Unprivileged containers require UID mapping to be correct for the mounted path — see the [NFS bind mount entry](/til/proxmox/nfs-lxc-bind-mount).
+Unprivileged containers require UID mapping to be correct for the mounted path — see the [NFS bind mount entry](/til/proxmox/lxcs/nfs-lxc-bind-mount).

@@ -7,25 +7,637 @@ export const prerender = true;
 
 export async function getStaticPaths() {
   const posts = await getCollection('notes', ({ data }) => !data.draft);
-  return posts.map((post) => ({
+  posts.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+
+  return posts.map((post, i) => ({
     params: { slug: post.id },
-    props: { post },
+    props: {
+      post,
+      prev: posts[i + 1] ?? null,
+      next: posts[i - 1] ?? null,
+      currentIndex: i,
+      total: posts.length,
+      all: posts.map((p) => ({
+        id: p.id,
+        title: p.data.title,
+        date: p.data.pubDate.toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+          timeZone: 'UTC',
+        }),
+      })),
+    },
   }));
 }
 
-const { post } = Astro.props;
+const { post, prev, next, currentIndex, total, all } = Astro.props;
 const { Content } = await render(post);
 ---
 
 <PageLayout title={post.data.title} description={post.data.description} prose={true}>
-  <article class="prose page-wrap">
-    <PageHero tag="Notes" title={post.data.title} />
+  <article id="top" class="prose page-wrap">
+    <button class="back-link mono" id="back-btn" aria-label="Go back">← Back</button>
+    <PageHero title={post.data.title} />
+    <div class="post-byline">
+      <time class="post-byline-date mono" datetime={post.data.pubDate.toISOString()}>
+        {
+          post.data.pubDate.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            timeZone: 'UTC',
+          })
+        }
+      </time>
+      {
+        (post.data.tags ?? []).length > 0 && (
+          <div class="post-byline-tags">
+            {post.data.tags.map((tag) => (
+              <span class="byline-tag">{tag}</span>
+            ))}
+          </div>
+        )
+      }
+    </div>
+    {post.data.tagline && <p class="post-tagline-hero">{post.data.tagline}</p>}
     <Content />
   </article>
+
+  <nav class="post-nav" aria-label="Post navigation">
+    <button class="back-to-top mono" id="top-btn" aria-label="Back to top">↑ top of page</button>
+    <div class="nav-bar">
+      <!-- Prev cell (always present for grid layout) -->
+      <div class="nav-cell nav-cell--prev">
+        {
+          prev && (
+            <a href={`/notes/${prev.id}`} class="nav-side nav-side--prev">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path
+                  d="M10 3L5 8L10 13"
+                  stroke="currentColor"
+                  stroke-width="1.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              <span class="nav-side-text">
+                <span class="nav-dir">older</span>
+                <span class="nav-title">{prev.data.title}</span>
+              </span>
+            </a>
+          )
+        }
+      </div>
+
+      <!-- Center: picker -->
+      <div class="nav-center">
+        <button
+          id="picker-btn"
+          class="picker-btn"
+          aria-haspopup="listbox"
+          aria-expanded="false"
+          aria-label="Browse all posts"
+        >
+          <span class="picker-count mono"
+            >{currentIndex + 1}<span class="picker-sep"> / </span>{total}</span
+          >
+          <svg
+            class="picker-icon"
+            width="13"
+            height="13"
+            viewBox="0 0 14 14"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M2 3.5h10M2 7h10M2 10.5h10"
+              stroke="currentColor"
+              stroke-width="1.6"
+              stroke-linecap="round"></path>
+          </svg>
+        </button>
+
+        <div id="picker-panel" class="picker-panel" hidden>
+          <div class="picker-search-row">
+            <input
+              id="picker-search"
+              type="search"
+              placeholder="Filter posts…"
+              autocomplete="off"
+              spellcheck="false"
+              aria-label="Filter posts"
+            />
+          </div>
+          <div id="picker-list" class="picker-list" role="listbox">
+            {
+              all.map((p) => (
+                <a
+                  href={`/notes/${p.id}`}
+                  class:list={['picker-item', { 'picker-item--active': p.id === post.id }]}
+                  aria-selected={p.id === post.id}
+                  role="option"
+                  data-title={p.title.toLowerCase()}
+                >
+                  <span class="picker-item-title">{p.title}</span>
+                  <span class="picker-item-date mono">{p.date}</span>
+                </a>
+              ))
+            }
+          </div>
+          <div id="picker-pg" class="picker-pg">
+            <button id="picker-pg-prev" class="picker-pg-btn" disabled aria-label="Previous page"
+              >←</button
+            >
+            <span id="picker-pg-label" class="picker-pg-label mono"></span>
+            <button id="picker-pg-next" class="picker-pg-btn" aria-label="Next page">→</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Next cell (always present for grid layout) -->
+      <div class="nav-cell nav-cell--next">
+        {
+          next && (
+            <a href={`/notes/${next.id}`} class="nav-side nav-side--next">
+              <span class="nav-side-text">
+                <span class="nav-dir">newer</span>
+                <span class="nav-title">{next.data.title}</span>
+              </span>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path
+                  d="M6 3L11 8L6 13"
+                  stroke="currentColor"
+                  stroke-width="1.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </a>
+          )
+        }
+      </div>
+    </div>
+  </nav>
 </PageLayout>
+
+<script is:inline>
+  // Back button — go to previous history entry, fall back to /notes
+  document.getElementById('back-btn').addEventListener('click', () => {
+    if (history.length > 1) history.back();
+    else location.href = '/notes';
+  });
+
+  // Top of page button
+  document.getElementById('top-btn').addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  const btn = document.getElementById('picker-btn');
+  const panel = document.getElementById('picker-panel');
+  const search = document.getElementById('picker-search');
+  const list = document.getElementById('picker-list');
+  const pgPrev = document.getElementById('picker-pg-prev');
+  const pgNext = document.getElementById('picker-pg-next');
+  const pgLabel = document.getElementById('picker-pg-label');
+  const pgBar = document.getElementById('picker-pg');
+
+  const PAGE = 8;
+  let all = Array.from(list.querySelectorAll('.picker-item'));
+  let visible = all;
+  let page = 1;
+
+  function pages() {
+    return Math.max(1, Math.ceil(visible.length / PAGE));
+  }
+
+  function paint() {
+    const tp = pages();
+    const start = (page - 1) * PAGE;
+    all.forEach((el) => (el.style.display = 'none'));
+    visible.slice(start, start + PAGE).forEach((el) => (el.style.display = ''));
+    pgLabel.textContent = tp > 1 ? `${page} / ${tp}` : '';
+    pgPrev.disabled = page <= 1;
+    pgNext.disabled = page >= tp;
+    pgBar.style.display = tp <= 1 ? 'none' : '';
+  }
+
+  function filter(q) {
+    const n = q.toLowerCase().trim();
+    visible = n ? all.filter((el) => el.dataset.title.includes(n)) : all;
+    page = 1;
+    paint();
+  }
+
+  pgPrev.addEventListener('click', () => {
+    page--;
+    paint();
+  });
+  pgNext.addEventListener('click', () => {
+    page++;
+    paint();
+  });
+  search.addEventListener('input', (e) => filter(e.target.value));
+
+  function open() {
+    panel.hidden = false;
+    btn.setAttribute('aria-expanded', 'true');
+    paint();
+    const active = list.querySelector('.picker-item--active');
+    if (active) active.scrollIntoView({ block: 'nearest' });
+    search.focus();
+  }
+  function close() {
+    panel.hidden = true;
+    btn.setAttribute('aria-expanded', 'false');
+    search.value = '';
+    filter('');
+  }
+
+  btn.addEventListener('click', () => (panel.hidden ? open() : close()));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !panel.hidden) close();
+  });
+  document.addEventListener('click', (e) => {
+    if (!panel.hidden && !panel.contains(e.target) && !btn.contains(e.target)) close();
+  });
+</script>
 
 <style>
   .page-wrap {
-    padding: var(--space-12) 0;
+    padding: var(--space-8) 0 var(--space-6);
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    color: var(--color-muted);
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-bottom: var(--space-6);
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-sm);
+    margin-left: calc(var(--space-2) * -1);
+    transition:
+      color 150ms ease,
+      background 150ms ease;
+  }
+  .back-link:hover {
+    color: var(--color-accent);
+    background: color-mix(in srgb, var(--color-accent) 8%, transparent);
+  }
+  .back-link:active {
+    background: color-mix(in srgb, var(--color-accent) 16%, transparent);
+  }
+
+  .post-tagline-hero {
+    font-size: 1rem;
+    color: var(--color-muted);
+    margin-top: calc(var(--space-4) * -1);
+    margin-bottom: var(--space-6);
+    line-height: 1.5;
+  }
+
+  .post-byline {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+    margin-bottom: var(--space-8);
+    margin-top: calc(var(--space-4) * -1);
+  }
+  .post-byline-date {
+    font-size: 0.78rem;
+    color: var(--color-mono);
+    letter-spacing: 0.05em;
+  }
+  .post-byline-tags {
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+  .byline-tag {
+    font-size: 0.68rem;
+    font-family: 'Commit Mono', monospace;
+    color: var(--color-muted);
+    background: var(--color-surface);
+    padding: 0.15rem 0.45rem;
+    border-radius: var(--radius-sm);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  /* ── Nav bar ──────────────────────────────────── */
+  .post-nav {
+    border-top: 1px solid color-mix(in srgb, var(--color-mono) 15%, transparent);
+    padding: var(--space-5) 0 var(--space-16);
+    max-width: var(--prose-width);
+    margin: 0 auto;
+  }
+
+  .back-to-top {
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    color: var(--color-mono);
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-bottom: var(--space-5);
+    padding: var(--space-2) 0;
+    border-radius: var(--radius-sm);
+    transition:
+      color 150ms ease,
+      background 150ms ease;
+  }
+  .back-to-top:hover {
+    color: var(--color-accent);
+    background: color-mix(in srgb, var(--color-accent) 6%, transparent);
+  }
+  .back-to-top:active {
+    background: color-mix(in srgb, var(--color-accent) 12%, transparent);
+  }
+
+  .nav-bar {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .nav-cell {
+    display: flex;
+    min-width: 0;
+  }
+  .nav-cell--prev {
+    justify-content: flex-start;
+  }
+  .nav-cell--next {
+    justify-content: flex-end;
+  }
+
+  /* ── Prev / Next ──────────────────────────────── */
+  .nav-side {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    text-decoration: none;
+    padding: var(--space-3);
+    border-radius: var(--radius-sm);
+    border: 1px solid color-mix(in srgb, var(--color-mono) 15%, transparent);
+    background: var(--color-surface);
+    color: var(--color-text);
+    min-width: 0;
+    transition:
+      border-color 150ms ease,
+      background 150ms ease;
+  }
+  .nav-side:hover {
+    border-color: var(--color-accent);
+    background: color-mix(in srgb, var(--color-accent) 6%, var(--color-surface));
+  }
+  .nav-side:active {
+    background: color-mix(in srgb, var(--color-accent) 12%, var(--color-surface));
+  }
+  .nav-side svg {
+    color: var(--color-muted);
+    flex-shrink: 0;
+    transition: color 150ms ease;
+  }
+  .nav-side:hover svg {
+    color: var(--color-accent);
+  }
+
+  .nav-side--next {
+    justify-content: flex-end;
+    text-align: right;
+  }
+
+  .nav-side-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+  .nav-dir {
+    font-size: 0.62rem;
+    font-family: 'Commit Mono', monospace;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-mono);
+  }
+  .nav-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: color 150ms ease;
+  }
+  .nav-side:hover .nav-title {
+    color: var(--color-accent);
+  }
+
+  /* ── Picker trigger ───────────────────────────── */
+  .nav-center {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .picker-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    background: var(--color-surface);
+    border: 1px solid color-mix(in srgb, var(--color-mono) 20%, transparent);
+    border-radius: var(--radius-sm);
+    padding: var(--space-3) var(--space-6);
+    cursor: pointer;
+    transition:
+      border-color 150ms ease,
+      background 150ms ease;
+    white-space: nowrap;
+  }
+  .picker-btn:hover {
+    border-color: var(--color-accent);
+    background: color-mix(in srgb, var(--color-accent) 6%, var(--color-surface));
+  }
+  .picker-btn:active {
+    background: color-mix(in srgb, var(--color-accent) 12%, var(--color-surface));
+  }
+  .picker-btn[aria-expanded='true'] {
+    border-color: var(--color-accent);
+    background: color-mix(in srgb, var(--color-accent) 8%, var(--color-surface));
+  }
+  .picker-count {
+    font-size: 0.75rem;
+    color: var(--color-muted);
+    letter-spacing: 0.06em;
+  }
+  .picker-sep {
+    color: var(--color-mono);
+    opacity: 0.5;
+  }
+  .picker-icon {
+    color: var(--color-mono);
+    flex-shrink: 0;
+    transition: color 150ms ease;
+  }
+  .picker-btn:hover .picker-icon,
+  .picker-btn[aria-expanded='true'] .picker-icon {
+    color: var(--color-accent);
+  }
+
+  /* ── Picker panel ─────────────────────────────── */
+  .picker-panel {
+    position: absolute;
+    bottom: calc(100% + var(--space-2));
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 50;
+    width: 360px;
+    background: var(--color-bg);
+    border: 1px solid color-mix(in srgb, var(--color-mono) 22%, transparent);
+    border-radius: var(--radius-lg);
+    box-shadow:
+      0 -2px 8px color-mix(in srgb, var(--color-text) 6%, transparent),
+      0 -16px 40px color-mix(in srgb, var(--color-text) 14%, transparent);
+    overflow: hidden;
+  }
+
+  .picker-search-row {
+    padding: var(--space-3);
+    border-bottom: 1px solid color-mix(in srgb, var(--color-mono) 12%, transparent);
+  }
+  .picker-search-row input {
+    width: 100%;
+    box-sizing: border-box;
+    background: var(--color-surface);
+    border: 1px solid color-mix(in srgb, var(--color-mono) 18%, transparent);
+    border-radius: var(--radius-sm);
+    padding: var(--space-2) var(--space-3);
+    font-size: 0.8rem;
+    font-family: 'Commit Mono', monospace;
+    color: var(--color-text);
+    outline: none;
+    transition: border-color 150ms ease;
+  }
+  .picker-search-row input:focus {
+    border-color: var(--color-accent);
+  }
+  .picker-search-row input::placeholder {
+    color: var(--color-mono);
+  }
+
+  .picker-list {
+    max-height: 260px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .picker-item {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding: var(--space-3) var(--space-4);
+    text-decoration: none;
+    color: var(--color-text);
+    border-bottom: 1px solid color-mix(in srgb, var(--color-mono) 8%, transparent);
+    transition: background 100ms ease;
+  }
+  .picker-item:last-child {
+    border-bottom: none;
+  }
+  .picker-item:hover {
+    background: var(--color-surface);
+  }
+  .picker-item:active {
+    background: color-mix(in srgb, var(--color-accent) 10%, var(--color-surface));
+  }
+  .picker-item--active {
+    background: color-mix(in srgb, var(--color-accent) 10%, transparent);
+  }
+  .picker-item--active .picker-item-title {
+    color: var(--color-accent);
+  }
+
+  .picker-item-title {
+    font-size: 0.85rem;
+    font-weight: 500;
+    line-height: 1.4;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .picker-item-date {
+    font-size: 0.7rem;
+    color: var(--color-mono);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .picker-pg {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-2) var(--space-4);
+    border-top: 1px solid color-mix(in srgb, var(--color-mono) 12%, transparent);
+    background: var(--color-surface);
+  }
+  .picker-pg-btn {
+    background: none;
+    border: 1px solid color-mix(in srgb, var(--color-mono) 22%, transparent);
+    border-radius: var(--radius-sm);
+    padding: var(--space-1) var(--space-3);
+    font-size: 0.75rem;
+    color: var(--color-text);
+    cursor: pointer;
+    transition:
+      border-color 150ms ease,
+      color 150ms ease;
+  }
+  .picker-pg-btn:hover:not(:disabled) {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+  .picker-pg-btn:active:not(:disabled) {
+    color: var(--color-accent-deep);
+  }
+  .picker-pg-btn:disabled {
+    opacity: 0.3;
+    cursor: default;
+  }
+  .picker-pg-label {
+    font-size: 0.7rem;
+    color: var(--color-mono);
+    letter-spacing: 0.06em;
+    flex: 1;
+    text-align: center;
+  }
+
+  @media (max-width: 540px) {
+    .picker-panel {
+      width: calc(100vw - 2rem);
+    }
+    .nav-title {
+      display: none;
+    }
+    .nav-side {
+      padding: var(--space-3) var(--space-2);
+    }
   }
 </style>

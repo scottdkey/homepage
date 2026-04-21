@@ -103,6 +103,36 @@ In UniFi, each WiFi network maps to a Network object with a VLAN ID. Leave DHCP 
 
 Port `8080` must be reachable from all managed APs. If APs are on a different VLAN than the controller, ensure your firewall allows this.
 
+## Running in a Proxmox LXC
+
+UniFi runs well as Docker Compose inside a Debian LXC. The main constraint is networking: AP discovery (`10001/udp`) is L2 broadcast — it only works if the LXC's network interface is bridged directly onto the same subnet as your APs, not behind NAT.
+
+### LXC requirements
+
+The LXC must be **privileged** (or have `nesting=1` + `keyctl=1` features set for unprivileged Docker):
+
+```ini
+# /etc/pve/lxc/<VMID>.conf
+features: keyctl=1,nesting=1
+```
+
+Or create as privileged from the start — simpler for a network management service that doesn't handle untrusted input.
+
+### Network interface
+
+Set the LXC's network interface to bridge directly onto your AP VLAN (or main LAN if APs are untagged). In Proxmox, this means the LXC's `net0` should use the same bridge (`vmbr0` or a tagged sub-interface) that your APs sit on.
+
+If APs are on a separate VLAN, AP discovery won't cross the L3 boundary — use `set-inform` to manually point APs at the controller instead of relying on auto-discovery:
+
+```bash
+# SSH into the AP
+set-inform http://<CONTROLLER_IP>:8080/inform
+```
+
+### Port 8080 firewall rule
+
+If your controller LXC is on a management VLAN and APs are on an IoT or WiFi VLAN, add a firewall rule allowing TCP `8080` from the AP subnet to the controller IP. APs must reach this port to check in — without it, adopted APs will show as disconnected after a reboot.
+
 ## Backup
 
 Settings → System → Backup → Download backup (`.unf` file). Schedule auto-backups to a local path or network share. Restore: Settings → System → Backup → Restore.

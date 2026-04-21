@@ -30,6 +30,7 @@ const searchIndex = entries.map((e) => ({
     year: 'numeric',
     month: 'short',
     day: 'numeric',
+    timeZone: 'UTC',
   }),
   path: e.id.split('/').slice(0, -1).join(' / '),
 }));

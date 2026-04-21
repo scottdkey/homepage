@@ -1,57 +1,406 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
-import PageHero from '../../components/PageHero.astro';
 import { getCollection } from 'astro:content';
 
 const posts = await getCollection('notes', ({ data }) => !data.draft);
 posts.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+
+const PAGE_SIZE = 10;
+
+const searchIndex = posts.map((p) => ({
+  id: p.id,
+  title: p.data.title,
+  tagline: p.data.tagline ?? '',
+  desc: p.data.description ?? '',
+  tags: p.data.tags ?? [],
+  date: p.data.pubDate.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    timeZone: 'UTC',
+  }),
+}));
 ---
 
-<PageLayout title="Notes">
+<PageLayout title="Notes" description="Writing on software, systems, and whatever else.">
   <div class="page-wrap">
-    <PageHero title="Notes" />
-    <div class="post-list">
+    <div class="notes-header">
+      <h1 class="notes-title">Notes</h1>
+      <div class="header-right">
+        <div class="search-wrap">
+          <input
+            id="notes-search"
+            type="search"
+            placeholder="Search…"
+            autocomplete="off"
+            spellcheck="false"
+            aria-label="Search notes"
+          />
+        </div>
+        <a href="/notes/rss.xml" class="rss-link mono" title="RSS feed" aria-label="RSS feed">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <circle cx="3" cy="11" r="1.5" fill="currentColor"></circle>
+            <path
+              d="M2 7.5C4.76 7.5 7 9.74 7 12.5"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              fill="none"></path>
+            <path
+              d="M2 3.5C6.97 3.5 11 7.53 11 12.5"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              fill="none"></path>
+          </svg>
+          RSS
+        </a>
+      </div>
+    </div>
+
+    <div id="notes-list">
       {
-        posts.map((post) => (
-          <article class="post-item">
-            <a href={`/notes/${post.id}`} class="post-title">
-              {post.data.title}
-            </a>
-            {post.data.description && <p class="post-desc">{post.data.description}</p>}
-          </article>
+        posts.map((post, i) => (
+          <a
+            href={`/notes/${post.id}`}
+            class="post-item"
+            data-page={Math.floor(i / PAGE_SIZE) + 1}
+            style={i >= PAGE_SIZE ? 'display:none' : ''}
+          >
+            <div class="post-meta">
+              <time class="post-date mono" datetime={post.data.pubDate.toISOString()}>
+                {post.data.pubDate.toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'short',
+                  day: 'numeric',
+                  timeZone: 'UTC',
+                })}
+              </time>
+              {(post.data.tags ?? []).length > 0 && (
+                <div class="post-tags">
+                  {post.data.tags.map((tag) => (
+                    <span class="tag">{tag}</span>
+                  ))}
+                </div>
+              )}
+            </div>
+            <div class="post-right">
+              <span class="post-title">{post.data.title}</span>
+              {post.data.tagline && <span class="post-tagline">{post.data.tagline}</span>}
+            </div>
+          </a>
         ))
       }
       {posts.length === 0 && <p class="empty">No posts yet.</p>}
     </div>
+
+    <div id="notes-results" class="search-results" style="display:none"></div>
+
+    <nav id="notes-pagination" class="pagination" aria-label="Post navigation">
+      <button id="pg-prev" class="pg-btn" disabled>← Prev</button>
+      <span id="pg-label" class="pg-label mono"></span>
+      <button id="pg-next" class="pg-btn">Next →</button>
+    </nav>
   </div>
 </PageLayout>
 
+<script is:inline define:vars={{ searchIndex, PAGE_SIZE }}>
+  const input = document.getElementById('notes-search');
+  const listEl = document.getElementById('notes-list');
+  const resultsEl = document.getElementById('notes-results');
+  const paginationEl = document.getElementById('notes-pagination');
+  const pgPrev = document.getElementById('pg-prev');
+  const pgNext = document.getElementById('pg-next');
+  const pgLabel = document.getElementById('pg-label');
+
+  const totalPages = Math.ceil(searchIndex.length / PAGE_SIZE);
+  let currentPage = 1;
+
+  function updatePagination() {
+    pgLabel.textContent = totalPages > 1 ? `${currentPage} / ${totalPages}` : '';
+    pgPrev.disabled = currentPage <= 1;
+    pgNext.disabled = currentPage >= totalPages;
+    paginationEl.style.display = totalPages <= 1 ? 'none' : '';
+  }
+
+  function showPage(page) {
+    currentPage = page;
+    listEl.querySelectorAll('.post-item').forEach((el) => {
+      el.style.display = Number(el.dataset.page) === page ? '' : 'none';
+    });
+    updatePagination();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  pgPrev.addEventListener('click', () => showPage(currentPage - 1));
+  pgNext.addEventListener('click', () => showPage(currentPage + 1));
+  updatePagination();
+
+  function esc(str) {
+    return String(str).replace(
+      /[&<>"']/g,
+      (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]
+    );
+  }
+  function highlight(text, q) {
+    if (!q) return esc(text);
+    const p = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return esc(text).replace(new RegExp(`(${p})`, 'gi'), '<mark>$1</mark>');
+  }
+  function score(e, norm) {
+    let s = 0;
+    if (e.tags.some((t) => t.toLowerCase() === norm)) s += 10;
+    else if (e.tags.some((t) => t.toLowerCase().includes(norm))) s += 5;
+    if (e.title.toLowerCase().includes(norm)) s += 3;
+    if (e.tagline.toLowerCase().includes(norm)) s += 2;
+    if (e.desc.toLowerCase().includes(norm)) s += 1;
+    return s;
+  }
+  function resultCard(e, q) {
+    const tags = e.tags.length
+      ? `<div class="post-tags">${e.tags.map((t) => `<span class="tag">${highlight(t, q)}</span>`).join('')}</div>`
+      : '';
+    const tagline = e.tagline ? `<span class="post-tagline">${highlight(e.tagline, q)}</span>` : '';
+    return `<a class="post-item" href="/notes/${esc(e.id)}">
+      <div class="post-meta"><time class="post-date mono">${esc(e.date)}</time>${tags}</div>
+      <div class="post-right"><span class="post-title">${highlight(e.title, q)}</span>${tagline}</div>
+    </a>`;
+  }
+  function renderSearch(q) {
+    const norm = q.toLowerCase().trim();
+    if (!norm) {
+      listEl.style.display = '';
+      resultsEl.style.display = 'none';
+      resultsEl.innerHTML = '';
+      paginationEl.style.display = totalPages <= 1 ? 'none' : '';
+      showPage(1);
+      return;
+    }
+    const scored = searchIndex
+      .map((e) => ({ e, s: score(e, norm) }))
+      .filter(({ s }) => s > 0)
+      .sort((a, b) => b.s - a.s);
+    listEl.style.display = 'none';
+    paginationEl.style.display = 'none';
+    resultsEl.style.display = 'flex';
+    resultsEl.innerHTML = scored.length
+      ? scored.map(({ e }) => resultCard(e, q)).join('')
+      : `<p class="search-empty">No results for "<strong>${esc(q)}</strong>"</p>`;
+  }
+  input.addEventListener('input', (e) => renderSearch(e.target.value));
+</script>
+
 <style>
   .page-wrap {
-    padding: var(--space-12) 0;
+    padding: var(--space-12) 0 var(--space-16);
   }
-  .post-list {
+
+  /* ── Header ───────────────────────────────────── */
+  .notes-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    padding-bottom: var(--space-6);
+    border-bottom: 1px solid color-mix(in srgb, var(--color-mono) 15%, transparent);
+    margin-bottom: var(--space-2);
+  }
+  .notes-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  .header-right {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-3);
+    flex-shrink: 0;
+  }
+
+  /* ── Search ───────────────────────────────────── */
+  .search-wrap input {
+    background: var(--color-surface);
+    border: 1px solid color-mix(in srgb, var(--color-mono) 20%, transparent);
+    border-radius: var(--radius-sm);
+    padding: var(--space-2) var(--space-3);
+    font-size: 0.85rem;
+    color: var(--color-text);
+    font-family: 'Commit Mono', monospace;
+    width: 200px;
+    outline: none;
+    transition: border-color 150ms ease;
+  }
+  .search-wrap input:focus {
+    border-color: var(--color-accent);
+  }
+  .search-wrap input::placeholder {
+    color: var(--color-mono);
+  }
+
+  /* ── RSS ──────────────────────────────────────── */
+  .rss-link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    color: var(--color-mono);
+    text-decoration: none;
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid color-mix(in srgb, var(--color-mono) 20%, transparent);
+    border-radius: var(--radius-sm);
+    transition:
+      color 150ms ease,
+      border-color 150ms ease;
+  }
+  .rss-link:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+
+  /* ── Post list ────────────────────────────────── */
+  #notes-list,
+  .search-results {
     display: flex;
     flex-direction: column;
-    gap: var(--space-6);
-    max-width: var(--prose-width);
   }
-  .post-title {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: var(--color-text);
+
+  .post-item {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    gap: var(--space-4);
+    padding: var(--space-4) var(--space-3);
+    border-bottom: 1px solid color-mix(in srgb, var(--color-mono) 10%, transparent);
     text-decoration: none;
+    color: inherit;
+    border-radius: var(--radius-sm);
+    transition: background 120ms ease;
+    margin: 0 calc(var(--space-3) * -1);
   }
-  .post-title:hover {
+  .post-item:hover {
+    background: var(--color-surface);
+  }
+  .post-item:active {
+    background: color-mix(in srgb, var(--color-accent) 8%, var(--color-surface));
+  }
+  .post-item:hover .post-title {
     color: var(--color-accent);
   }
-  .post-desc {
+
+  .post-meta {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3);
+    flex-shrink: 0;
+  }
+  .post-date {
+    font-size: 0.75rem;
+    color: var(--color-mono);
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+  .post-tags {
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+  .tag {
+    font-size: 0.68rem;
+    font-family: 'Commit Mono', monospace;
     color: var(--color-muted);
-    margin-top: var(--space-2);
+    background: color-mix(in srgb, var(--color-mono) 12%, transparent);
+    padding: 0.15rem 0.45rem;
+    border-radius: var(--radius-sm);
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+  .post-right {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    text-align: right;
+    align-items: flex-end;
+  }
+  .post-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-text);
+    transition: color 150ms ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+  .post-tagline {
+    font-size: 0.78rem;
+    color: var(--color-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+  .post-desc {
+    display: none;
+  }
+
+  /* ── Pagination ───────────────────────────────── */
+  .pagination {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    margin-top: var(--space-10);
+  }
+  .pg-btn {
+    background: none;
+    border: 1px solid color-mix(in srgb, var(--color-mono) 25%, transparent);
+    border-radius: var(--radius-sm);
+    padding: var(--space-2) var(--space-4);
+    font-size: 0.8rem;
+    color: var(--color-text);
+    cursor: pointer;
+    transition:
+      border-color 150ms ease,
+      color 150ms ease,
+      background 150ms ease;
+  }
+  .pg-btn:hover:not(:disabled) {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+  .pg-btn:active:not(:disabled) {
+    background: color-mix(in srgb, var(--color-accent) 10%, transparent);
+  }
+  .pg-btn:disabled {
+    opacity: 0.3;
+    cursor: default;
+  }
+  .pg-label {
+    font-size: 0.75rem;
+    color: var(--color-mono);
+    letter-spacing: 0.06em;
+    min-width: 4ch;
+    text-align: center;
+  }
+
+  /* ── Search ───────────────────────────────────── */
+  .search-empty {
+    color: var(--color-muted);
     font-size: 0.9rem;
-    line-height: 1.6;
+    padding: var(--space-6) 0;
+  }
+  mark {
+    background: color-mix(in srgb, var(--color-accent) 25%, transparent);
+    color: inherit;
+    border-radius: 2px;
+    padding: 0 1px;
   }
   .empty {
     color: var(--color-muted);
+    padding: var(--space-6) 0;
   }
 </style>
