@@ -40,13 +40,13 @@ export const jobs: Job[] = [
       'GCP',
     ],
     bullets: [
-      "One of two engineers who started Rebuy.app, Rebuy's greenfield commerce platform. Primary engineer across every surface.",
+      "One of two engineers who started <a href='https://rebuy.app' target='_blank' rel='noopener noreferrer'>Rebuy.app</a>, Rebuy's greenfield commerce platform. Primary engineer across every surface.",
       '<strong>Payouts (author):</strong> End-to-end financial feature — Stripe integration, idempotency keys, ledger reconciliation, exactly-once guarantees, append-only audit log.',
       '<strong>Carl (author):</strong> Unified dev CLI orchestrating ~18 containers across 5 Docker Compose stacks, 3 Node dev servers, Cloudflare Tunnel, live GKE contexts. 3-command onboarding. 10 command categories, ~25 scripts.',
       '<strong>@rebuy/tributary (author):</strong> OpenAPI → TypeScript code generator producing typed fetchers, Zod schemas, React Query hooks, and a Next.js-aware proxy. Eliminates API-client drift. Private npm (GCP Artifact Registry).',
       '<strong>Shopify-embeddable (author):</strong> React/Vite widget embedded in merchant Shopify themes via Liquid. Same-origin proxy, passthrough auth, semver versioning, GCS asset hosting.',
       '<strong>@rebuy/ice-age:</strong> Kysely migration framework — transaction guards, interactive schema visualizer (Preact, pan/zoom, drift detection, multi-service federation).',
-      'Led rebuy.app upgrade to Next.js 16 + React 19 in production. Running React Compiler in prod. Primary CI/CD author (Bitbucket Pipelines + GKE/Helm).',
+      "Led <a href='https://rebuy.app' target='_blank' rel='noopener noreferrer'>rebuy.app</a> upgrade to Next.js 16 + React 19 in production. Running React Compiler in prod. Primary CI/CD author (Bitbucket Pipelines + GKE/Helm).",
     ],
     printBullets: [
       "One of two founding engineers on Rebuy.app, Rebuy's greenfield B2B commerce platform. Primary engineer across every surface: merchant dashboard, customer checkout, Fastify API, Payouts system, and the internal tooling layer.",
@@ -62,7 +62,7 @@ export const jobs: Job[] = [
         id: 'payouts',
         heading: 'Payouts',
         paragraphs: [
-          "End-to-end financial feature I built at rebuy.app. Spans the admin console, the merchant store UI, and the Stripe integration for actual money movement — plus a full financial safety layer: idempotency keys so retries don't double-pay, reconciliation against Stripe's own ledger to catch drift, exactly-once guarantees, pre-transfer guards that block a payout when invariants don't hold, and an append-only audit log of every action.",
+          "End-to-end financial feature I built at <a href='https://rebuy.app' target='_blank' rel='noopener noreferrer'>rebuy.app</a>. Spans the admin console, the merchant store UI, and the Stripe integration for actual money movement — plus a full financial safety layer: idempotency keys so retries don't double-pay, reconciliation against Stripe's own ledger to catch drift, exactly-once guarantees, pre-transfer guards that block a payout when invariants don't hold, and an append-only audit log of every action.",
           'Designed for cross-company use on the wider Rebuy platform.',
         ],
       },
@@ -86,7 +86,7 @@ export const jobs: Job[] = [
         id: 'shopify',
         heading: 'Shopify-embeddable widget system',
         paragraphs: [
-          "rebuy.app ships the same customer checkout in two places: first-party on rebuy.app, and embedded inside merchants' own Shopify storefronts. I authored the embeddable side — a React/Vite app that installs into merchant themes via Liquid and interacts with the API as if it were hosted on Rebuy's own domain.",
+          "<a href='https://rebuy.app' target='_blank' rel='noopener noreferrer'>rebuy.app</a> ships the same customer checkout in two places: first-party on <a href='https://rebuy.app' target='_blank' rel='noopener noreferrer'>rebuy.app</a>, and embedded inside merchants' own Shopify storefronts. I authored the embeddable side — a React/Vite app that installs into merchant themes via Liquid and interacts with the API as if it were hosted on Rebuy's own domain.",
           'Same-origin proxy eliminates CORS; Shopify passthrough auth flows through bod-shopify-connector. Updates ship as semver-versioned artifacts to a Google Cloud Storage bucket — merchants pin the version they want in their theme config and update on their own schedule.',
         ],
       },
