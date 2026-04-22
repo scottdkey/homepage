@@ -50,7 +50,7 @@ const detailHref = slug ? `/projects/${slug}` : (site ?? null);
             <p class="job-section-heading mono">{s.heading}</p>
             <ul class="job-section-list">
               {s.paragraphs.map((p) => (
-                <li class="job-section-body">{p}</li>
+                <li class="job-section-body" set:html={p} />
               ))}
             </ul>
           </div>
