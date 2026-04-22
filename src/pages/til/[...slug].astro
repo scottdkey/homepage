@@ -27,7 +27,7 @@ const dateStr = entry.data.pubDate.toLocaleDateString('en-US', {
 
 <PageLayout title={entry.data.title} description={entry.data.description} prose={true}>
   <article class="prose page-wrap">
-    <PageHero tag="TIL" title={entry.data.title}>
+    <PageHero title={entry.data.title}>
       <time class="entry-date" datetime={entry.data.pubDate.toISOString()}>{dateStr}</time>
       {
         entry.data.tags.length > 0 && (
