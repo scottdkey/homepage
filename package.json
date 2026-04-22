@@ -14,7 +14,8 @@
     "format:check": "prettier --check .",
     "prepare": "husky",
     "test": "playwright test",
-    "generate:resume": "tsx scripts/generate-resume.ts"
+    "generate:resume": "tsx scripts/generate-resume.ts",
+    "typecheck": "astro check && tsc --noEmit"
   },
   "lint-staged": {
     "*.{ts,tsx,astro}": [
