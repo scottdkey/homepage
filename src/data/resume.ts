@@ -1,4 +1,4 @@
-import type { CaseSection, Job, Project, Reference, SocialLink } from '../types/resume';
+import type { Job, Project, Reference, SocialLink } from '../types/resume';
 
 // ── Identity ──────────────────────────────────────────────────────────────────
 
