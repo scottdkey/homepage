@@ -4,26 +4,7 @@ import Tag from '../../components/Tag.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
 import ResumeJob from '../../components/ResumeJob.astro';
 import EmailLink from '../../components/EmailLink.astro';
-import { jobs } from '../../data/work';
-import { projects } from '../../data/projects';
-
-const skills = [
-  'TypeScript',
-  'React',
-  'Next.js',
-  'Node.js',
-  'Fastify',
-  'PostgreSQL',
-  'Redis',
-  'Kafka',
-  'RabbitMQ',
-  'Kubernetes',
-  'GCP (GKE, Cloud SQL, GCS, Artifact Registry)',
-  'AWS',
-  'Docker',
-  'Stripe',
-  'Shopify',
-];
+import { jobs, projects, resumeIdentity, resumeSkills, resumeSocialLinks } from '../../data/resume';
 ---
 
 <PageLayout title="Projects" description="Scott Key — work history and notable projects.">
@@ -136,27 +117,27 @@ const skills = [
     <div class="resume-wrap">
       <header class="resume-header">
         <div class="resume-header-left">
-          <h1>Scott Key</h1>
-          <p class="resume-title mono">Senior Software Engineer</p>
+          <h1>{resumeIdentity.name}</h1>
+          <p class="resume-title mono">{resumeIdentity.title}</p>
           <p class="resume-location mono">Mountain Standard Time</p>
         </div>
         <div class="resume-header-right">
           <div class="resume-contact mono">
             <EmailLink />
-            <a href="https://linkedin.com/in/scottdkey" target="_blank" rel="noopener noreferrer"
-              >linkedin.com/in/scottdkey</a
+            <a href={resumeSocialLinks.linkedin.href} target="_blank" rel="noopener noreferrer"
+              >{resumeSocialLinks.linkedin.label}</a
             >
-            <a href="https://github.com/scottdkey" target="_blank" rel="noopener noreferrer"
-              >github.com/scottdkey</a
+            <a href={resumeSocialLinks.github.href} target="_blank" rel="noopener noreferrer"
+              >{resumeSocialLinks.github.label}</a
             >
-            <span>scottkey.dev</span>
+            <span>{resumeSocialLinks.site.label}</span>
           </div>
         </div>
       </header>
 
       <section class="resume-section" aria-labelledby="skills-heading">
         <h2 id="skills-heading">Skills</h2>
-        <p class="skills-line">{skills.join(' · ')}</p>
+        <p class="skills-line">{[...resumeSkills].join(' · ')}</p>
       </section>
 
       <section class="resume-section" aria-labelledby="exp-heading">

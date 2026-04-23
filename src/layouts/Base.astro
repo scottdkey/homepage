@@ -1,9 +1,11 @@
 ---
+import { resumeIdentity } from '../data/resume';
+
 interface Props {
   title: string;
   description?: string;
 }
-const { title, description = 'Scott Key — Senior Software Engineer' } = Astro.props;
+const { title, description = `${resumeIdentity.name} — ${resumeIdentity.title}` } = Astro.props;
 ---
 
 <!doctype html>

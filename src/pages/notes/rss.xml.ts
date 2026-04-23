@@ -1,7 +1,8 @@
 import { getCollection } from 'astro:content';
 import type { APIContext } from 'astro';
+import { resumeIdentity, resumeSocialLinks } from '../../data/resume';
 
-const SITE = 'https://scottkey.dev';
+const SITE = resumeSocialLinks.site.href;
 
 export async function GET(_ctx: APIContext) {
   const posts = await getCollection('notes', ({ data }) => !data.draft);
@@ -22,7 +23,7 @@ export async function GET(_ctx: APIContext) {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Scott Key — Notes</title>
+    <title>${esc(resumeIdentity.name)} — Notes</title>
     <link>${SITE}/notes</link>
     <description>Writing on software, systems, and whatever else.</description>
     <language>en-us</language>

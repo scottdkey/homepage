@@ -1,3 +1,5 @@
+import { resumeSocialLinks } from './resume';
+
 export interface NavLink {
   href: string;
   label: string;
@@ -10,6 +12,6 @@ export const mainNav: NavLink[] = [
 ];
 
 export const footerLinks: NavLink[] = [
-  { href: 'https://github.com/scottdkey', label: 'GitHub' },
-  { href: 'https://linkedin.com/in/scottdkey', label: 'LinkedIn' },
+  { href: resumeSocialLinks.github.href, label: 'GitHub' },
+  { href: resumeSocialLinks.linkedin.href, label: 'LinkedIn' },
 ];

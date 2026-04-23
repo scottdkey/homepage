@@ -1,9 +1,6 @@
 ---
-interface Section {
-  id: string;
-  heading: string;
-  paragraphs: string[];
-}
+import type { CaseSection } from '../types/resume';
+
 interface Props {
   company: string;
   title: string;
@@ -11,7 +8,7 @@ interface Props {
   bullets: string[];
   slug?: string;
   site?: string;
-  sections?: Section[];
+  sections?: CaseSection[];
 }
 const { company, title, dates, bullets, slug, site, sections } = Astro.props;
 const detailHref = slug ? `/projects/${slug}` : (site ?? null);

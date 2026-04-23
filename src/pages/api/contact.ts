@@ -1,6 +1,7 @@
 /// <reference types="@cloudflare/workers-types" />
 import type { APIRoute } from 'astro';
 import { env } from 'cloudflare:workers';
+import { resumeIdentity, resumeSocialLinks } from '../../data/resume';
 
 export const prerender = false;
 
@@ -33,10 +34,10 @@ export const POST: APIRoute = async ({ request }) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      from: 'Scott Key <contact@scottkey.dev>',
-      to: ['me@scottkey.dev', 'scott.key@rebuyengine.com'],
+      from: `${resumeIdentity.name} <contact@${resumeSocialLinks.site.label}>`,
+      to: [resumeSocialLinks.email.href.replace('mailto:', ''), 'scott.key@rebuyengine.com'],
       reply_to: `${name} <${email}>`,
-      subject: `scottkey.dev — message from ${name}`,
+      subject: `${resumeSocialLinks.site.label} — message from ${name}`,
       text: `From: ${name} <${email}>\n\n${message}`,
       html: `<p><strong>From:</strong> ${name} &lt;${email}&gt;</p><hr/><p>${message.replace(/\n/g, '<br/>')}</p>`,
     }),

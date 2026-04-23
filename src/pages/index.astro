@@ -2,15 +2,13 @@
 import PageLayout from '../layouts/PageLayout.astro';
 import EntryRow from '../components/EntryRow.astro';
 import { siteConfig } from '../data/config';
+import { resumeIdentity } from '../data/resume';
 ---
 
-<PageLayout
-  title="Home"
-  description="Scott Key — Senior Software Engineer. TypeScript, React, Node.js, Kubernetes. Remote."
->
+<PageLayout title="Home" description={resumeIdentity.defaultDescription}>
   <section class="hero">
-    <p class="hero-name">Scott Key</p>
-    <p class="hero-label mono">Senior Software Engineer</p>
+    <p class="hero-name">{resumeIdentity.name}</p>
+    <p class="hero-label mono">{resumeIdentity.title}</p>
     <h1 class="hero-h1">End to end is where I thrive.</h1>
     <p class="hero-sub">
       At <a href="https://www.rebuyengine.com" target="_blank" rel="noopener noreferrer">Rebuy</a> I am
