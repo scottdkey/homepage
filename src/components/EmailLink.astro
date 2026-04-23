@@ -1,4 +1,6 @@
 ---
+import { resumeSocialLinks } from '../data/resume';
+
 interface Props {
   class?: string;
   label?: string;
@@ -9,10 +11,10 @@ const { class: className, label, icon = false, 'data-tooltip': tooltip } = Astro
 
 // Split and encode at build time — raw address never appears in HTML source.
 // Cloudflare Scrape Shield adds a second layer at the CDN edge.
-const user = 'me';
-const domain = 'scottkey';
-const tld = 'dev';
-const encoded = btoa(`${user}@${domain}.${tld}`);
+const address = resumeSocialLinks.email.href.replace('mailto:', '');
+const [user, hostpart] = address.split('@');
+const [domain, tld] = hostpart.split('.');
+const encoded = btoa(address);
 ---
 
 <a

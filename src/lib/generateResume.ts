@@ -163,7 +163,7 @@ export async function generateResume(options: {
 
     const companyW = bold.widthOfTextAtSize(sanitize(job.company), 10.5);
     draw(job.company, ML, y, bold, 10.5, LINK);
-    linkAnnot(`https://scottkey.dev/projects/${job.slug}`, ML, y, companyW, 10.5);
+    linkAnnot(`${resumeSocialLinks.site.href}/projects/${job.slug}`, ML, y, companyW, 10.5);
     rightDraw(job.dates, ML + W, y, reg, 8.5, MGRAY);
     y -= 13;
 

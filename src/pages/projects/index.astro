@@ -7,7 +7,10 @@ import EmailLink from '../../components/EmailLink.astro';
 import { jobs, projects, resumeIdentity, resumeSkills, resumeSocialLinks } from '../../data/resume';
 ---
 
-<PageLayout title="Projects" description="Scott Key — work history and notable projects.">
+<PageLayout
+  title="Projects"
+  description={`${resumeIdentity.name} — work history and notable projects.`}
+>
   <!-- View toggle -->
   <div class="view-toggle-bar">
     <a href="/api/resume.pdf" download="scott-key-resume.pdf" class="btn-download-always"

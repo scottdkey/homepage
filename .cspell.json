@@ -1,0 +1,22 @@
+{
+  "version": "0.2",
+  "language": "en",
+  "words": [
+    "noopener",
+    "noreferrer",
+    "hostpart",
+    "scottkey",
+    "scottdkey",
+    "direnv",
+    "writeups",
+    "Bardbase",
+    "Halvor",
+    "Folger",
+    "Moby",
+    "MGRAY",
+    "hline",
+    "Annot",
+    "annot"
+  ],
+  "ignorePaths": ["node_modules", "dist", ".astro", ".wrangler", "scripts"]
+}

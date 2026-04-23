@@ -3,7 +3,7 @@ import PageLayout from '../../layouts/PageLayout.astro';
 import PageHero from '../../components/PageHero.astro';
 import CaseSection from '../../components/CaseSection.astro';
 import Tag from '../../components/Tag.astro';
-import { jobs } from '../../data/resume';
+import { jobs, resumeIdentity } from '../../data/resume';
 
 export const prerender = true;
 
@@ -16,7 +16,10 @@ export function getStaticPaths() {
 const { job } = Astro.props;
 ---
 
-<PageLayout title={job.company} description={`Scott Key at ${job.company} — ${job.intro}`}>
+<PageLayout
+  title={job.company}
+  description={`${resumeIdentity.name} at ${job.company} — ${job.intro}`}
+>
   <article class="page-wrap">
     <PageHero title={job.company}>
       <p class="case-meta mono">{job.title} · {job.dates}</p>
