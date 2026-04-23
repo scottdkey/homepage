@@ -133,11 +133,11 @@ export const GET: APIRoute = async () => {
   }
 
   function section(label: string) {
-    y -= 14;
+    y -= 13;
     draw(label, ML, y, bold, 7, MGRAY);
     y -= 5;
     hline(y, 0.5);
-    y -= 10;
+    y -= 9;
   }
 
   // ── Header ────────────────────────────────────────────────
@@ -148,7 +148,9 @@ export const GET: APIRoute = async () => {
   draw('Senior Software Engineer', ML, y - 18, reg, 9, GRAY);
 
   // Right column — contact block, top-aligned with header
+  const phone = import.meta.env.PHONE_NUMBER as string | undefined;
   const contactItems = [
+    ...(phone ? [{ label: phone, url: `tel:${phone}` }] : []),
     { label: 'me@scottkey.dev', url: 'mailto:me@scottkey.dev' },
     { label: 'linkedin.com/in/scottdkey', url: 'https://linkedin.com/in/scottdkey' },
     { label: 'github.com/scottdkey', url: 'https://github.com/scottdkey' },
@@ -175,9 +177,11 @@ export const GET: APIRoute = async () => {
     draw(sl, ML, y, reg, 8.5, GRAY);
     y -= 12;
   });
+  y += 6;
 
   // ── Experience ────────────────────────────────────────────
   section('EXPERIENCE');
+  y -= 6;
 
   for (const job of jobs) {
     if (y < BOTTOM + 40) break;
@@ -187,11 +191,11 @@ export const GET: APIRoute = async () => {
     draw(job.company, ML, y, bold, 10.5, LINK);
     linkAnnot(`https://scottkey.dev/projects/${job.slug}`, ML, y, companyW, 10.5);
     rightDraw(job.dates, ML + W, y, reg, 8.5, MGRAY);
-    y -= 14;
+    y -= 13;
 
     // Role
     draw(job.title, ML, y, ital, 9, GRAY);
-    y -= 13;
+    y -= 12;
 
     // Bullets
     for (const raw of job.printBullets) {
@@ -200,7 +204,7 @@ export const GET: APIRoute = async () => {
       const INDENT = ML + 12;
       const WRAP_X = ML + 18;
       const WRAP_W = W - 18;
-      const LINE_H = 11;
+      const LINE_H = 10;
 
       draw('\u2022', ML + 3, y, reg, 8, MGRAY);
 
@@ -240,41 +244,37 @@ export const GET: APIRoute = async () => {
       y -= 2; // inter-bullet gap
     }
 
-    y -= 8; // inter-job gap
+    y -= 6; // inter-job gap
   }
 
   // ── References ────────────────────────────────────────────
-  // Layout: 2 refs per row, each ref split into left (identity) + right (contact)
-  if (references.length > 0 && y > BOTTOM + 60) {
+  // Layout: 3 columns, compact stacked layout
+  if (references.length > 0 && y > BOTTOM + 20) {
     section('REFERENCES');
 
-    const PAIR_W = W / 2 - 8; // width per ref
-    const GAP = 16; // gap between the two ref columns
-    const CONTACT_OFFSET = PAIR_W * 0.52 + 8; // right sub-col offset within pair
-    const ROW_H = 56;
+    const COLS = 3;
+    const COL_W = (W - (COLS - 1) * 8) / COLS;
+    const ROW_H = 50;
+    const ROW_GAP = 8;
 
     references.forEach((ref, i) => {
-      if (y < BOTTOM + 50) return;
-      const col = i % 2;
-      const rx = ML + col * (PAIR_W + GAP);
-      if (col === 0 && i > 0) y -= 10;
-
-      // Left: identity
-      draw(ref.name, rx, y, bold, 9, BLACK);
-      draw(ref.title, rx, y - 13, ital, 8, GRAY);
-      draw(ref.company, rx, y - 25, reg, 8, GRAY);
-
-      // Right: contact details
-      const cx = rx + CONTACT_OFFSET;
-      if (ref.relationship) draw(ref.relationship, cx, y, reg, 8, MGRAY);
+      if (y < BOTTOM + 10) return;
+      const col = i % COLS;
+      const rx = ML + col * (COL_W + 8);
+      if (col === 0 && i > 0) y -= ROW_GAP;
+      draw(ref.name, rx, y, bold, 8.5, BLACK);
+      draw(ref.title, rx, y - 11, ital, 7.5, GRAY);
+      const companyLine = ref.relationship ? `${ref.company} · ${ref.relationship}` : ref.company;
+      draw(companyLine, rx, y - 21, reg, 7.5, GRAY);
       if (ref.email) {
-        const ew = reg.widthOfTextAtSize(sanitize(ref.email), 8);
-        draw(ref.email, cx, y - 13, reg, 8, LINK);
-        linkAnnot(`mailto:${ref.email}`, cx, y - 13, ew, 8);
+        const ew = reg.widthOfTextAtSize(sanitize(ref.email), 7.5);
+        draw(ref.email, rx, y - 31, reg, 7.5, LINK);
+        linkAnnot(`mailto:${ref.email}`, rx, y - 31, ew, 7.5);
       }
-      if (ref.phone) draw(ref.phone, cx, y - 25, reg, 8, MGRAY);
-
-      if (col === 1 || i === references.length - 1) y -= ROW_H;
+      if (ref.phone) draw(ref.phone, rx, y - 41, reg, 7.5, MGRAY);
+      const isLastInRow = col === COLS - 1 || i === references.length - 1;
+      const isLastRef = i === references.length - 1;
+      if (isLastInRow && !isLastRef) y -= ROW_H;
     });
   }
 
