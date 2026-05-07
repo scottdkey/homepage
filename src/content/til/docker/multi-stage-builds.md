@@ -1,6 +1,6 @@
 ---
 title: Multi-stage builds for smaller images
-pubDate: 2026-04-18
+pubDate: 2026-03-15
 tags: [docker, build]
 ---
 

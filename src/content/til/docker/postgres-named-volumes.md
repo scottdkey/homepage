@@ -1,6 +1,6 @@
 ---
 title: Backing up Postgres in Docker named volumes
-pubDate: 2025-01-01
+pubDate: 2026-03-16
 tags: [docker, postgres, backup]
 ---
 

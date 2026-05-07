@@ -1,6 +1,6 @@
 ---
 title: OPNsense Unbound DNS gotchas
-pubDate: 2025-01-01
+pubDate: 2026-03-08
 tags: [opnsense, dns, unbound]
 ---
 

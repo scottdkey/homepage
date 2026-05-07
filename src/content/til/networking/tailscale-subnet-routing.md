@@ -1,6 +1,6 @@
 ---
 title: Tailscale subnet routing
-pubDate: 2026-04-18
+pubDate: 2026-03-09
 tags: [tailscale, networking, vpn]
 ---
 

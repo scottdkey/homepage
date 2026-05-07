@@ -1,6 +1,6 @@
 ---
 title: doas — a simpler sudo alternative
-pubDate: 2026-04-18
+pubDate: 2026-03-10
 tags: [linux, alpine, security]
 ---
 

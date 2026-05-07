@@ -1,6 +1,6 @@
 ---
 title: Zigbee2MQTT with Docker Compose
-pubDate: 2026-03-14
+pubDate: 2026-03-18
 tags: [docker, services, zigbee, smart-home, zigbee2mqtt]
 description: Bridge a Zigbee USB coordinator to MQTT, eliminating cloud dependency. Pairs with Mosquitto and Home Assistant for full local smart home control.
 ---

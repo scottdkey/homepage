@@ -1,6 +1,6 @@
 ---
 title: Installing Docker on Alpine Linux
-pubDate: 2026-03-14
+pubDate: 2026-03-11
 tags: [docker, alpine, linux]
 description: Install Docker on Alpine Linux using apk and OpenRC. Minimal footprint, fast boot, ideal for dedicated container hosts.
 ---

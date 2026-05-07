@@ -1,6 +1,6 @@
 ---
 title: Installing Docker on Debian / Ubuntu
-pubDate: 2026-03-07
+pubDate: 2026-03-11
 tags: [docker, debian, ubuntu, linux]
 description: Install Docker Engine on Debian 12 or Ubuntu 22.04+ using the official apt repository.
 ---

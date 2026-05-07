@@ -1,6 +1,6 @@
 ---
 title: Two-node cluster quorum behavior
-pubDate: 2026-04-18
+pubDate: 2026-03-01
 tags: [proxmox, cluster, ha]
 ---
 

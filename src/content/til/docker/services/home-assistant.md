@@ -1,6 +1,6 @@
 ---
 title: Home Assistant OS setup
-pubDate: 2026-03-14
+pubDate: 2026-03-19
 tags: [docker, services, home-assistant, smart-home]
 description: Install Home Assistant OS as a VM for a fully local smart home hub. Integrates with Mosquitto, Zigbee2MQTT, and Z-Wave JS UI via MQTT.
 ---

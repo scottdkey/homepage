@@ -1,6 +1,6 @@
 ---
 title: Proxmox LXC backup and restore with vzdump
-pubDate: 2025-01-01
+pubDate: 2026-03-05
 tags: [proxmox, lxc, backup]
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: Cloud-init VM templates
-pubDate: 2026-04-18
+pubDate: 2026-03-03
 tags: [proxmox, cloud-init, vm]
 ---
 

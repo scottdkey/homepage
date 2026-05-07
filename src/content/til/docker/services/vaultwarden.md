@@ -1,6 +1,6 @@
 ---
 title: Vaultwarden with Docker Compose
-pubDate: 2026-04-18
+pubDate: 2026-03-21
 tags: [docker, services, vaultwarden, security]
 ---
 

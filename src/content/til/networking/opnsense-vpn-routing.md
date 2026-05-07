@@ -1,6 +1,6 @@
 ---
 title: OPNsense policy-based routing and VPN killswitch
-pubDate: 2025-01-01
+pubDate: 2026-03-08
 tags: [opnsense, wireguard, firewall]
 ---
 

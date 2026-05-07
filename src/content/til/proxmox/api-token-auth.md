@@ -1,6 +1,6 @@
 ---
 title: API token scoping vs user auth
-pubDate: 2026-04-18
+pubDate: 2026-03-03
 tags: [proxmox, api, security]
 ---
 

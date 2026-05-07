@@ -1,6 +1,6 @@
 ---
 title: Nginx Proxy Manager with Docker Compose
-pubDate: 2026-03-14
+pubDate: 2026-03-17
 tags: [docker, services, nginx, reverse-proxy, tls]
 description: GUI-driven reverse proxy with automatic TLS via Let's Encrypt. Route external traffic to internal services with HTTPS using DNS-01 challenge for wildcard certs.
 ---

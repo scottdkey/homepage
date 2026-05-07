@@ -1,6 +1,6 @@
 ---
 title: Intel QSV hardware transcoding in a Proxmox LXC
-pubDate: 2025-01-01
+pubDate: 2026-03-07
 tags: [proxmox, lxc, jellyfin, intel]
 ---
 

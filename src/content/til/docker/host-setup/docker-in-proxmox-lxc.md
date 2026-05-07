@@ -1,6 +1,6 @@
 ---
 title: Running Docker inside a Proxmox LXC
-pubDate: 2026-03-14
+pubDate: 2026-03-12
 tags: [docker, proxmox, lxc]
 description: Step-by-step guide to running Docker inside a privileged Proxmox LXC container, including NFS storage options and security trade-offs.
 ---

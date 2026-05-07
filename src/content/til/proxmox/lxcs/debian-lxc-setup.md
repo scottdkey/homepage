@@ -1,6 +1,6 @@
 ---
 title: Debian LXC
-pubDate: 2026-04-18
+pubDate: 2026-03-04
 tags: [proxmox, debian, lxc]
 ---
 

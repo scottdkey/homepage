@@ -1,6 +1,6 @@
 ---
 title: LSI HBA passthrough requires iommu=pt
-pubDate: 2025-01-01
+pubDate: 2026-03-01
 tags: [proxmox, pcie-passthrough, iommu]
 ---
 

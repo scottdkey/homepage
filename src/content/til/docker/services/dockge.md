@@ -1,6 +1,6 @@
 ---
 title: Dockge with Docker Compose
-pubDate: 2026-03-30
+pubDate: 2026-03-20
 tags: [docker, services, dockge, management]
 description: Self-hosted Docker Compose stack manager with a clean web UI and multi-host agent support.
 ---

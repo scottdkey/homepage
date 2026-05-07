@@ -1,6 +1,6 @@
 ---
 title: Immich with Docker Compose
-pubDate: 2026-04-18
+pubDate: 2026-03-22
 tags: [docker, services, immich, photos]
 ---
 

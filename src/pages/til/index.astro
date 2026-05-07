@@ -43,14 +43,17 @@ const searchIndex = entries.map((e) => ({
         <h1 class="til-title">Today I Learned</h1>
         <span class="til-count">{entries.length} entries</span>
       </div>
-      <input
-        id="til-search"
-        class="search-input"
-        type="search"
-        placeholder="Search topics, tags…"
-        autocomplete="off"
-        spellcheck="false"
-      />
+      <div class="til-header-right">
+        <input
+          id="til-search"
+          class="search-input"
+          type="search"
+          placeholder="Search topics, tags…"
+          autocomplete="off"
+          spellcheck="false"
+        />
+        <a href="/til/timeline" class="view-toggle mono">Timeline</a>
+      </div>
     </header>
 
     <div class="til-body">
@@ -168,11 +171,35 @@ const searchIndex = entries.map((e) => ({
     white-space: nowrap;
   }
 
+  .til-header-right {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-left: auto;
+  }
+
+  .view-toggle {
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    color: var(--color-mono);
+    text-decoration: none;
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid color-mix(in srgb, var(--color-mono) 20%, transparent);
+    border-radius: var(--radius-sm);
+    white-space: nowrap;
+    transition:
+      color 150ms ease,
+      border-color 150ms ease;
+  }
+  .view-toggle:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+
   .search-input {
     flex: 1;
     min-width: 180px;
     max-width: 300px;
-    margin-left: auto;
     padding: 0.4rem 0.65rem;
     font-size: 0.8rem;
     font-family: 'Commit Mono', monospace;

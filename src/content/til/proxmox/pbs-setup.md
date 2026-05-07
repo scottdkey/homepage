@@ -1,6 +1,6 @@
 ---
 title: Proxmox Backup Server setup
-pubDate: 2026-04-18
+pubDate: 2026-03-02
 tags: [proxmox, backup, pbs]
 ---
 

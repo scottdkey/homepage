@@ -1,6 +1,6 @@
 ---
 title: UniFi Network Application with Docker Compose
-pubDate: 2026-03-28
+pubDate: 2026-03-22
 tags: [docker, services, unifi, networking]
 description: Self-hosted Ubiquiti UniFi controller for managing WiFi access points and switches. Requires a separate MongoDB instance.
 ---

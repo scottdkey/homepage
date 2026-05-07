@@ -1,6 +1,6 @@
 ---
 title: Mosquitto MQTT broker with Docker Compose
-pubDate: 2026-03-14
+pubDate: 2026-03-18
 tags: [docker, services, mqtt, smart-home, mosquitto]
 description: Self-hosted MQTT message broker for smart home device communication. The hub connecting Zigbee2MQTT, Z-Wave JS UI, and Home Assistant.
 ---

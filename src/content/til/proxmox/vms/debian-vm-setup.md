@@ -1,6 +1,6 @@
 ---
 title: Debian VM in Proxmox
-pubDate: 2026-04-18
+pubDate: 2026-03-06
 tags: [proxmox, debian, vm]
 ---
 

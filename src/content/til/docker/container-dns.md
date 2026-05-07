@@ -1,6 +1,6 @@
 ---
 title: Container DNS resolution between services
-pubDate: 2026-04-18
+pubDate: 2026-03-13
 tags: [docker, networking, compose]
 ---
 

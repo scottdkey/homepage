@@ -1,6 +1,6 @@
 ---
 title: .dockerignore patterns that actually matter
-pubDate: 2026-04-18
+pubDate: 2026-03-14
 tags: [docker, build]
 ---
 

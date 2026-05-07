@@ -1,6 +1,6 @@
 ---
 title: Portainer with Docker Compose
-pubDate: 2026-04-18
+pubDate: 2026-03-20
 tags: [docker, services, portainer]
 ---
 

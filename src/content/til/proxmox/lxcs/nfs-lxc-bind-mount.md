@@ -1,6 +1,6 @@
 ---
 title: NFS in Proxmox LXCs via host bind mounts
-pubDate: 2025-01-01
+pubDate: 2026-03-05
 tags: [proxmox, lxc, nfs]
 ---
 

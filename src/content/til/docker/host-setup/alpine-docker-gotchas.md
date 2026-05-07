@@ -1,6 +1,6 @@
 ---
 title: Alpine Linux Docker host gotchas
-pubDate: 2025-01-01
+pubDate: 2026-03-12
 tags: [docker, alpine]
 ---
 

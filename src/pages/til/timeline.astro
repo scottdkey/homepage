@@ -1,0 +1,307 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import Tag from '../../components/Tag.astro';
+import { getCollection } from 'astro:content';
+
+const entries = await getCollection('til', ({ data }) => !data.draft);
+entries.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+
+const grouped: { date: Date; label: string; entries: typeof entries }[] = [];
+for (const entry of entries) {
+  const label = entry.data.pubDate.toLocaleDateString('en-US', {
+    weekday: 'short',
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    timeZone: 'UTC',
+  });
+  const last = grouped[grouped.length - 1];
+  if (last && last.label === label) {
+    last.entries.push(entry);
+  } else {
+    grouped.push({ date: entry.data.pubDate, label, entries: [entry] });
+  }
+}
+---
+
+<PageLayout title="TIL — Timeline">
+  <div class="page-wrap">
+    <header class="tl-header">
+      <div class="tl-header-left">
+        <h1 class="tl-title">Today I Learned</h1>
+        <span class="tl-count">{entries.length} entries</span>
+      </div>
+      <div class="tl-header-right">
+        <button
+          id="sort-toggle"
+          class="sort-btn mono"
+          type="button"
+          aria-label="Reverse sort order"
+        >
+          <span class="sort-label">Newest</span>
+          <svg
+            class="sort-arrow"
+            width="12"
+            height="12"
+            viewBox="0 0 12 12"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M6 2v8M6 10l-2.5-2.5M6 10l2.5-2.5"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"></path>
+          </svg>
+        </button>
+        <a href="/til" class="view-toggle mono">Tree view</a>
+      </div>
+    </header>
+
+    <div class="timeline">
+      {
+        grouped.map(({ date, label, entries: dayEntries }) => (
+          <section class="tl-day">
+            <div class="tl-date-col">
+              <time class="tl-date mono" datetime={date.toISOString()}>
+                {label}
+              </time>
+            </div>
+            <div class="tl-entries">
+              {dayEntries.map((entry) => {
+                const path = entry.id.split('/').slice(0, -1).join(' / ');
+                return (
+                  <a class="tl-entry" href={`/til/${entry.id}`}>
+                    {path && <span class="tl-path mono">{path}</span>}
+                    <span class="tl-entry-title">{entry.data.title}</span>
+                    {entry.data.description && (
+                      <span class="tl-desc">{entry.data.description}</span>
+                    )}
+                    {entry.data.tags.length > 0 && (
+                      <div class="tl-tags">
+                        {entry.data.tags.map((t) => (
+                          <span class="tl-tag">{t}</span>
+                        ))}
+                      </div>
+                    )}
+                  </a>
+                );
+              })}
+            </div>
+          </section>
+        ))
+      }
+    </div>
+  </div>
+</PageLayout>
+
+<script is:inline>
+  const btn = document.getElementById('sort-toggle');
+  const timeline = document.querySelector('.timeline');
+  const label = btn.querySelector('.sort-label');
+  let newest = true;
+
+  btn.addEventListener('click', () => {
+    const days = Array.from(timeline.children);
+    days.reverse();
+    timeline.append(...days);
+    newest = !newest;
+    btn.classList.toggle('asc', !newest);
+    label.textContent = newest ? 'Newest' : 'Oldest';
+  });
+</script>
+
+<style>
+  .page-wrap {
+    padding: var(--space-12) 0 var(--space-16);
+  }
+
+  /* ── Header ──────────────────────────────────── */
+  .tl-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+    flex-wrap: wrap;
+    padding-bottom: var(--space-6);
+    border-bottom: 1px solid color-mix(in srgb, var(--color-mono) 15%, transparent);
+    margin-bottom: var(--space-8);
+  }
+
+  .tl-header-left {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3);
+    flex: 1;
+    min-width: 0;
+  }
+
+  .tl-title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .tl-count {
+    font-size: 0.7rem;
+    font-family: 'Commit Mono', monospace;
+    color: var(--color-mono);
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+  }
+
+  .tl-header-right {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .view-toggle {
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    color: var(--color-mono);
+    text-decoration: none;
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid color-mix(in srgb, var(--color-mono) 20%, transparent);
+    border-radius: var(--radius-sm);
+    transition:
+      color 150ms ease,
+      border-color 150ms ease;
+  }
+  .view-toggle:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+
+  .sort-btn {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    font-family: 'Commit Mono', monospace;
+    color: var(--color-mono);
+    background: none;
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid color-mix(in srgb, var(--color-mono) 20%, transparent);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition:
+      color 150ms ease,
+      border-color 150ms ease;
+  }
+  .sort-btn:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+  .sort-arrow {
+    transition: transform 200ms ease;
+  }
+  .sort-btn.asc .sort-arrow {
+    transform: rotate(180deg);
+  }
+
+  /* ── Timeline ────────────────────────────────── */
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  .tl-day {
+    display: flex;
+    gap: var(--space-6);
+  }
+
+  .tl-date-col {
+    flex-shrink: 0;
+    width: 140px;
+    padding-top: var(--space-3);
+  }
+
+  .tl-date {
+    font-size: 0.72rem;
+    color: var(--color-mono);
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+
+  .tl-entries {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    border-left: 1px solid color-mix(in srgb, var(--color-mono) 15%, transparent);
+    padding-left: var(--space-5);
+  }
+
+  .tl-entry {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    color: inherit;
+    transition: background 120ms ease;
+  }
+  .tl-entry:hover {
+    background: var(--color-surface);
+  }
+  .tl-entry:hover .tl-entry-title {
+    color: var(--color-accent);
+  }
+
+  .tl-path {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-mono);
+  }
+
+  .tl-entry-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-text);
+    transition: color 150ms ease;
+  }
+
+  .tl-desc {
+    font-size: 0.775rem;
+    color: var(--color-muted);
+    line-height: 1.5;
+  }
+
+  .tl-tags {
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+    margin-top: 0.15rem;
+  }
+
+  .tl-tag {
+    font-size: 0.6rem;
+    font-family: 'Commit Mono', monospace;
+    background: color-mix(in srgb, var(--color-mono) 12%, transparent);
+    color: var(--color-muted);
+    padding: 0.1rem 0.4rem;
+    border-radius: var(--radius-sm);
+  }
+
+  /* ── Responsive ──────────────────────────────── */
+  @media (max-width: 640px) {
+    .tl-day {
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+    .tl-date-col {
+      width: auto;
+      padding-top: 0;
+    }
+    .tl-entries {
+      border-left: none;
+      padding-left: 0;
+    }
+  }
+</style>

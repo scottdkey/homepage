@@ -1,6 +1,6 @@
 ---
 title: PCIe passthrough VFIO prep
-pubDate: 2026-04-18
+pubDate: 2026-03-02
 tags: [proxmox, pcie-passthrough, vfio]
 ---
 

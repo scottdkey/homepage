@@ -1,6 +1,6 @@
 ---
 title: NFS subdirectory mounts cause stale file handle errors
-pubDate: 2025-01-01
+pubDate: 2026-03-10
 tags: [nfs, nas, linux]
 ---
 

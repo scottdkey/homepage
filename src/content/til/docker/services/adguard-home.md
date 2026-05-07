@@ -1,6 +1,6 @@
 ---
 title: AdGuard Home with Docker Compose
-pubDate: 2026-04-18
+pubDate: 2026-03-17
 tags: [docker, services, dns, adblocking]
 ---
 

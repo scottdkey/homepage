@@ -1,6 +1,6 @@
 ---
 title: Environment variable precedence in Docker Compose
-pubDate: 2026-04-18
+pubDate: 2026-03-14
 tags: [docker, compose]
 ---
 

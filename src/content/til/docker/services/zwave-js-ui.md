@@ -1,6 +1,6 @@
 ---
 title: Z-Wave JS UI with Docker Compose
-pubDate: 2026-04-13
+pubDate: 2026-03-23
 tags: [docker, services, zwave, smart-home, zwave-js-ui]
 description: Self-hosted Z-Wave controller that bridges a USB Z-Wave stick to MQTT. Pairs with Mosquitto and Home Assistant for local Z-Wave control.
 ---
