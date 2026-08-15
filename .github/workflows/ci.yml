@@ -1,0 +1,29 @@
+name: CI
+
+# PR gate for the homepage (Astro) repo. Runs ESLint as the check.
+# `astro build` is intentionally not run in CI: the @astrojs/cloudflare adapter
+# performs network egress at build time which the sandboxed runner blocks
+# ("fetch failed"). Typecheck is also omitted -- the repo's `typecheck` script
+# (`astro check`) needs @astrojs/check, which is not a dependency here.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
