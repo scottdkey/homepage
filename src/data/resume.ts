@@ -4,9 +4,9 @@ import type { Job, Project, Reference, SocialLink } from '../types/resume';
 
 export const resumeIdentity = {
   name: 'Scott Key',
-  title: 'Senior Software Engineer',
+  title: 'Staff Software Engineer',
   defaultDescription:
-    'Scott Key — Senior Software Engineer. TypeScript, React, Node.js, Kubernetes. Remote.',
+    'Scott Key — Staff Software Engineer. Fintech, financing, .NET, React, AWS, Terraform. Remote.',
 } as const;
 
 // ── Social links ──────────────────────────────────────────────────────────────
@@ -53,6 +53,7 @@ export const resumeSocialLinks: Record<string, SocialLink> = {
 
 export const resumeSkills = [
   'TypeScript',
+  'C# / .NET',
   'React',
   'Next.js',
   'Node.js',
@@ -64,6 +65,7 @@ export const resumeSkills = [
   'Kubernetes',
   'GCP (GKE, Cloud SQL, GCS, Artifact Registry)',
   'AWS',
+  'Terraform',
   'Docker',
   'Stripe',
   'Shopify',
@@ -75,10 +77,56 @@ export type { CaseSection, Job, Project, Reference } from '../types/resume';
 
 export const jobs: Job[] = [
   {
+    slug: 'jobnimbus',
+    company: 'JobNimbus',
+    title: 'Staff Software Engineer, Fintech',
+    dates: 'July 2026–present',
+    site: 'https://jobnimbus.com',
+    intro:
+      "Staff engineer on JobNimbus's Fintech team, heading up financing — the product that lets contractors offer homeowners financing on the work they buy. .NET services, a React app, and AWS infrastructure managed with Terraform, serving thousands of contractor locations and tens of thousands of homeowners.",
+    stack: ['C# / .NET', 'React', 'TypeScript', 'AWS', 'Terraform', 'PostgreSQL'],
+    bullets: [
+      'Technical lead for financing on the Fintech team — owning the product end to end across the .NET API, the React application, and the AWS infrastructure behind it. Serving thousands of contractor locations and tens of thousands of homeowners.',
+      '<strong>Financing platform:</strong> Backend financing services in .NET with a React front end, covering the homeowner financing flow from application through approval and funding.',
+      '<strong>Lender &amp; payment integrations:</strong> Integrations with financing providers and payment systems that move real money for contractor jobs.',
+      '<strong>Infrastructure (AWS + Terraform):</strong> Own the cloud infrastructure and infrastructure-as-code for the financing platform.',
+    ],
+    printBullets: [
+      "Staff engineer and technical lead for financing on JobNimbus's Fintech team. Own the financing product end to end — the .NET API, the React application, and the AWS infrastructure (Terraform) beneath it — serving thousands of contractor locations and tens of thousands of homeowners.",
+      '<strong>Financing platform:</strong> Backend financing services in C#/.NET with a React front end, spanning the homeowner financing flow from application through approval and funding.',
+      '<strong>Lender &amp; payment integrations:</strong> Integrations with third-party financing providers and payment systems that move money for contractor jobs — the settlement and funding path for the product.',
+      '<strong>Infrastructure:</strong> Own the AWS infrastructure and Terraform IaC for the financing platform.',
+    ],
+    sections: [
+      {
+        id: 'financing',
+        heading: 'Leading financing',
+        paragraphs: [
+          'JobNimbus is the CRM and project-management platform that contractors — roofers, exteriors, home-services businesses — run their operations on. Financing is the product that lets those contractors offer their homeowner customers a way to pay for the work over time. I head it up on the Fintech team as the technical lead.',
+          'The product spans a .NET service layer and a React application, and reaches thousands of contractor locations and tens of thousands of homeowners. My scope is the whole surface: the financing flow homeowners move through, the services behind it, and the infrastructure it all runs on.',
+        ],
+      },
+      {
+        id: 'integrations',
+        heading: 'Lender & payment integrations',
+        paragraphs: [
+          'Financing means moving real money on behalf of contractors and their customers, which means integrating with outside financing providers and payment systems. This is the part of the product where correctness matters most — funding, settlement, and the state machine that tracks a financing agreement from application to payout.',
+        ],
+      },
+      {
+        id: 'infrastructure',
+        heading: 'AWS & Terraform',
+        paragraphs: [
+          'The financing platform runs on AWS, with the infrastructure defined in Terraform. I own that layer alongside the application code — the same end-to-end ownership model I brought from building greenfield platforms at Rebuy, now applied to a fintech product operating at scale.',
+        ],
+      },
+    ],
+  },
+  {
     slug: 'rebuy',
     company: 'Rebuy',
     title: 'Senior Software Engineer',
-    dates: 'May 2024–present',
+    dates: 'May 2024–July 2026',
     site: 'https://rebuyengine.com',
     intro:
       "One of two engineers who started Rebuy.app, Rebuy's greenfield commerce platform. Primary engineer across every surface: merchant dashboard, customer checkout, the Fastify API, Payouts, and the tooling layer underneath.",
@@ -273,6 +321,12 @@ export const jobs: Job[] = [
 // ── Notable projects ───────────────────────────────────────────────────────────
 
 export const projects: Project[] = [
+  {
+    name: 'Financing (JobNimbus)',
+    description:
+      'Homeowner financing product for JobNimbus contractors. Technical lead across a .NET API, a React app, and AWS/Terraform infrastructure — lender and payment integrations moving real money for thousands of contractor locations and tens of thousands of homeowners.',
+    tags: ['C# / .NET', 'React', 'AWS', 'Terraform'],
+  },
   {
     name: 'Carl CLI',
     description:
