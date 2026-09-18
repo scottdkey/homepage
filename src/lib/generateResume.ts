@@ -16,13 +16,27 @@ function sanitize(s: string): string {
     );
 }
 
+// printBullets carry HTML markup — decode entities so PDF text shows `&`, not `&amp;`.
+function decodeEntities(s: string): string {
+  return s
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#0?39;|&apos;/g, "'");
+}
+
 function stripHtml(html: string): string {
-  return html.replace(/<strong>(.*?)<\/strong>/g, '$1').replace(/<[^>]+>/g, '');
+  return decodeEntities(html.replace(/<strong>(.*?)<\/strong>/g, '$1').replace(/<[^>]+>/g, ''));
 }
 
 function splitBullet(raw: string): [string, string] {
   const m = raw.match(/^<strong>(.*?)<\/strong>:?(.*)/s);
-  if (m) return [m[1].replace(/:$/, '').trim(), (m[2] ?? '').replace(/^\s*:?\s*/, '').trim()];
+  if (m)
+    return [
+      decodeEntities(m[1].replace(/:$/, '').trim()),
+      decodeEntities((m[2] ?? '').replace(/^\s*:?\s*/, '').trim()),
+    ];
   return ['', stripHtml(raw)];
 }
 

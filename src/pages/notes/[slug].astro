@@ -3,8 +3,6 @@ import PageLayout from '../../layouts/PageLayout.astro';
 import PageHero from '../../components/PageHero.astro';
 import { getCollection, render } from 'astro:content';
 
-export const prerender = true;
-
 export async function getStaticPaths() {
   const posts = await getCollection('notes', ({ data }) => !data.draft);
   posts.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
@@ -37,57 +35,55 @@ const { Content } = await render(post);
 
 <PageLayout title={post.data.title} description={post.data.description} prose={true}>
   <article id="top" class="prose page-wrap">
-    <button class="back-link mono" id="back-btn" aria-label="Go back">← Back</button>
+    <button class="back-link mono" id="back-btn" aria-label="Go back">
+      ← Back
+    </button>
     <PageHero title={post.data.title} />
     <div class="post-byline">
       <time class="post-byline-date mono" datetime={post.data.pubDate.toISOString()}>
-        {
-          post.data.pubDate.toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            timeZone: 'UTC',
-          })
-        }
+        {post.data.pubDate.toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          timeZone: 'UTC',
+        })}
       </time>
-      {
-        (post.data.tags ?? []).length > 0 && (
-          <div class="post-byline-tags">
-            {post.data.tags.map((tag) => (
-              <span class="byline-tag">{tag}</span>
-            ))}
-          </div>
-        )
-      }
+      {(post.data.tags ?? []).length > 0 && (
+        <div class="post-byline-tags">
+          {post.data.tags.map((tag) => (
+            <span class="byline-tag">{tag}</span>
+          ))}
+        </div>
+      )}
     </div>
     {post.data.tagline && <p class="post-tagline-hero">{post.data.tagline}</p>}
     <Content />
   </article>
 
   <nav class="post-nav" aria-label="Post navigation">
-    <button class="back-to-top mono" id="top-btn" aria-label="Back to top">↑ top of page</button>
+    <button class="back-to-top mono" id="top-btn" aria-label="Back to top">
+      ↑ top of page
+    </button>
     <div class="nav-bar">
       <!-- Prev cell (always present for grid layout) -->
       <div class="nav-cell nav-cell--prev">
-        {
-          prev && (
-            <a href={`/notes/${prev.id}`} class="nav-side nav-side--prev">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <path
-                  d="M10 3L5 8L10 13"
-                  stroke="currentColor"
-                  stroke-width="1.75"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-              <span class="nav-side-text">
-                <span class="nav-dir">older</span>
-                <span class="nav-title">{prev.data.title}</span>
-              </span>
-            </a>
-          )
-        }
+        {prev && (
+          <a href={`/notes/${prev.id}`} class="nav-side nav-side--prev">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path
+                d="M10 3L5 8L10 13"
+                stroke="currentColor"
+                stroke-width="1.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            <span class="nav-side-text">
+              <span class="nav-dir">older</span>
+              <span class="nav-title">{prev.data.title}</span>
+            </span>
+          </a>
+        )}
       </div>
 
       <!-- Center: picker -->
@@ -99,9 +95,11 @@ const { Content } = await render(post);
           aria-expanded="false"
           aria-label="Browse all posts"
         >
-          <span class="picker-count mono"
-            >{currentIndex + 1}<span class="picker-sep"> / </span>{total}</span
-          >
+          <span class="picker-count mono">
+            {currentIndex + 1}
+            <span class="picker-sep"> / </span>
+            {total}
+          </span>
           <svg
             class="picker-icon"
             width="13"
@@ -114,7 +112,8 @@ const { Content } = await render(post);
               d="M2 3.5h10M2 7h10M2 10.5h10"
               stroke="currentColor"
               stroke-width="1.6"
-              stroke-linecap="round"></path>
+              stroke-linecap="round"
+            ></path>
           </svg>
         </button>
 
@@ -130,52 +129,50 @@ const { Content } = await render(post);
             />
           </div>
           <div id="picker-list" class="picker-list" role="listbox">
-            {
-              all.map((p) => (
-                <a
-                  href={`/notes/${p.id}`}
-                  class:list={['picker-item', { 'picker-item--active': p.id === post.id }]}
-                  aria-selected={p.id === post.id}
-                  role="option"
-                  data-title={p.title.toLowerCase()}
-                >
-                  <span class="picker-item-title">{p.title}</span>
-                  <span class="picker-item-date mono">{p.date}</span>
-                </a>
-              ))
-            }
+            {all.map((p) => (
+              <a
+                href={`/notes/${p.id}`}
+                class:list={['picker-item', { 'picker-item--active': p.id === post.id }]}
+                aria-selected={p.id === post.id}
+                role="option"
+                data-title={p.title.toLowerCase()}
+              >
+                <span class="picker-item-title">{p.title}</span>
+                <span class="picker-item-date mono">{p.date}</span>
+              </a>
+            ))}
           </div>
           <div id="picker-pg" class="picker-pg">
-            <button id="picker-pg-prev" class="picker-pg-btn" disabled aria-label="Previous page"
-              >←</button
-            >
+            <button id="picker-pg-prev" class="picker-pg-btn" disabled aria-label="Previous page">
+              ←
+            </button>
             <span id="picker-pg-label" class="picker-pg-label mono"></span>
-            <button id="picker-pg-next" class="picker-pg-btn" aria-label="Next page">→</button>
+            <button id="picker-pg-next" class="picker-pg-btn" aria-label="Next page">
+              →
+            </button>
           </div>
         </div>
       </div>
 
       <!-- Next cell (always present for grid layout) -->
       <div class="nav-cell nav-cell--next">
-        {
-          next && (
-            <a href={`/notes/${next.id}`} class="nav-side nav-side--next">
-              <span class="nav-side-text">
-                <span class="nav-dir">newer</span>
-                <span class="nav-title">{next.data.title}</span>
-              </span>
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <path
-                  d="M6 3L11 8L6 13"
-                  stroke="currentColor"
-                  stroke-width="1.75"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-            </a>
-          )
-        }
+        {next && (
+          <a href={`/notes/${next.id}`} class="nav-side nav-side--next">
+            <span class="nav-side-text">
+              <span class="nav-dir">newer</span>
+              <span class="nav-title">{next.data.title}</span>
+            </span>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path
+                d="M6 3L11 8L6 13"
+                stroke="currentColor"
+                stroke-width="1.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </a>
+        )}
       </div>
     </div>
   </nav>

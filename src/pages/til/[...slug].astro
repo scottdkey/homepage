@@ -4,8 +4,6 @@ import PageHero from '../../components/PageHero.astro';
 import Tag from '../../components/Tag.astro';
 import { getCollection, render } from 'astro:content';
 
-export const prerender = true;
-
 export async function getStaticPaths() {
   const entries = await getCollection('til', ({ data }) => !data.draft);
   return entries.map((entry) => ({
@@ -28,16 +26,16 @@ const dateStr = entry.data.pubDate.toLocaleDateString('en-US', {
 <PageLayout title={entry.data.title} description={entry.data.description} prose={true}>
   <article class="prose page-wrap">
     <PageHero title={entry.data.title}>
-      <time class="entry-date" datetime={entry.data.pubDate.toISOString()}>{dateStr}</time>
-      {
-        entry.data.tags.length > 0 && (
-          <div class="entry-tags">
-            {entry.data.tags.map((t) => (
-              <Tag label={t} />
-            ))}
-          </div>
-        )
-      }
+      <time class="entry-date" datetime={entry.data.pubDate.toISOString()}>
+        {dateStr}
+      </time>
+      {entry.data.tags.length > 0 && (
+        <div class="entry-tags">
+          {entry.data.tags.map((t) => (
+            <Tag label={t} />
+          ))}
+        </div>
+      )}
     </PageHero>
     <Content />
   </article>
