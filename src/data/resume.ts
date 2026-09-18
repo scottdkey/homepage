@@ -1,4 +1,4 @@
-import type { Job, Project, Reference, SocialLink } from '../types/resume';
+import type { HomeContent, Job, Project, Reference, SocialLink } from '../types/resume';
 
 // ── Identity ──────────────────────────────────────────────────────────────────
 
@@ -73,7 +73,7 @@ export const resumeSkills = [
 
 // ── Experience ────────────────────────────────────────────────────────────────
 
-export type { CaseSection, Job, Project, Reference } from '../types/resume';
+export type { CaseSection, HomeContent, HomeEntry, Job, Project, Reference } from '../types/resume';
 
 export const jobs: Job[] = [
   {
@@ -385,7 +385,8 @@ export const projects: Project[] = [
 // Schema: [{ name, title, company, relationship?, email?, phone? }]
 
 export const references: Reference[] = (() => {
-  const raw = import.meta.env.RESUME_REFERENCES;
+  // import.meta.env is Vite/Astro-only; fall back to process.env for the CLI PDF generator (tsx/node).
+  const raw = import.meta.env?.RESUME_REFERENCES ?? globalThis.process?.env?.RESUME_REFERENCES;
   if (!raw) return [];
   try {
     return JSON.parse(raw) as Reference[];
@@ -394,3 +395,40 @@ export const references: Reference[] = (() => {
     return [];
   }
 })();
+
+// ── Home page copy ──────────────────────────────────────────────────────────────
+// The home page renders ENTIRELY from this — no copy is hardcoded in index.astro.
+// Factual anchors (current company/title/site, stack) derive from the current role
+// (jobs[0]) so they can never drift from the resume; the narrative paragraphs are
+// editable copy that can mirror the resume text or diverge from it.
+
+const currentRole = jobs[0];
+const currentCompanyLink = `<a href="${currentRole.site}" target="_blank" rel="noopener noreferrer">${currentRole.company}</a>`;
+
+export const homeContent: HomeContent = {
+  heroHeadline: 'End to end is where I thrive.',
+  heroSubHtml: `I'm on the Fintech team at ${currentCompanyLink}, heading up financing — the product that lets contractors offer homeowners a way to pay for their work, built across .NET services, a React app, and AWS infrastructure. Before that I was a founding engineer on Rebuy.app, building a commerce platform from a blank file. My best work happens when I can follow a problem all the way through — from the product conversation to the deployment.`,
+  heroMeta: `Remote · Salt Lake City, UT · ${currentRole.stack.slice(0, 4).join(' · ')}`,
+  aboutParagraphsHtml: [
+    'The problem matters more to me than the stack. I care about building things that solve real world problems for people and organizations.',
+    `On the Fintech team at ${currentCompanyLink} I head up financing — the product that lets contractors offer homeowners a way to pay for their work. I own it end to end: the .NET services, the React application, and the AWS infrastructure (Terraform) beneath it, serving thousands of contractor locations and tens of thousands of homeowners.`,
+    'Before that I helped start <a href="https://www.rebuyengine.com" target="_blank" rel="noopener noreferrer">Rebuy.app</a> from scratch — a full commerce platform built inside Rebuy. I took primary ownership of the merchant dashboard and customer checkout, built out Payouts alongside the team, and wrote the developer tooling that powered most of our daily workflow: a CLI, an API code generator, and a Shopify-embeddable build system.',
+    'Before Rebuy I was on the FinTech team at Pluralsight, building financial tooling around a B2B provisioning pipeline that processed ~$9M/month at peak. Before that, water and wastewater management UIs using Ignition SCADA.',
+    'I came to software the long way — through video editing, self-taught over years of side projects, picking up whatever I needed to ship the thing I was working on. It left me with a strong instinct for the person on the other side of the screen.',
+  ],
+  entries: [
+    {
+      label: 'Currently',
+      bodyHtml: `${currentRole.title} at ${currentCompanyLink}. Heading up financing across .NET services, a React app, and AWS/Terraform infrastructure — serving thousands of contractor locations and tens of thousands of homeowners.`,
+    },
+    {
+      label: 'Stack',
+      bodyHtml: currentRole.stack.join(' · '),
+    },
+    {
+      label: 'Side',
+      bodyHtml:
+        'Running Halvor — a self-hosted homelab with extensive automation workflows and buildouts, running on Proxmox, OPNsense, and containerized services. Writing about it at <a href="/til">/til</a>.',
+    },
+  ],
+};
