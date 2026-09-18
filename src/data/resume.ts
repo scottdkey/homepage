@@ -84,16 +84,25 @@ export const jobs: Job[] = [
     site: 'https://jobnimbus.com',
     intro:
       "Staff engineer on JobNimbus's Fintech team, heading up financing — the product that lets contractors offer homeowners financing on the work they buy. .NET services, a React app, and AWS infrastructure managed with Terraform, serving thousands of contractor locations and tens of thousands of homeowners.",
-    stack: ['C# / .NET', 'React', 'TypeScript', 'AWS', 'Terraform', 'PostgreSQL'],
+    stack: [
+      'C# / .NET',
+      'TypeScript',
+      'React',
+      'PostgreSQL',
+      'Kafka',
+      'RabbitMQ',
+      'AWS',
+      'Terraform',
+    ],
     bullets: [
       'Technical lead for financing on the Fintech team — owning the product end to end across the .NET API, the React application, and the AWS infrastructure behind it. Serving thousands of contractor locations and tens of thousands of homeowners.',
-      '<strong>Financing platform:</strong> Backend financing services in .NET with a React front end, covering the homeowner financing flow from application through approval and funding.',
+      '<strong>Financing platform:</strong> Backend financing services in .NET over PostgreSQL with a TypeScript/React front end, wired together with Kafka and RabbitMQ event streaming — covering the homeowner financing flow from application through approval and funding.',
       '<strong>Lender &amp; payment integrations:</strong> Integrations with financing providers and payment systems that move real money for contractor jobs.',
       '<strong>Infrastructure (AWS + Terraform):</strong> Own the cloud infrastructure and infrastructure-as-code for the financing platform.',
     ],
     printBullets: [
       "Staff engineer and technical lead for financing on JobNimbus's Fintech team. Own the financing product end to end — the .NET API, the React application, and the AWS infrastructure (Terraform) beneath it — serving thousands of contractor locations and tens of thousands of homeowners.",
-      '<strong>Financing platform:</strong> Backend financing services in C#/.NET with a React front end, spanning the homeowner financing flow from application through approval and funding.',
+      '<strong>Financing platform:</strong> Backend financing services in C#/.NET over PostgreSQL with a TypeScript/React front end, coordinated through Kafka and RabbitMQ event streaming — spanning the homeowner financing flow from application through approval and funding.',
       '<strong>Lender &amp; payment integrations:</strong> Integrations with third-party financing providers and payment systems that move money for contractor jobs — the settlement and funding path for the product.',
       '<strong>Infrastructure:</strong> Own the AWS infrastructure and Terraform IaC for the financing platform.',
     ],
